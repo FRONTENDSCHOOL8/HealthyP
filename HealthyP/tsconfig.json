@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    // 컴파일된 JavaScript의 대상 버전을 최신 사양으로 설정합니다.
+    "target": "ESNext",
+    // 클래스 필드를 정의할 때 defineProperty를 사용하도록 설정합니다.
+    "useDefineForClassFields": true,
+    // 컴파일러에게 포함시킬 라이브러리 타입 정의를 명시
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    // 모듈 코드 생성을 위한 설정입니다. 최신 모듈 시스템을 사용
+    "module": "ESNext",
+    // 선언 파일(*.d.ts)의 타입 체크를 건너뛰도록 설정
+    "skipLibCheck": true,
+    /* Bundler mode */
+    // 모듈 해석 방식을 번들러에 최적화된 방식으로 설정
+    "moduleResolution": "bundler",
+    // .ts 확장자가 있는 모듈을 가져올 수 있도록 허용
+    "allowImportingTsExtensions": true,
+    // JSON 모듈을 가져올 수 있도록 설정
+    "resolveJsonModule": true,
+    // 각 파일을 분리된 모듈로 처리하여 빠른 타입 체크를 가능
+    "isolatedModules": true,
+    // 컴파일 결과로 파일을 출력하지 않도록 설정합니다. 주로 타입 체크만을 위해 사용
+    "noEmit": true,
+    // JSX 코드의 처리 방식을 지정합니다. React 17 이상의 새로운 JSX 변환을 사용
+    "jsx": "react-jsx",
+    /* Linting */
+    // 모든 엄격한 타입 체킹 옵션을 활성화
+    "strict": true,
+    // 사용하지 않는 지역 변수와 매개변수에 대해 에러를 발생
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    //  switch 문에서 case를 통과하는 것을 에러로 처리
+    "noFallthroughCasesInSwitch": true
+  },
+  // 타입스크립트 컴파일러가 src 디렉토리 내의 파일들을 포함하도록 설정
+  "include": [
+    "src"
+  ],
+  // 프로젝트 간 참조를 설정하는데 사용되며, 다른 tsconfig 파일(예: tsconfig.node.json)을 참조하도록 설정
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}
