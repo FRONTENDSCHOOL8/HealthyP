@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@": ["src/*"]
+    },
     // 컴파일된 JavaScript의 대상 버전을 최신 사양으로 설정합니다.
     "target": "ESNext",
     // 클래스 필드를 정의할 때 defineProperty를 사용하도록 설정합니다.
