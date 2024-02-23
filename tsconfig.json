@@ -2,7 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@": ["src/*"]
+      "@": [
+        "src"
+      ],
+      "@/*": [
+        "src/*"
+      ]
     },
     // 컴파일된 JavaScript의 대상 버전을 최신 사양으로 설정합니다.
     "target": "ESNext",
