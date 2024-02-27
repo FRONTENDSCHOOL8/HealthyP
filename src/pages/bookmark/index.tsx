@@ -1,7 +1,7 @@
 
 
 
-export default function BookmarkPage() {
+export function BookmarkPage() {
   return (
     <div>
       <p>This is the bookmark page</p>

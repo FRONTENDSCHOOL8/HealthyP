@@ -16,6 +16,11 @@ function prevPage() {
   console.log("test");
 }
 
+
+
+
+
+
 export const FirstStory: Story = {
   args: {
     clickHandler: prevPage,
