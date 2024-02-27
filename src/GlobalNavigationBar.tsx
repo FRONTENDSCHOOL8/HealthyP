@@ -1,12 +1,8 @@
-import { Outlet, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 
-
-
-export default function GlobalNavigation() {
+export default function GlobalNavigationBar() {
   return (
-    <div className='max-w-[500px] w-[390px] h-[844px] max-[1000px] relative ml-auto mr-auto'>
-      <Outlet />
-      <nav className='absolute bottom-0 flex flex-row list-none items-center justify-center gap-16 bg-gray-100 w-full pb-10 pt-2'>
+    <nav className='absolute bottom-0 flex flex-row list-none items-center justify-center gap-16 bg-gray-100 w-full pb-10 pt-2'>
         <li>
           <Link to="/" className='flex flex-col items-center'>
             <img src='' alt="home" />
@@ -38,7 +34,5 @@ export default function GlobalNavigation() {
           </Link>
         </li>
       </nav>
-    </div>
-    
   )
 }
