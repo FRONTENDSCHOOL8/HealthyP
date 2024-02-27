@@ -7,13 +7,16 @@ import MainPage from './pages/MainPage'
 import SearchPage from './pages/SearchPage'
 import UserPage from './pages/UserPage'
 import MissingPage from './pages/MissingPage'
-import GlobalNavigation from './GlobalNavigation'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import RootLayout from './RootLayout'
+import LoginPage from './pages/LoginPage'
+import VerifyPage from './pages/VerifyPage'
+
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <GlobalNavigation />,
+    element: <RootLayout />,
     errorElement: <MissingPage />,
     children: [
       {
@@ -37,6 +40,17 @@ const router = createBrowserRouter([
         element: <UserPage />,
       },
     ],
+  },
+  //Login Page
+  {
+    path: '/login',
+    element: <LoginPage />,
+    children: [
+      {
+        path: 'test',
+        element: <VerifyPage />
+      }
+    ]
   }
 ]);
 
