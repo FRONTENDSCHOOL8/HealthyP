@@ -1,23 +1,16 @@
+import React, { ReactEventHandler } from 'react';
 
-
-
-
-
-
-// type ButtonArgs = {
-//   clickHandler : ,
-//   text : string
-// }
-
-
-interface ButtonArgs = {
-  clickHandler: Function,
+interface ButtonProps {
+  clickHandler: ReactEventHandler;
+  text: string;
 }
 
-export default function Button(props) {
+const Button: React.FC<ButtonProps> = ({ clickHandler, text }) => {
   return (
     <>
-      <button onClick={props.clickHandler}>{props.text}</button>
+      <button onClick={clickHandler}>{text}</button>
     </>
-  )
-}
+  );
+};
+
+export default Button;

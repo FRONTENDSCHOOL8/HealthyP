@@ -1,19 +1,35 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import BookmarkPage from './pages/BookmarkPage'
-import CreatePage from './pages/CreatePage'
-import MainPage from './pages/MainPage'
-import SearchPage from './pages/SearchPage'
-import UserPage from './pages/UserPage'
+import SearchPage from './pages/search/'
 import MissingPage from './pages/MissingPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './RootLayout'
-import LoginPage from './pages/LoginPage'
-import VerifyPage from './pages/VerifyPage'
+
+import { 
+  CreateLayout, CreateOne, CreateTwo, 
+  BookmarkPage, 
+  LoginLayout,
+  RegisterLayout, 
+  ConfirmVerification,
+  Verification,
+  Terms,
+  SetProfile,
+  MainPage,
+  CreateThree,
+  CreateComplete,
+  Login,
+  Welcome,
+  MyComments,
+  MyRecipes,
+  RecentRecipes,
+  UserLayout
+} from './pages/'
+
 
 
 const router = createBrowserRouter([
+  // 루트 페이지 (메인)
   {
     path: '/',
     element: <RootLayout />,
@@ -28,49 +44,96 @@ const router = createBrowserRouter([
         element: <SearchPage />,
       },
       {
-        path: 'create',
-        element: <CreatePage />,
-      },
-      {
         path: 'bookmark',
         element: <BookmarkPage />,
       },
       {
         path: 'user',
-        element: <UserPage />,
+        element: <UserLayout />,
+        children: [
+          {
+            path: 'recent',
+            element: <RecentRecipes />
+          },
+          {
+            path: 'myrecipes',
+            element: <MyRecipes />
+          },
+          {
+            path: 'mycomments',
+            element: <MyComments />
+          },
+        ]
       },
     ],
   },
-  //Login Page
+  // 생성하기
   {
-    path: '/login',
-    element: <LoginPage />,
+    path: '/create',
+    element: <CreateLayout />,
     children: [
       {
-        path: 'test',
-        element: <VerifyPage />
+        index: true,
+        element: <CreateOne />
+      },
+      {
+        path: 'two',
+        element: <CreateTwo /> 
+      },
+      {
+        path: 'three',
+        element: <CreateThree />
+      },
+      {
+        path: 'complete',
+        element: <CreateComplete />
+      }
+    ]
+  },
+  // 로그인 페이지
+  {
+    path: '/login',
+    element: <LoginLayout />,
+    children: [
+      {
+        index: true,
+        element: <Login />
+      }, 
+      {
+        path: 'welcome',
+        element: <Welcome />
+      }
+    ]
+  },
+  // 회원가입 페이지
+  {
+    path: '/signup',
+    element: <RegisterLayout />,
+    children: [
+      {
+        index: true,
+        element: <Terms />
+      },
+      {
+        path: 'verify',
+        element: <Verification />
+      },
+      {
+        path: 'confirm',
+        element: <ConfirmVerification />
+      },
+      {
+        path: 'setup',
+        element: <SetProfile />
       }
     ]
   }
 ]);
 
-
-
-
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <div className='max-w-[400px] mx-auto bg-white relative h-screen max-h-[700px]'>
+    <div className='w-[360px] h-[700px] mx-auto bg-gray-100'>
       <RouterProvider router={router} />
     </div>
   </React.StrictMode>
 )
-
-
-
-
-// ReactDOM.createRoot(document.getElementById('root')!).render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-// )
