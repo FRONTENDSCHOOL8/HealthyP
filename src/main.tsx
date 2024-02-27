@@ -1,16 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import SearchPage from './pages/search/'
-import MissingPage from './pages/MissingPage'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import RootLayout from './RootLayout'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './styles/style.css';
+import './styles/index.css';
+import SearchPage from './pages/search/';
+import MissingPage from './pages/MissingPage';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import RootLayout from './RootLayout';
 
-import { 
-  CreateLayout, CreateOne, CreateTwo, 
-  BookmarkPage, 
+import {
+  CreateLayout,
+  CreateOne,
+  CreateTwo,
+  BookmarkPage,
   LoginLayout,
-  RegisterLayout, 
+  RegisterLayout,
   ConfirmVerification,
   Verification,
   Terms,
@@ -25,8 +28,7 @@ import {
   RecentRecipes,
   UserLayout,
   SignupComplete
-} from './pages/'
-
+} from './pages/';
 
 
 const router = createBrowserRouter([
@@ -54,17 +56,17 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'recent',
-            element: <RecentRecipes />
+            element: <RecentRecipes />,
           },
           {
             path: 'myrecipes',
-            element: <MyRecipes />
+            element: <MyRecipes />,
           },
           {
             path: 'mycomments',
-            element: <MyComments />
+            element: <MyComments />,
           },
-        ]
+        ],
       },
     ],
   },
@@ -75,21 +77,21 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <CreateOne />
+        element: <CreateOne />,
       },
       {
         path: 'two',
-        element: <CreateTwo /> 
+        element: <CreateTwo />,
       },
       {
         path: 'three',
-        element: <CreateThree />
+        element: <CreateThree />,
       },
       {
         path: 'complete',
-        element: <CreateComplete />
-      }
-    ]
+        element: <CreateComplete />,
+      },
+    ],
   },
   // 로그인 페이지
   {
@@ -98,13 +100,13 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Login />
-      }, 
+        element: <Login />,
+      },
       {
         path: 'welcome',
-        element: <Welcome />
-      }
-    ]
+        element: <Welcome />,
+      },
+    ],
   },
   // 회원가입 페이지
   {
@@ -113,15 +115,15 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Terms />
+        element: <Terms />,
       },
       {
         path: 'verify',
-        element: <Verification />
+        element: <Verification />,
       },
       {
         path: 'confirm',
-        element: <ConfirmVerification />
+        element: <ConfirmVerification />,
       },
       {
         path: 'setup',
@@ -137,8 +139,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <div className='w-[360px] h-[700px] mx-auto bg-gray-100'>
+    <div className="w-[360px] h-[700px] mx-auto bg-gray-100">
       <RouterProvider router={router} />
     </div>
   </React.StrictMode>
-)
+);

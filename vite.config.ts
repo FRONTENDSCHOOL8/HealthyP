@@ -16,6 +16,7 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: 'docs',
     cssCodeSplit: true,
     rollupOptions: {
       output: {
