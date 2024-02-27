@@ -23,7 +23,8 @@ import {
   MyComments,
   MyRecipes,
   RecentRecipes,
-  UserLayout
+  UserLayout,
+  SignupComplete
 } from './pages/'
 
 
@@ -125,6 +126,10 @@ const router = createBrowserRouter([
       {
         path: 'setup',
         element: <SetProfile />
+      },
+      {
+        path: 'complete',
+        element: <SignupComplete />
       }
     ]
   }

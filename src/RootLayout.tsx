@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom"
 
-import GlobalNavigationBar from "./GlobalNavigationBar"
+import GlobalNavigationBar from "./components/GlobalNavigationBar"
 
 export default function RootLayout() {
   return (
