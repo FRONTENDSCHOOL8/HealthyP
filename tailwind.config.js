@@ -165,7 +165,7 @@ export default {
             lineHeight: '1.125rem',
           },
         ],
-        foot: [
+        'foot': [
           '0.8125rem',
           {
             fontWeight: 400,

@@ -49,9 +49,9 @@ export default function SwiperMain() {
         pagination={{ clickable: true }}
         spaceBetween={0}
         slidesPerView={1}
-        // autoplay={{
-        //   delay: 3000,
-        // }}
+        autoplay={{
+          delay: 3000,
+        }}
         loop={true}
         onActiveIndexChange={(e) => setSwiperIndex(e.realIndex)}
         onSlideChange={() => {}}
@@ -87,10 +87,11 @@ export default function SwiperMain() {
             </SwiperSlide>
           );
         })}
+        <div className="absolute w-full flex px-10pxr top-10pxr z-10">
+          <InputComponent option="search"/>
+        </div>
+        
       </Swiper>
-      <div className="absolute w-full flex px-10pxr top-10pxr z-10">
-        <InputComponent option="search" />
-      </div>
     </>
   );
 }
