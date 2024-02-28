@@ -85,7 +85,7 @@ export default function GlobalNavigationBar() {
   );
 
   return (
-    <nav className="absolute bottom-0 w-full h-80pxr px-side pb-24pxr">
+    <nav className="absolute bottom-0 w-full h-80pxr px-side pb-24pxr bg-white">
       <ul className="flex flex-row list-none w-full h-full">
         {ROUTER_STATE.map((item, idx) => {
           return (

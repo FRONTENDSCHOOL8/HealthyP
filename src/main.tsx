@@ -140,9 +140,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
-    <div className="w-[360px] h-[700px] mx-auto bg-gray-100">
-      <RouterProvider router={router} />
-    </div>
+      <div className="w-full h-svh mx-auto bg-gray-100">
+        <RouterProvider router={router} />
+      </div>
     </Suspense>
   </React.StrictMode>
 );

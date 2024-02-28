@@ -24,11 +24,10 @@ export default function SearchPage() {
 }
 
 function SearchPageContent() {
-  const [password] = useAtom(passwordAtom);
+  // const [password] = useAtom(passwordAtom);
 
   return (
     <div className="w-full relative">
-      <SwiperMain />
       <InputComponent option="password" />
     </div>
   );

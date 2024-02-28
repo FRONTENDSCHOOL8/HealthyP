@@ -68,11 +68,11 @@ export default function SwiperMain() {
             </SwiperSlide>
           )
         })}
+        <div className="absolute w-full flex px-10pxr top-10pxr z-10">
+          <InputComponent option="search"/>
+        </div>
         
       </Swiper>
-      <div className="absolute w-full flex px-10pxr top-10pxr z-10">
-        <InputComponent option="search"/>
-      </div>
     </>
 
   
