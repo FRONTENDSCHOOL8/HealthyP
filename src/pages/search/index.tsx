@@ -1,21 +1,32 @@
-import Header from "@/components/header/Header"
-import InputComponent from "@/components/input/InputComponent"
-import getDataAtomFamily from "@/hooks/useFetch"
-import { useAtom } from "jotai"
+import { Provider, useAtom, atom } from 'jotai';
+import Header from '@/components/header/Header';
+import InputComponent from '@/components/input/InputComponent';
 
-// original code for search page
+
+export const passwordAtom = atom('');
+
 export default function SearchPage() {
-  const [data] = useAtom(
-    getDataAtomFamily({
-      item: 'recipes',
-      typeOfGetData: 'getFullList', 
-      options: {expand: 'rating'}
-    }));
-  console.log(data);
+  return (
+    <Provider>
+      <SearchPageContent />
+    </Provider>
+  );
+}
+
+function SearchPageContent() {
+  const [password] = useAtom(passwordAtom);
+
   return (
     <div>
-      <Header option="onlyAlarm"/>
+      {/* Other components */}
+      <Header option="onlyAlarm" />
+      
+      <InputComponent option="search" />
+      <InputComponent option="email" />
       <InputComponent option="password" />
+      <InputComponent option="passwordConfirm" />
+      {/* Access the shared password value */}
+      <p>{password}</p>
     </div>
-  )
+  );
 }
