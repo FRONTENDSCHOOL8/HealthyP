@@ -1,5 +1,5 @@
 import Button from '@/components/buttons/Button';
-import Footer from '@/components/buttons/Footer';
+import Footer from '@/components/Footer';
 import { Outlet } from 'react-router-dom';
 
 export { CreateOne } from './CreateOne';
