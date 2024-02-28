@@ -20,7 +20,6 @@ function SearchPageContent() {
     <div>
       {/* Other components */}
       <Header option="onlyAlarm" />
-      
       <InputComponent option="search" />
       <InputComponent option="email" />
       <InputComponent option="password" />

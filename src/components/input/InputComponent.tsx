@@ -64,7 +64,6 @@ export default function InputComponent({option, placeholder, bgColor} : InputPro
           onChange={validatePassword} />
           <p className={`text-cap-1 text-warning ${pwBorder ? 'block' : 'hidden'}`}>영어 대소문자, 특수문자, 숫자 포함 12자리 이상 입력해주세요</p>
         </label>
-        <p></p>
       </>
     ),
     passwordConfirm: (
@@ -77,7 +76,6 @@ export default function InputComponent({option, placeholder, bgColor} : InputPro
           onChange={pwConfirm}/>
           <p className={`text-cap-1 text-warning ${confirmBorder ? 'block' : 'hidden'}`}>입력하신 비밀번호가 일치하지 않습니다</p>
         </label>
-        <p></p>
       </>
     ),
     nickname: (
