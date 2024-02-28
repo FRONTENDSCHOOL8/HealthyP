@@ -43,4 +43,22 @@ http://scripts.sil.org/OFL
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Pretendard';
+
+  --swiper-pagination-color: white;
+  --swiper-pagination-bullet-width: 100%;
+  --swiper-pagination-bullet-height: 2px;
+  --swiper-pagination-bullet-inactive-color: white;
+  --swiper-pagination-bullet-inactive-opacity: 0.2;
+  --swiper-pagination-bullet-opacity: 1;
+  --swiper-pagination-bullet-horizontal-gap: 3px;
+  --swiper-pagination-bullet-border-radius: 0px;
 }
+
+.swiper-pagination {
+  padding: 14px;
+  position: absolute;
+  width: 100%;
+  display: flex;
+  border-radius: 0px;  
+}
+
