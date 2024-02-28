@@ -27,10 +27,10 @@ export default function Review({
 
   const renderTextMap = {
     literal: (count: number) => `리뷰 ${count}개`,
-    number: (count: number) => `(${count > 100 ? '100+' : count})`
-  }
+    number: (count: number) => `(${count > 100 ? '100+' : count})`,
+  };
 
-  const renderText = renderTextMap[caseType](count)
+  const renderText = renderTextMap[caseType](count);
 
   return (
     <>

@@ -1,14 +1,11 @@
-import Review from "@/components/reviews/Review";
-import separateComma from "@/util/separateComma";
-
-
+import Keyword from '@/components/keywords/Keword';
+import Review from '@/components/reviews/Review';
 
 export function BookmarkPage() {
-  const itemsString = "쌀국수, 고수가좋아,고수가고수처럼고수먹방"
-  const itemsArray = separateComma(itemsString);
-
-  console.log(itemsArray);
   return (
-    <Review id="ka5sini1xvt9itq" caseType="literal"/>
-  )
+    <>
+      <Review id="ka5sini1xvt9itq" caseType="literal" />
+      <Keyword items="쌀국수, 고수가좋아, 고수가고수처럼고수먹방" />
+    </>
+  );
 }
