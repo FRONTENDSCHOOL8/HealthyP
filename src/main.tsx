@@ -27,7 +27,9 @@ import {
   MyRecipes,
   RecentRecipes,
   UserLayout,
+  SignupComplete
 } from './pages/';
+
 
 const router = createBrowserRouter([
   // 루트 페이지 (메인)
@@ -125,10 +127,14 @@ const router = createBrowserRouter([
       },
       {
         path: 'setup',
-        element: <SetProfile />,
+        element: <SetProfile />
       },
-    ],
-  },
+      {
+        path: 'complete',
+        element: <SignupComplete />
+      }
+    ]
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
