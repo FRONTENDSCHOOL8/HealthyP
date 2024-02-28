@@ -18,25 +18,25 @@ const ROUTER_STATE: RouteItem[] = [
   },
   {
     text: '검색하기',
-    route: 'search',
+    route: '/search',
     icon: 'bg-search-icon',
     iconFill: 'bg-search-fill-icon',
   },
   {
     text: '생성하기',
-    route: 'create',
+    route: '/create',
     icon: 'bg-add-icon',
     iconFill: 'bg-create-fill-icon',
   },
   {
     text: '북마크',
-    route: 'bookmark',
+    route: '/bookmark',
     icon: 'bg-bookmark-icon',
     iconFill: 'bg-bookmark-fill-icon',
   },
   {
     text: '마이페이지',
-    route: 'user',
+    route: '/user',
     icon: 'bg-person-icon',
     iconFill: 'bg-person-fill-icon',
   },
@@ -80,7 +80,9 @@ function GNBButton({
 }
 
 export default function GlobalNavigationBar() {
-  const [currentPage, setCurrentPage] = useState<string>('/');
+  const [currentPage, setCurrentPage] = useState<string>(
+    window.location.pathname
+  );
   return (
     <nav className="absolute bottom-0 w-full h-80pxr px-side pb-24pxr">
       <ul className="flex flex-row list-none w-full h-full">
