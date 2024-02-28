@@ -28,7 +28,7 @@ export function MainPage() {
 
   return (
     <div>
-      <Star ratings={data.expand.ratings} />
+      <Star rating={data?.expand.rating} />
     </div>
   );
 }

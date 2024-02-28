@@ -1,5 +1,4 @@
 import Button from '@/components/buttons/Button';
-// import Footer from '@/components/buttons/Footer';
 import { Outlet } from 'react-router-dom';
 
 export { CreateOne } from './CreateOne';
@@ -13,7 +12,6 @@ export function CreateLayout() {
       <p>This is the create page</p>
       <Outlet />
       {/* <Button text="버튼" /> */}
-      <Footer />
     </div>
   );
 }
