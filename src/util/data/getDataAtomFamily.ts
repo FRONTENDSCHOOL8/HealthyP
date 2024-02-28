@@ -1,5 +1,5 @@
 import { pb } from "@/api/pocketbase";
-import { getDataInterface } from "@/types";
+import { getDataInterface, DataState } from "@/types";
 import { atom } from 'jotai'
 import { atomFamily } from "jotai/utils";
 import isEqual from 'lodash/isEqual';
@@ -29,21 +29,31 @@ export const getDataAtomFamily = atomFamily((params : getDataInterface) => {
   };
 
   return atom(async () => {
+
+    const state: DataState<object> = {
+      data: null,
+      loading: true,
+      error: null,
+    }
+
     try {
       const { typeOfGetData } = params;
       const dataFunction = dataFunctionsMap[typeOfGetData];
-
       if (dataFunction) {
-        const data = await dataFunction();
-        return data;
+        state.data = await dataFunction();
       } else {
-        console.error(`Unsupported typeOfGetData: ${typeOfGetData}`);
-        return null;
+        console.error(`지원하지 않는 typeOfGetData 입니다: ${typeOfGetData}`);
       }
     } catch (error) {
       if (error instanceof Error && error.name !== 'AbortError') {
         console.error('데이터를 불러오는데 실패했습니다.', error);
-      }
+        state.error;
+      } 
     }
+    finally {
+      state.loading = false;
+    }
+
+    return state;
   });
 }, isEqual);
