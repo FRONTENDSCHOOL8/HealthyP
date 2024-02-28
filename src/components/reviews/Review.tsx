@@ -25,13 +25,12 @@ export default function Review({
 
   const count: number = recipesData.expand.rating?.length ?? 0;
 
-  const renderText = () => {
-    if (caseType === 'literal') {
-      return `리뷰 ${count}개`;
-    } else if (caseType === 'number') {
-      return `(${count > 100 ? '100+' : count})`;
-    }
-  };
+  const renderTextMap = {
+    literal: (count: number) => `리뷰 ${count}개`,
+    number: (count: number) => `(${count > 100 ? '100+' : count})`
+  }
+
+  const renderText = renderTextMap[caseType](count)
 
   return (
     <>
