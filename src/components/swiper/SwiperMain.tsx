@@ -55,7 +55,6 @@ export default function SwiperMain() {
           loop={true}
           onActiveIndexChange={(e) => setSwiperIndex(e.realIndex)}
           onSlideChange={() => {
-            console.log('slide change')
           }}
           onSwiper={(swiper) => console.log(swiper)}
           className="bg-gray-600 h-389pxr relative w-full"

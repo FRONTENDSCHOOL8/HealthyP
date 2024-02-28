@@ -26,7 +26,8 @@
     "react-helmet-async": "^2.0.4",
     "react-router-dom": "^6.22.1",
     "sort-by": "^1.2.0",
-    "swiper": "^11.0.7"
+    "swiper": "^11.0.7",
+    "typed-pocketbase": "^0.1.0"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.3",

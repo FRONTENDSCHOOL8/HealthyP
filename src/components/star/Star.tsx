@@ -6,16 +6,16 @@ type Ratingtypes = {
   review_text: string;
 };
 
-export default function Star(ratings: Ratingtypes[]) {
+export default function Star({ rating }) {
   // data가 불러온 레시피들 리스트 중 하나만 가져오게
 
   const getStarCount = () => {
-    const total = ratings.reduce((acc, cur) => acc + cur.review_stars, 0);
-    return (total / ratings.length).toFixed(1) + '점';
+    const total = rating.reduce((acc, cur) => acc + cur.review_stars, 0);
+    return (total / rating.length / 2).toFixed(1) + '점';
   };
 
   return (
-    <div>
+    <div className="flex text-cap-1-em gap-2pxr">
       <span className="bg-star-icon size-14pxr" aria-hidden></span>
       <p>{getStarCount()}</p>
     </div>
