@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/style.css';
 import './styles/index.css';
@@ -139,8 +139,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="w-[360px] h-[700px] mx-auto bg-gray-100">
       <RouterProvider router={router} />
     </div>
+    </Suspense>
   </React.StrictMode>
 );
