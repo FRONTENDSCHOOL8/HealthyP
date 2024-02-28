@@ -1,6 +1,7 @@
+import { useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { useNavigate } from 'react-router-dom';
 
-/* buttonCase가 medium과 small일 떄는 text와 route의 배열의 길이가 2여야 함 */
 type ButtonProps = {
   buttonCase: 'large' | 'medium' | 'small';
   text: string[];
@@ -30,25 +31,36 @@ const getClassName = (buttonCase: string, index: number) => {
   return className;
 };
 
-export function ErrorFallback(): JSX.Element {
+function ErrorFallback({ message }: { message: string }): JSX.Element {
   return (
     <div role="alert">
       <p>Something went wrong:</p>
-      <pre>
-        Medium 버튼과 Small 버튼은 text와 route 배열에 정확히 2개의 항목이
-        필요합니다.
-      </pre>
-      <button>Try again</button>
+      <pre>{message}</pre>
     </div>
   );
 }
 
-const Button = ({
+const ButtonContent = ({
   buttonCase = 'large',
   text,
   route,
 }: ButtonProps): JSX.Element => {
   const navigate = useNavigate();
+
+  if (
+    (buttonCase === 'medium' || buttonCase === 'small') &&
+    (text.length !== 2 || route.length !== 2)
+  ) {
+    throw new Error(
+      `${buttonCase} 케이스일 때 text와 route 배열의 길이가 정확히 2여야 합니다.`
+    );
+  }
+
+  if (buttonCase === 'large' && (text.length !== 1 || route.length !== 1)) {
+    throw new Error(
+      `${buttonCase} 케이스일 때 text와 route 배열의 길이가 정확히 1이어야 합니다.`
+    );
+  }
 
   // 콜백 함수로 들어온 경로로 이동하는 핸들러
   const handleOnClick = (idx: number): void => {
@@ -93,6 +105,29 @@ const Button = ({
   }
 
   return buttonMarkup;
+};
+
+const Button = (props: ButtonProps) => {
+  const [errorKey, setErrorKey] = useState('');
+
+  const handleError = (error: Error) => {
+    const errorMessage = error.message.split(' ')[0];
+    setErrorKey(errorMessage);
+  };
+
+  return (
+    <ErrorBoundary
+      fallbackRender={() => (
+        // 에러가 발생했을 때 랜더링 될 컴포넌트(ErrorFallback) 정의
+        <ErrorFallback
+          message={`${errorKey} 버튼은 text와 route 배열에 정확히 ${errorKey === 'large' ? '1개' : '2개'}의 항목이 필요합니다.`}
+        />
+      )}
+      onError={handleError}
+    >
+      <ButtonContent {...props} />
+    </ErrorBoundary>
+  );
 };
 
 export default Button;
