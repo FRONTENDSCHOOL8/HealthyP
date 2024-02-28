@@ -38,6 +38,7 @@ export default {
         gray_400: '#3C3C43',
         gray_500: '#3C3C43',
         gray_700: '#575758',
+        tagColor: '#EEEEF0',
       },
       backgroundImage: {
         'add-icon': "url('/src/assets/icons/add.svg')",
