@@ -1,4 +1,3 @@
-import { DataState, RecipeData } from '@/types';
 import { getDataAtomFamily } from '@/util';
 import { useAtom } from 'jotai';
 
