@@ -4,7 +4,7 @@ import Star from '../star/Star';
 export type RecipeCardProps = {
   title: string;
   url: string;
-  rating: object;
+  rating: [];
 };
 
 export default function RecipeCard({ title, url, rating }: RecipeCardProps) {

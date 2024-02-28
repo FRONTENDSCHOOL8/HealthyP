@@ -49,9 +49,9 @@ export default function SwiperMain() {
         pagination={{ clickable: true }}
         spaceBetween={0}
         slidesPerView={1}
-        // autoplay={{
-        //   delay: 3000,
-        // }}
+        autoplay={{
+          delay: 3000,
+        }}
         loop={true}
         onActiveIndexChange={(e) => setSwiperIndex(e.realIndex)}
         onSlideChange={() => {}}
