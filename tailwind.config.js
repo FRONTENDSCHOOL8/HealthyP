@@ -39,8 +39,10 @@ export default {
         gray_500: '#3C3C43',
         gray_700: '#575758',
         tagColor: '#EEEEF0',
+
       },
       backgroundImage: {
+        'star-icon': "url('/src/assets/icons/star.svg')",
         'add-icon': "url('/src/assets/icons/add.svg')",
         'add-fill-icon': "url('/src/assets/icons/addFill.svg')",
         'arrow-big-icon': "url('/src/assets/icons/arrowBig.svg')",

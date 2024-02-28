@@ -11,7 +11,6 @@ export function CreateLayout() {
     <div className="w-full h-full relative">
       <p>This is the create page</p>
       <Outlet />
-      {/* <Button text="버튼" /> */}
     </div>
   );
 }
