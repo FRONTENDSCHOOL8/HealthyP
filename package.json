@@ -57,7 +57,6 @@
     "eslint-plugin-storybook": "^0.8.0",
     "jotai-devtools": "^0.7.1",
     "postcss": "^8.4.35",
-    "postcss-import": "^16.0.1",
     "prettier": "^3.2.5",
     "storybook": "^7.6.17",
     "tailwindcss": "^3.4.1",
