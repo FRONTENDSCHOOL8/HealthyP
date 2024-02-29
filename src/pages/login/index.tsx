@@ -1,15 +1,18 @@
-import { Link, Outlet } from "react-router-dom"
-
+import { InputComponent } from '@/components';
+import Header from '@/components/header/Header';
+import { Outlet } from 'react-router-dom';
 
 export { Login } from './Login';
 export { Welcome } from './Welcome';
 
 export function LoginLayout() {
   return (
-    <div>
-      <Link to="test">Click me</Link>
-      <p>this is the login page</p>
+    <>
+      <Header option="titleWithClose" title="회원가입" />
+      <div role="group" className="mx-14pxr mt-18pxr mb-198pxr">
+        <InputComponent option="email" />
+      </div>
       <Outlet />
-    </div>
-  )
+    </>
+  );
 }
