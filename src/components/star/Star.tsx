@@ -1,12 +1,6 @@
-// data[0].rating[]
-type Ratingtypes = {
-  id: string;
-  creater: string;
-  review_stars: number;
-  review_text: string;
-};
+import { Rating } from '@/types';
 
-export default function Star({ rating }) {
+export default function Star({ rating }: { rating: Rating[] }) {
   // data가 불러온 레시피들 리스트 중 하나만 가져오게
 
   const getStarCount = () => {
