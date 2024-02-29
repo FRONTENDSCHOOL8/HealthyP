@@ -28,8 +28,8 @@ function SearchPageContent() {
         size={30} /> */}
 
       <Header option="onlyArrow" />
-      <Form action='/'>
-        <InputComponent option="fileInput" inputTitle="레시피 사진" />
+      <Form action='/' className='px-20pxr py-20pxr flex flex-col gap-42pxr'>
+        <InputComponent option="fileInput" inputTitle="메인 이미지 사진" />
         <InputComponent option="nickname" />
       </Form>
     </div>
