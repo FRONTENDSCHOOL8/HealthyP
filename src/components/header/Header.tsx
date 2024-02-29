@@ -3,7 +3,7 @@ import arrowBig from '@/assets/icons/arrowBig.svg';
 import close from '@/assets/icons/close.svg';
 import bookmark from '@/assets/icons/bookmark.svg';
 import InputComponent from "@/components/input/InputComponent";
-import { FnButton, DummyButton } from "@/components/buttons/FnButton";
+import {FnButton, DummyButton} from "@/components/index";
 import bell from '@/assets/icons/bell.svg';
 
 interface HeaderTitleProps {
