@@ -13,7 +13,7 @@ function pwReg(text:string){
   return re.test(String(text).toLowerCase());
 }
 
-export default function InputComponent({option, placeholder, bgColor} : InputProps) {
+function useInputMapping({option, placeholder, bgColor} : InputProps) {
   const [pwBorder, setPwBorder] = useState('');
   const [confirmBorder, setConfirmBorder] = useState('');
   const [password, setPassword] = useAtom(passwordAtom);
@@ -91,7 +91,14 @@ export default function InputComponent({option, placeholder, bgColor} : InputPro
   if(inputComponent) {
     return inputComponent;
   }
-  
-  console.warn(`Unhandled option: ${option}`);
-  return null;
+}
+
+export default function InputComponent({option, placeholder, bgColor} : InputProps) {
+  const inputComponent = useInputMapping({option, placeholder, bgColor})
+
+
+  if (!inputComponent) {
+    console.warn(`Unhandled option: ${option}`);
+  }
+  return inputComponent;
 }

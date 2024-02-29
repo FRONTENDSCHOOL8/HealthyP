@@ -1,6 +1,5 @@
 
 import { Outlet } from 'react-router-dom';
-
 export { CreateOne } from './CreateOne';
 export { CreateTwo } from './CreateTwo';
 export { CreateThree } from './CreateThree';
