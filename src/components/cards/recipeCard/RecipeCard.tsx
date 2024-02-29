@@ -1,5 +1,5 @@
-import Review from '../reviews/Review';
-import Star from '../star/Star';
+import Review from '../../review/Review';
+import Star from '../../star/Star';
 
 export type RecipeCardProps = {
   title: string;

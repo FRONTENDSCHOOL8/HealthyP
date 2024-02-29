@@ -31,7 +31,7 @@ interface HeaderProps {
   title?: string;
 }
 
-export default function Header({ option, title} : HeaderProps) {
+function useMapping({title, option}:HeaderProps) {
   const navigate = useNavigate();
 
   const headerMappings = {
@@ -39,12 +39,14 @@ export default function Header({ option, title} : HeaderProps) {
       <header className="w-full bg-white px-10pxr py-12pxr sticky top-0">
         <FnButton 
           image={arrowBig} 
-          clickHandler={() => navigate(-1)} />
+          clickHandler={() => navigate(-1)}
+          altText="뒤로가기"
+          size={30} />
       </header>
     ),
     onlyClose: (
       <header className="w-full bg-white px-10pxr py-12pxr flex items-center justify-between sticky top-0">
-        <DummyButton />
+        <DummyButton size={30} />
         <FnButton 
           image={close} 
           clickHandler={() => navigate(-1)} />
@@ -56,12 +58,12 @@ export default function Header({ option, title} : HeaderProps) {
           image={arrowBig} 
           clickHandler={() => navigate(-1)} />
         <HeaderTitle title={title} />
-        <DummyButton />
+        <DummyButton size={30} />
       </header>
     ),
     titleWithClose: (
       <header className="w-full bg-white px-10pxr py-12pxr flex items-center justify-between sticky top-0">
-        <DummyButton />
+        <DummyButton size={30} />
         <HeaderTitle title={title} />
         <FnButton 
           image={close} 
@@ -98,20 +100,30 @@ export default function Header({ option, title} : HeaderProps) {
     ),
     onlyAlarm: (
       <header className="w-full bg-white px-10pxr py-12pxr flex items-center justify-between sticky top-0">
-        <DummyButton />
+        <DummyButton size={30} />
         <FnButton 
           image={bell} 
           clickHandler={() => navigate(-1)} />
       </header>
     )
   };
-  const headerComponent = headerMappings[option];
+
+  const headerComponent = headerMappings[option]
 
   if (headerComponent) {
     return headerComponent;
   }
+}
+
+
+export default function Header({ option, title }: HeaderProps) {
+
+  const headerComponent = useMapping({ title, option }) || <></>;
 
   // Handle unexpected option values
-  console.warn(`Unhandled option: ${option}`);
-  return null;
+  if (!headerComponent) {
+    console.warn(`Unhandled option: ${option}`);
+  }
+
+  return headerComponent;
 }

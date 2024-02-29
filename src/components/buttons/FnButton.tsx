@@ -4,22 +4,29 @@
 interface FnButtonProps {
   image: string;
   clickHandler?: () => void;
+  altText?: string;
+  size?: number;
 }
 
-export function FnButton({image, clickHandler} : FnButtonProps) {
+export function FnButton({image, clickHandler, altText, size} : FnButtonProps) {
   return (
     <>
-      <button className="w-30pxr h-30pxr flex justify-center items-center" onClick={clickHandler}>
+      <button aria-label={altText} className={`size-${size}pxr flex justify-center items-center`} onClick={clickHandler}>
         <img src={image} alt="" />
       </button>
     </>
   )
 }
 
-export function DummyButton() {
+
+interface DummyButtonProps {
+  size: number
+}
+
+export function DummyButton({size}:DummyButtonProps) {
   return (
     <>
-      <button className="w-30pxr h-30pxr"/>
+      <button className={`size-${size}`}/>
     </>
   )
 }
