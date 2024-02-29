@@ -2,9 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import arrowBig from '@/assets/icons/arrowBig.svg';
 import close from '@/assets/icons/close.svg';
 import bookmark from '@/assets/icons/bookmark.svg';
-import InputComponent from '@/components/input/InputComponent';
-import { FnButton, DummyButton } from '@/components/buttons/FnButton';
 import bell from '@/assets/icons/bell.svg';
+import { FnButton, DummyButton, InputComponent } from '@/components';
 
 interface HeaderTitleProps {
   title?: string;
