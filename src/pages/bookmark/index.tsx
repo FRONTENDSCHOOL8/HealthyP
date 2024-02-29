@@ -1,5 +1,5 @@
-import Keyword from '@/components/keywords/Keword';
-import Review from '@/components/reviews/Review';
+import Keyword from '@/components/keyword/Keword';
+import Review from '@/components/review/Review';
 
 export function BookmarkPage() {
   return (
