@@ -38,7 +38,7 @@ export default {
         gray_400: '#3C3C43',
         gray_500: '#3C3C43',
         gray_700: '#575758',
-        tagColor: '#EEEEF0',
+        tag_color: '#EEEEF0',
       },
       backgroundImage: {
         'star-icon': "url('/src/assets/icons/star.svg')",
@@ -165,7 +165,7 @@ export default {
             lineHeight: '1.125rem',
           },
         ],
-        'foot': [
+        foot: [
           '0.8125rem',
           {
             fontWeight: 400,
