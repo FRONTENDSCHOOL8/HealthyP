@@ -1,11 +1,10 @@
-import { getDataAtomFamily } from '@/util';
-import { useAtom } from 'jotai';
+import { Rating } from '@/types';
 
 export default function Review({
   rating,
   caseType,
 }: {
-  rating: Array;
+  rating: Rating[];
   caseType: 'literal' | 'number';
 }) {
   const count: number = rating.length ?? 0;

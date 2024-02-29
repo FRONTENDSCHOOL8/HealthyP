@@ -2,7 +2,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Keyboard, Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { useState } from 'react';
 import flower from '@/assets/images/flower3.jpg';
-import healthFood from '@/assets/images/healthFood.webp';
 import whiteHealth from '@/assets/images/whiteHealth.webp';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -40,7 +39,7 @@ import InputComponent from '../input/InputComponent';
 
 export default function SwiperMain() {
   // const[swiper, setSwiper] = useState<SwiperClass>();
-  const [swiperIndex, setSwiperIndex] = useState(0);
+  const [, setSwiperIndex] = useState(0);
 
   return (
     <>
@@ -88,9 +87,8 @@ export default function SwiperMain() {
           );
         })}
         <div className="absolute w-full flex px-10pxr top-10pxr z-10">
-          <InputComponent option="search"/>
+          <InputComponent option="search" />
         </div>
-        
       </Swiper>
     </>
   );
