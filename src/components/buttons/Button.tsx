@@ -6,6 +6,7 @@ type ButtonProps = {
   buttonCase: 'large' | 'medium' | 'small';
   text: string[];
   route: (() => string)[];
+  isActive?: boolean;
 };
 
 const getClassName = (buttonCase: string, index: number) => {
@@ -13,7 +14,7 @@ const getClassName = (buttonCase: string, index: number) => {
     'flex flex-row justify-center items-center flex-nowrap w-full rounded-[7px] py-12pxr text-body-em';
   switch (buttonCase) {
     case 'large':
-      className += ' bg-primary text-white';
+      className += '';
       break;
     case 'medium':
       className +=
@@ -44,6 +45,7 @@ const ButtonContent = ({
   buttonCase = 'large',
   text,
   route,
+  isActive = false,
 }: ButtonProps): JSX.Element => {
   const navigate = useNavigate();
 
@@ -68,6 +70,22 @@ const ButtonContent = ({
     navigate(path); // 추출된 경로로 이동
   };
 
+  const getDynamicClassName = (
+    buttonCase: string,
+    index: number,
+    isActive: boolean
+  ) => {
+    let className = getClassName(buttonCase, index);
+
+    if (buttonCase === 'large') {
+      className += isActive
+        ? ' bg-primary text-white'
+        : ' bg-gray-200 text-gray-400 ';
+    }
+
+    return className;
+  };
+
   // buttonCase에 따라 버튼 마크업 생성
   let buttonMarkup: JSX.Element;
   switch (buttonCase) {
@@ -76,7 +94,7 @@ const ButtonContent = ({
         <div className="bg-white">
           <button
             onClick={() => handleOnClick(0)}
-            className={getClassName(buttonCase, 0)}
+            className={getDynamicClassName(buttonCase, 0, isActive)}
           >
             {text[0]}
           </button>
