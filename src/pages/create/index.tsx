@@ -10,8 +10,7 @@ export function CreateLayout() {
 
 
   return (
-    <div className="w-full h-full relative">
-      <p>This is the create page</p>
+    <div className="w-full h-full relative bg-white">
       <Outlet />
     </div>
   );
