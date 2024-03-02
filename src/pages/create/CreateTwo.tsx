@@ -37,6 +37,7 @@ function StepContainer() {
   )
 }
 
+
 export function CreateTwo() {
   return (
     <div className="h-full w-full flex flex-col">
@@ -46,11 +47,11 @@ export function CreateTwo() {
       </div>
       <StepContainer />
       <footer className="w-full px-14pxr pt-14pxr pb-46pxr bg-white">
-          <Button
-            buttonCase="medium"
-            text={['이전', '완료']}
-            route={[() => '/create', () => '/']} />
-        </footer>
+        <Button
+          buttonCase="medium"
+          text={['이전', '완료']}
+          route={[() => '/create', () => '../complete']} />
+      </footer>
     </div>
   )
 }
