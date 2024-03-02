@@ -9,7 +9,8 @@ interface InputProps {
     | 'password'
     | 'nickname'
     | 'passwordConfirm'
-    | 'fileInput';
+    | 'fileInput'
+    | 'defaultInput';
   placeholder?: string;
   bgColor?: string;
   changeHandler?: () => void;
@@ -201,7 +202,7 @@ function useInputMapping({
         >
           <p className="inline-block">
             {inputTitle}
-            <span className="text-sub">{'(필수)'}</span>
+            <span className="text-sub">{' (필수)'}</span>
           </p>
           <div className="h-180pxr w-full bg-gray_150 hover:bg-gray_150 flex justify-center items-center hover:fill-gray-500 fill-gray-400 rounded-lg overflow-hidden">
             <svg
@@ -232,6 +233,23 @@ function useInputMapping({
         </label>
       </>
     ),
+    defaultInput: (
+      <>
+        <label
+          htmlFor="nickname-input"
+          className="text-sub-em flex flex-col gap-10pxr"
+        >
+          <p className='text-sub-em'>{inputTitle}<span className='text-sub'>{' (필수)'}</span></p>
+          <input
+            id="nickname-input"
+            type="text"
+            className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md"
+            placeholder={placeholder}
+          />
+        </label>
+      </>
+    )
+    
   };
   const inputComponent = inputMappings[option];
 
