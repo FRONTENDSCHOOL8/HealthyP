@@ -1,10 +1,34 @@
+import { Button, Footer, InputComponent } from '@/components';
+import Header from '@/components/header/Header';
+import { ProgressBar } from '@/components/pagination/Pagination';
 
-
+const emphasizeClass = 'text-title-2-em text-primary';
 
 export function Verification() {
   return (
     <>
-      <p>Hello</p>
+      <Header option="titleWithClose" title="회원가입" />
+      <div role="group" className="mx-14pxr mt-18pxr mb-198pxr">
+        <p className="text-title-2 mb-59pxr">
+          가입하실 <br /> <span className={emphasizeClass}>이메일</span>과{' '}
+          <span className={emphasizeClass}>비밀번호</span>를 <br /> 입력해주세요
+        </p>
+        <div role="group" className="flex flex-col">
+          <InputComponent option="email" />
+          <InputComponent option="password" />
+          <InputComponent option="passwordConfirm" />
+        </div>
+      </div>
+
+      <Footer>
+        <ProgressBar init={33} progress={66} />
+        <Button
+          buttonCase="large"
+          text={['이메일 인증 받기']}
+          route={[() => '/signup/confirm']}
+          isActive={false}
+        />
+      </Footer>
     </>
-  )
+  );
 }
