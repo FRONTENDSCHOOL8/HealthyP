@@ -39,7 +39,7 @@ function TextAreaComponent({ inputTitle, requiredText, maxCharCount }: TextAreaP
           onChange={handleTextChange}
         />
       </label>
-        <p className="text-cap-1 text-gray-500 float-right">{`${charCount}/${maxCharCount}`}</p>
+        <p className="text-cap-1 text-gray-500 float-right">{`${charCount} / ${maxCharCount}`}</p>
     </div>
   );
 }
@@ -58,7 +58,7 @@ export function CreateThree() {
         <Button
           buttonCase="medium"
           text={['이전', '완료']}
-          route={[() => '/create', () => '../complete']} />
+          route={[() => '/create', () => '../two']} />
       </footer>
     </div>
   )
