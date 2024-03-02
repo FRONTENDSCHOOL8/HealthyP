@@ -21,7 +21,6 @@ function SearchPageContent() {
 
   return (
     <div className="w-full relative">
-
       <Header option="onlyArrow" />
       <Form action='/' className='px-20pxr py-20pxr flex flex-col gap-42pxr'>
         <InputComponent option="fileInput" inputTitle="메인 이미지 사진" />
