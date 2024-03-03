@@ -7,7 +7,7 @@ export default function Review({
   rating: Rating[];
   caseType: 'literal' | 'number';
 }) {
-  const count: number = rating.length ?? 0;
+  const count: number = rating?.length ?? 0;
 
   const renderTextMap = {
     literal: (count: number) => `리뷰 ${count}개`,

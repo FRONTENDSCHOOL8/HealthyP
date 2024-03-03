@@ -43,6 +43,7 @@ function useInputMapping({
   bgColor,
   inputTitle,
   onValidationChange,
+  changeHandler,
 }: InputProps) {
   const [pwBorder, setPwBorder] = useState('');
   const [confirmBorder, setConfirmBorder] = useState('');
@@ -200,35 +201,35 @@ function useInputMapping({
         </div>
       </>
     ),
-    nickname: (
-      <>
-        <label
-          htmlFor="nickname-input"
-          className={`text-sub-em flex flex-col gap-10pxr ${isNicknameFocused ? labelFocusWithin : labelFocusWithout}`}
-        >
-          <p className="text-sub-em">닉네임</p>
-          <input
-            id="nickname-input"
-            type="text"
-            className="w-full h-48pxr py-0 px-10pxr text-sub bg-gray_150 rounded-md"
-            onFocus={() => setIsNicknameFocused(true)}
-            onBlur={() => setIsNicknameFocused(false)}
-            placeholder={placeholder}
-            value={nickname}
-            onChange={handleNicknameChange}
-          />
-          <div className="h-30pxr">
-            {!isNicknameValid && (
-              <div className="h-30pxr">
-                <p className="text-cap-1 text-warning">
-                  이미 존재하는 닉네임입니다. 다시 입력해주세요.
-                </p>
-              </div>
-            )}
-          </div>
-        </label>
-      </>
-    ),
+    // nickname: (
+    //   <>
+    //     <label
+    //       htmlFor="nickname-input"
+    //       className={`text-sub-em flex flex-col gap-10pxr ${isNicknameFocused ? labelFocusWithin : labelFocusWithout}`}
+    //     >
+    //       <p className="text-sub-em">닉네임</p>
+    //       <input
+    //         id="nickname-input"
+    //         type="text"
+    //         className="w-full h-48pxr py-0 px-10pxr text-sub bg-gray_150 rounded-md"
+    //         onFocus={() => setIsNicknameFocused(true)}
+    //         onBlur={() => setIsNicknameFocused(false)}
+    //         placeholder={placeholder}
+    //         value={nickname}
+    //         onChange={handleNicknameChange}
+    //       />
+    //       <div className="h-30pxr">
+    //         {!isNicknameValid && (
+    //           <div className="h-30pxr">
+    //             <p className="text-cap-1 text-warning">
+    //               이미 존재하는 닉네임입니다. 다시 입력해주세요.
+    //             </p>
+    //           </div>
+    //         )}
+    //       </div>
+    //     </label>
+    //   </>
+    // ),
     fileInput: (
       <>
         <label
@@ -283,7 +284,6 @@ function useInputMapping({
             type="text"
             className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md"
             placeholder={placeholder}
-            onChange={changeHandler}
           />
         </label>
       </>

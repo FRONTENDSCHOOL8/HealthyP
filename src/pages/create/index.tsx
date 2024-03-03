@@ -8,42 +8,12 @@ export { CreateComplete } from './CreateComplete';
 import { atom, Provider, useAtom } from 'jotai';
 
 
-const temp_data = [
-  {
-    name : "감자",
-    amount : "100g, 3개"
-  },
-  {
-    name : "고구마",
-    amount : "10g, 3개"
-  },
-  {
-    name : "가지",
-    amount : "100g, 3개"
-  },
-  {
-    name : "양파",
-    amount : "100g, 3개"
-  },
+const temp_data : [] = [
+
 ]
 
-const temp_data_two = [
-  {
-    name : "고추장",
-    amount : "100g, 3개"
-  },
-  {
-    name : "된장",
-    amount : "10g, 3개"
-  },
-  {
-    name : "간장",
-    amount : "100g, 3개"
-  },
-  {
-    name : "양파",
-    amount : "100g, 3개"
-  },
+const temp_data_two : [] = [
+
 ]
 
 const temp_data_three = [

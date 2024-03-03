@@ -51,16 +51,4 @@ export function Verification() {
   );
 }
 
-useEffect(() => {
-  const login = async () => {
-    try {
-      const record = await pb.collection('users').getOne('p85jypwlgke40oq');
-      // 로그인 후 사용자 정보 가져오기
-      console.log('record', record);
-    } catch (error) {
-      console.error('Error logging in:', error);
-    }
-  };
 
-  login();
-}, []);
