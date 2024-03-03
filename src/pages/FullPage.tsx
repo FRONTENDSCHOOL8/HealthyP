@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import FullPageInfo from '@/components/FullPageInfo';
 import checkCirclePrimary from '@/assets/icons/checkCirclePrimary.svg';
-import emailCirclePrimary from '@/assets/icons/emailCirclePrimary.svg';
 
 export default function FullPageInfoLayout() {
   return (

@@ -42,7 +42,7 @@ export function Terms() {
   }, [isCheckedOptions, isCheckedRequired]);
 
   // 상태를 업데이트하고 경로 문자열을 반환하는 함수
-  const goToEmailVerification = () => {
+  const goToMakeIdPage = () => {
     setProgress(66); // 상태 업데이트
     return '/signup/verify'; // 경로 반환
   };
@@ -89,7 +89,7 @@ export function Terms() {
         <Button
           buttonCase="large"
           text={['다음']}
-          route={[goToEmailVerification]}
+          route={[goToMakeIdPage]}
           isActive={isActive}
         />
       </Footer>

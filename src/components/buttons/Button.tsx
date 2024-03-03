@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNavigate } from 'react-router-dom';
@@ -9,9 +10,24 @@ type ButtonProps = {
   isActive?: boolean;
 };
 
+const buttonVariant = {
+  active: {
+    scale: 1,
+    background: '#91BD14',
+    color: '#ffffff',
+    transition: { duration: 0.5 },
+  },
+  inactive: {
+    scale: 1,
+    background: '#D9D9DA',
+    color: '#3C3C43',
+    transition: { duration: 0.5 },
+  },
+};
+
 const getClassName = (buttonCase: string, index: number) => {
   let className =
-    'flex flex-row justify-center items-center flex-nowrap w-full rounded-[7px] py-12pxr text-body-em';
+    'flex flex-row justify-center items-center flex-nowrap w-full py-12pxr text-body-em';
   switch (buttonCase) {
     case 'large':
       className += '';
@@ -19,14 +35,14 @@ const getClassName = (buttonCase: string, index: number) => {
     case 'medium':
       className +=
         index === 0
-          ? ' bg-gray_150 text-gray-700 basis-1/3'
-          : ' bg-primary text-white basis-2/3';
+          ? ' bg-gray_150 text-gray-700 basis-1/3 rounded-[7px]'
+          : ' bg-primary text-white basis-2/3 rounded-[7px]';
       break;
     case 'small':
       className +=
         index === 0
-          ? ' bg-gray_150 text-gray-700 basis-1/2'
-          : ' bg-primary text-white basis-1/2';
+          ? ' bg-gray_150 text-gray-700 basis-1/2 rounded-[7px]'
+          : ' bg-primary text-white basis-1/2 rounded-[7px]';
       break;
   }
   return className;
@@ -45,7 +61,7 @@ const ButtonContent = ({
   buttonCase = 'large',
   text,
   route,
-  isActive = false,
+  isActive = true,
 }: ButtonProps): JSX.Element => {
   const navigate = useNavigate();
 
@@ -70,18 +86,8 @@ const ButtonContent = ({
     navigate(path); // 추출된 경로로 이동
   };
 
-  const getDynamicClassName = (
-    buttonCase: string,
-    index: number,
-    isActive: boolean
-  ) => {
-    let className = getClassName(buttonCase, index);
-
-    if (buttonCase === 'large') {
-      className += isActive
-        ? ' bg-primary text-white'
-        : ' bg-gray-200 text-gray-400 ';
-    }
+  const getDynamicClassName = (buttonCase: string, index: number) => {
+    const className = getClassName(buttonCase, index);
 
     return className;
   };
@@ -91,14 +97,21 @@ const ButtonContent = ({
   switch (buttonCase) {
     case 'large':
       buttonMarkup = (
-        <div className="bg-white">
-          <button
-            onClick={() => handleOnClick(0)}
-            className={getDynamicClassName(buttonCase, 0, isActive)}
+        <AnimatePresence>
+          <motion.div
+            className="rounded-[7px]"
+            animate={isActive ? 'active' : 'inactive'}
+            variants={buttonVariant}
           >
-            {text[0]}
-          </button>
-        </div>
+            <button
+              disabled={!isActive}
+              onClick={() => handleOnClick(0)}
+              className={getDynamicClassName(buttonCase, 0)}
+            >
+              {text[0]}
+            </button>
+          </motion.div>
+        </AnimatePresence>
       );
       break;
     case 'medium':

@@ -1,10 +1,22 @@
+import { pb } from '@/api/pocketbase';
 import { Button, Footer, InputComponent } from '@/components';
 import Header from '@/components/header/Header';
 import { ProgressBar } from '@/components/pagination/Pagination';
+import { useEffect, useState } from 'react';
 
 const emphasizeClass = 'text-title-2-em text-primary';
 
 export function Verification() {
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
+
+  const isActive = isEmailValid && isPasswordValid && isPasswordConfirmValid;
+
+  const goToEmailVerification = () => {
+    return '/signup/confirm'; // 경로 반환
+  };
+
   return (
     <>
       <Header option="titleWithClose" title="회원가입" />
@@ -13,11 +25,17 @@ export function Verification() {
           가입하실 <br /> <span className={emphasizeClass}>이메일</span>과{' '}
           <span className={emphasizeClass}>비밀번호</span>를 <br /> 입력해주세요
         </p>
-        <div role="group" className="flex flex-col">
-          <InputComponent option="email" />
-          <InputComponent option="password" />
-          <InputComponent option="passwordConfirm" />
-        </div>
+        <form role="group" className="flex flex-col">
+          <InputComponent option="email" onValidationChange={setIsEmailValid} />
+          <InputComponent
+            option="password"
+            onValidationChange={setIsPasswordValid}
+          />
+          <InputComponent
+            option="passwordConfirm"
+            onValidationChange={setIsPasswordConfirmValid}
+          />
+        </form>
       </div>
 
       <Footer>
@@ -25,10 +43,24 @@ export function Verification() {
         <Button
           buttonCase="large"
           text={['이메일 인증 받기']}
-          route={[() => '/signup/confirm']}
-          isActive={false}
+          route={[goToEmailVerification]}
+          isActive={isActive}
         />
       </Footer>
     </>
   );
 }
+
+useEffect(() => {
+  const login = async () => {
+    try {
+      const record = await pb.collection('users').getOne('p85jypwlgke40oq');
+      // 로그인 후 사용자 정보 가져오기
+      console.log('record', record);
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  };
+
+  login();
+}, []);

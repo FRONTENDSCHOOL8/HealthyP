@@ -1,6 +1,8 @@
 import { useAtom } from 'jotai';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { passwordAtom } from '@/pages';
+import { getDataAtomFamily } from '@/util';
+import { debounce, set } from 'lodash';
 
 interface InputProps {
   option:
@@ -15,10 +17,20 @@ interface InputProps {
   bgColor?: string;
   changeHandler?: () => void;
   inputTitle?: string;
+  onValidationChange?: (isValid: boolean) => void;
 }
+
+// const [userData] = useAtom(
+//   getDataAtomFamily({ item: 'users', typeOfGetData: 'getOne' })
+// );
 
 function pwReg(text: string) {
   const re = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{6,16}$/;
+  return re.test(String(text).toLowerCase());
+}
+
+function emailReg(text: string) {
+  const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return re.test(String(text).toLowerCase());
 }
 
@@ -30,43 +42,46 @@ function useInputMapping({
   placeholder,
   bgColor,
   inputTitle,
+  onValidationChange,
 }: InputProps) {
   const [pwBorder, setPwBorder] = useState('');
   const [confirmBorder, setConfirmBorder] = useState('');
   const [password, setPassword] = useAtom(passwordAtom);
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
   const [preview, setPreview] = useState<string | undefined>('');
+  const [emailBorder, setEmailBorder] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isPasswordConfirmFocused, setIsPasswordConfirmFocused] =
     useState(false);
-
-  function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setEmailValue(e.target.value);
-  }
+  const [isNicknameFocused, setIsNicknameFocused] = useState(false);
 
   function pwConfirm(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.value === password) {
+    const isValid = e.target.value === password;
+    if (isValid) {
       setConfirmBorder('');
-      return;
+      onValidationChange?.(true); // 패스워드가 일치하면 true 전달
     } else {
       setConfirmBorder('border-warning border');
+      onValidationChange?.(false); // 패스워드가 일치하지 않으면 false 전달
     }
+  }
+
+  function validateEmail(e: React.ChangeEvent<HTMLInputElement>) {
+    const isValid = emailReg(e.target.value);
+    setEmailValue(e.target.value);
+    setEmailBorder(isValid ? '' : 'border-warning border');
+    onValidationChange?.(isValid);
   }
 
   function validatePassword(e: React.ChangeEvent<HTMLInputElement>) {
-    if (!pwReg(e.target.value)) {
-      setPassword(e.target.value);
-      setPwBorder('border-warning border');
-    } else if (pwReg(e.target.value)) {
-      setPassword(e.target.value);
-      setPwBorder('');
-    } else if (e.target.value === '') {
-      setPassword(e.target.value);
-      setPwBorder('');
-    }
+    const isValid = pwReg(e.target.value);
+    setPassword(e.target.value);
+    setPwBorder(isValid ? '' : 'border-warning border');
+    onValidationChange?.(isValid); // 유효성 검사 결과 전달
   }
+
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
     if (!selectedFile) {
@@ -116,13 +131,20 @@ function useInputMapping({
         <input
           id="email-input"
           type="email"
-          className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md focus:outline-primary mb-30pxr"
+          className={`w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md ${emailBorder} focus:outline-primary`}
           placeholder="이메일을 입력해주세요"
           value={emailValue}
-          onChange={handleEmailChange}
+          onChange={validateEmail}
           onFocus={() => setIsEmailFocused(true)}
           onBlur={() => setIsEmailFocused(false)}
         />
+        <div className="h-30pxr">
+          <p
+            className={`text-cap-1 text-warning ${emailBorder ? 'block' : 'hidden'}`}
+          >
+            올바른 이메일 형식을 작성해주세요.
+          </p>
+        </div>
       </>
     ),
     password: (
@@ -182,15 +204,28 @@ function useInputMapping({
       <>
         <label
           htmlFor="nickname-input"
-          className="text-sub-em flex flex-col gap-10pxr"
+          className={`text-sub-em flex flex-col gap-10pxr ${isNicknameFocused ? labelFocusWithin : labelFocusWithout}`}
         >
-          닉네임
+          <p className="text-sub-em">닉네임</p>
           <input
             id="nickname-input"
             type="text"
-            className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md"
+            className="w-full h-48pxr py-0 px-10pxr text-sub bg-gray_150 rounded-md"
+            onFocus={() => setIsNicknameFocused(true)}
+            onBlur={() => setIsNicknameFocused(false)}
             placeholder={placeholder}
+            value={nickname}
+            onChange={handleNicknameChange}
           />
+          <div className="h-30pxr">
+            {!isNicknameValid && (
+              <div className="h-30pxr">
+                <p className="text-cap-1 text-warning">
+                  이미 존재하는 닉네임입니다. 다시 입력해주세요.
+                </p>
+              </div>
+            )}
+          </div>
         </label>
       </>
     ),
@@ -239,7 +274,10 @@ function useInputMapping({
           htmlFor="nickname-input"
           className="text-sub-em flex flex-col gap-10pxr"
         >
-          <p className='text-sub-em'>{inputTitle}<span className='text-sub'>{' (필수)'}</span></p>
+          <p className="text-sub-em">
+            {inputTitle}
+            <span className="text-sub">{' (필수)'}</span>
+          </p>
           <input
             id="nickname-input"
             type="text"
@@ -248,8 +286,7 @@ function useInputMapping({
           />
         </label>
       </>
-    )
-    
+    ),
   };
   const inputComponent = inputMappings[option];
 
@@ -263,12 +300,14 @@ export default function InputComponent({
   placeholder,
   bgColor,
   inputTitle,
+  onValidationChange,
 }: InputProps) {
   const inputComponent = useInputMapping({
     option,
     placeholder,
     bgColor,
     inputTitle,
+    onValidationChange,
   });
 
   if (!inputComponent) {
