@@ -72,9 +72,9 @@ export default {
         default:
           '0px 3px 8px 0px rgba(0, 0, 0, 0.12), 0px 1px 3px 0px rgba(0, 0, 0, 0.04)',
         small:
-          '0px 2px 7px 0px rgba(0, 0, 0 / 0.1), 0px 1px 2px 0px rgba(0, 0, 0 / 0.04)',
+          '0px 2px 7px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.04)',
         revert:
-          '0px -3px 8px 0px rgba(0, 0, 0 / 0.12), 0px -1px 3px 0px rgba(0, 0, 0 / 0.04)',
+          '0px -3px 8px 0px rgba(0, 0, 0, 0.12), 0px -1px 3px 0px rgba(0, 0, 0, 0.04)',
       },
       fontSize: {
         'title-1-em': [
