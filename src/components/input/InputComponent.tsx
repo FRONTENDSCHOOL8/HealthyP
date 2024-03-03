@@ -15,7 +15,7 @@ interface InputProps {
     | 'defaultInput';
   placeholder?: string;
   bgColor?: string;
-  changeHandler?: () => void;
+  changeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inputTitle?: string;
   onValidationChange?: (isValid: boolean) => void;
 }
@@ -283,6 +283,7 @@ function useInputMapping({
             type="text"
             className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md"
             placeholder={placeholder}
+            onChange={changeHandler}
           />
         </label>
       </>
