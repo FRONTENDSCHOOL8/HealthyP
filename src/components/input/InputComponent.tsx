@@ -13,7 +13,7 @@ interface InputProps {
     | 'defaultInput';
   placeholder?: string;
   bgColor?: string;
-  changeHandler?: () => void;
+  changeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inputTitle?: string;
 }
 
@@ -30,6 +30,7 @@ function useInputMapping({
   placeholder,
   bgColor,
   inputTitle,
+  changeHandler
 }: InputProps) {
   const [pwBorder, setPwBorder] = useState('');
   const [confirmBorder, setConfirmBorder] = useState('');
@@ -39,8 +40,7 @@ function useInputMapping({
   const [emailValue, setEmailValue] = useState('');
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
-  const [isPasswordConfirmFocused, setIsPasswordConfirmFocused] =
-    useState(false);
+  const [isPasswordConfirmFocused, setIsPasswordConfirmFocused] = useState(false);
 
   function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
     setEmailValue(e.target.value);
@@ -245,6 +245,7 @@ function useInputMapping({
             type="text"
             className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md"
             placeholder={placeholder}
+            onChange={changeHandler}
           />
         </label>
       </>
