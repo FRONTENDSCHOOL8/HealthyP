@@ -5,7 +5,7 @@ type FullPageInfoProps = {
   icons: string[];
   text: string[];
   route: () => string;
-  isExistDescription: boolean;
+  hasDetailedDescription: boolean;
   description?: string[];
 };
 
@@ -13,7 +13,7 @@ const FullPageInfo = ({
   route,
   icons,
   text,
-  isExistDescription,
+  hasDetailedDescription,
   description,
 }: FullPageInfoProps) => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const FullPageInfo = ({
         <img src={icons[0]} alt={icons[1]} />
         <p className="text-title-2-em text-primary pt-32pxr">{text[0]}</p>
         <span className="text-title-1-em">{text[1]}</span>
-        {isExistDescription && description && (
+        {hasDetailedDescription && description && (
           <div className="pt-[62px] flex flex-col justify-center items-center text-gray_700">
             {description.map((desc, index) => (
               <span key={index} className="text-sub">
