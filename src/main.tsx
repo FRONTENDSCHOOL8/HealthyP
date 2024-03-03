@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/style.css';
 import './styles/index.css';
@@ -27,9 +27,8 @@ import {
   MyRecipes,
   RecentRecipes,
   UserLayout,
-  SignupComplete
+  SignupComplete,
 } from './pages/';
-
 
 const router = createBrowserRouter([
   // 루트 페이지 (메인)
@@ -127,20 +126,20 @@ const router = createBrowserRouter([
       },
       {
         path: 'setup',
-        element: <SetProfile />
+        element: <SetProfile />,
       },
       {
         path: 'complete',
-        element: <SignupComplete />
-      }
-    ]
-  }
+        element: <SignupComplete />,
+      },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
-      <div className="w-full h-svh mx-auto bg-gray-100">
+      <div className="mobile:w-full max-w-1300pxr h-svh mx-auto bg-white">
         <RouterProvider router={router} />
       </div>
     </Suspense>

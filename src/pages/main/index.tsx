@@ -3,33 +3,33 @@ import { useAtom } from 'jotai';
 import SwiperMain from '@/components/swipers/SwiperMain';
 import { Link } from 'react-router-dom';
 import { pb } from '@/api/pocketbase';
-import RecipeCard from '@/components/cards/recipeCard/RecipeCard';
+import RecipeCard, {
+  RecipeCardProps,
+} from '@/components/cards/recipeCard/RecipeCard';
 import { useRef } from 'react';
-
+import { Rating } from '@/types';
 function FakeButtons() {
   return (
-    <ul className='flex w-full justify-center py-30pxr gap-32pxr'>
-      <li className='flex flex-col items-center'>
-        <Link to="../search" className='h-50pxr w-50pxr bg-gray-400'></Link>
+    <ul className="flex w-full justify-center py-30pxr gap-32pxr">
+      <li className="flex flex-col items-center">
+        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
         <p>건강식</p>
       </li>
-      <li className='flex flex-col items-center'>
-        <Link to="../search" className='h-50pxr w-50pxr bg-gray-400'></Link>
+      <li className="flex flex-col items-center">
+        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
         <p>다이어트</p>
       </li>
-      <li className='flex flex-col items-center'>
-        <Link to="../search" className='h-50pxr w-50pxr bg-gray-400'></Link>
+      <li className="flex flex-col items-center">
+        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
         <p>벌크업</p>
       </li>
-      <li className='flex flex-col items-center'>
-        <Link to="../search" className='h-50pxr w-50pxr bg-gray-400'></Link>
+      <li className="flex flex-col items-center">
+        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
         <p>비건</p>
       </li>
     </ul>
-  )
+  );
 }
-
-
 
 export function MainPage() {
   const urls = useRef(null);
@@ -63,7 +63,7 @@ export function MainPage() {
     );
   console.log(data);
   return (
-    <div className='overflow-y-scroll overflow-x-hidden h-full w-full pb-90pxr no-scrollbar'>
+    <div className="overflow-y-scroll overflow-x-hidden h-full w-full pb-90pxr no-scrollbar">
       <SwiperMain />
       <FakeButtons />
       <section>
@@ -74,19 +74,32 @@ export function MainPage() {
           <h2>오늘의 레시피</h2>
           <span className="size-30pxr bg-arrow-small-icon rotate-[270deg] bg-center"></span>
         </Link>
-        <div className="w-full overflow-x-scroll">
+        <div className="w-full overflow-x-auto">
           <div className="flex gap-2 px-side w-max pb-2">
             {data &&
-              data.map(({ id, title, expand }, idx) => {
-                return (
-                  <RecipeCard
-                    key={id}
-                    title={title}
-                    url={urls?.current[idx]}
-                    rating={expand.rating}
-                  />
-                );
-              })}
+              data.map(
+                (
+                  {
+                    id,
+                    title,
+                    expand,
+                  }: {
+                    id: string;
+                    title: string;
+                    expand: object;
+                  },
+                  idx: number
+                ) => {
+                  return (
+                    <RecipeCard
+                      key={id}
+                      title={title}
+                      url={urls?.current[idx]}
+                      rating={expand.rating}
+                    />
+                  );
+                }
+              )}
           </div>
         </div>
       </section>
