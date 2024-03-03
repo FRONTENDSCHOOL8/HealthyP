@@ -4,6 +4,7 @@ import './styles/style.css';
 import './styles/index.css';
 import SearchPage from './pages/search/';
 import MissingPage from './pages/MissingPage';
+import FullPageInfoLayout from './pages/FullPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from './RootLayout';
 
@@ -133,6 +134,11 @@ const router = createBrowserRouter([
         element: <SignupComplete />,
       },
     ],
+  },
+  // 풀페이지인포
+  {
+    path: '/fullPage',
+    element: <FullPageInfoLayout />,
   },
 ]);
 
