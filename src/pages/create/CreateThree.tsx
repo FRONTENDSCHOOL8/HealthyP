@@ -86,7 +86,7 @@ export function CreateThree() {
           onClick={() => {
             console.log(description, tips);
             // change image value to the image url
-            setSteps([...steps, {"image": '', "description": description, "tips": tips}]) 
+            setSteps(JSON.stringify([...steps, {"image": '', "description": description, "tips": tips}])) 
           }}>완료
         </Link>
       </footer>

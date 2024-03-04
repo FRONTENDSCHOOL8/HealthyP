@@ -92,11 +92,11 @@ const temp_data_three = [
 
 
 
-export const ingredients = atom(temp_data_one);
+export const ingredients = atom(JSON.stringify(temp_data_one));
 export const seasoning = atom([]);
-export const recipeSteps = atom(temp_data_three);
+export const recipeSteps = atom(JSON.stringify(temp_data_three));
 export const title = atom('');
-export const image = atom(new FormData());
+export const image = atom<File | null>(null);
 
 export function CreateLayout() {
   const [titleField, setTitleField] = useAtom(title);

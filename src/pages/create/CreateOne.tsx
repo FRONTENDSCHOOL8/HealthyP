@@ -48,14 +48,13 @@ function Ingredients({titleText} : IngredientsProps) {
               name : ingredName,
               amount : ingredAmount
             }
-            const updateIngreds = [...ingredientData, ingred]
-            setIngredientData(updateIngreds);
-            console.log(ingredientData);
+            const updateIngreds = [...JSON.parse(ingredientData), ingred]
+            setIngredientData(JSON.stringify(updateIngreds));
           }}>추가</button>
       </div>
       <div className="border-t-2 border-b-2 h-150pxr overflow-y-scroll no-scrollbar">
         {
-          ingredientData.map((item, index) => {
+          JSON.parse(ingredientData).map((item, index) => {
             return (
               <div key={index} className="flex gap-6pxr py-8pxr pl-10pxr border-b-2">
                 <div className="w-5/6 flex justify-between pr-10pxr">
@@ -65,8 +64,8 @@ function Ingredients({titleText} : IngredientsProps) {
                 <div className="h-29pxr w-1pxr bg-gray-300"></div>
                 <button className="w-1/6" onClick={(e) => {
                   e.preventDefault();
-                  const updateIngreds = ingredientData.filter(i => i.name !== item.name);
-                  setIngredientData(updateIngreds);
+                  const updateIngreds = JSON.parse(ingredientData).filter(i => i.name !== item.name);
+                  setIngredientData(JSON.stringify(updateIngreds));
                   // update ingreds within the database
                 }}>삭제</button>
               </div>
@@ -129,11 +128,9 @@ function FileInputComponent({inputTitle} : FileInputComponentProps) {
     }
     
     if(selectedFile) {
-      const formData = new FormData();
-      formData.append('image', selectedFile);
       const objectUrl = URL.createObjectURL(selectedFile);
       setPreview(objectUrl);
-      setImageFile(formData);
+      setImageFile(selectedFile);
     }
   }
 
