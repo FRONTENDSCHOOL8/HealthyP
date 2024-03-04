@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { Header, Button } from "@/components"
 import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
 import move from '@/assets/icons/move.svg';
 import { db } from "@/api/pocketbase";
-import {title, ingredients, seasoning, recipeSteps} from '.';
+import {title, ingredients, recipeSteps, image} from '.';
+
 
 function TipContainer() {
   return (
@@ -34,16 +35,14 @@ function AddButton() {
 
 function StepContainer() {
   const [steps,] = useAtom(recipeSteps);
-
-
   return (
     <div className="w-full grow bg-gray_150 relative p-14pxr flex flex-col gap-8pxr">
       <AddButton />
       {
-        steps.map((item, index) => {
+        JSON.parse(steps).map((item, index) => {
           return (
             <>  
-              <div key={index} className="flex items-center gap-10pxr p-6pxr bg-white rounded-xl">
+              <div key={'step' + index} className="flex items-center gap-10pxr p-6pxr bg-white rounded-xl">
                 <img src={item.image} alt="" className="w-64pxr h-64pxr rounded-lg"/>
                 <div className="w-4/5">
                   <h2 className="text-foot-em flex justify-between">Step {index+1}. {item.tips !== "" ? <span>tips</span> : <></>}</h2>
@@ -62,14 +61,17 @@ function StepContainer() {
   )
 }
 
+
+
 interface RecipeData {
   title: string;
-  ingredients: { name: string, amount: string}[];
-  steps: { image: string, description: string, tips: string}[];
+  ingredients: string;
+  steps: string;
   views: number;
   category: string;
   keywords: string;
   desc: string;
+  image: File | null;
   rating: string[];
 }
 
@@ -79,41 +81,49 @@ interface UseUploadRecipeResult {
   error: string | null;
 }
 
+
+
 function useUploadRecipe(): UseUploadRecipeResult {
   const [titleField,] = useAtom(title);
+  // const [seasoningData,] = useAtom(seasoning);
   const [ingredientData,] = useAtom(ingredients);
-  const [seasoningData,] = useAtom(seasoning);
+  const [imageFile,] = useAtom(image);
   const [steps,] = useAtom(recipeSteps);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
 
   async function uploadRecipe() {
     try {
       setIsLoading(true);
 
+      console.log(JSON.stringify(ingredientData));
+      console.log(JSON.parse(steps));
+
+
       const data: RecipeData = {
         title: titleField,
-        ingredients: [...ingredientData, ...seasoningData],
+        ingredients: ingredientData,
         steps: steps,
         views: 0,
         category: "test",
         keywords: "test",
         desc: "test",
+        image: imageFile,
         rating: []
       };
 
-      const record = await db.collection('recipes').create(data);
-
-      // Additional logic if needed
+      console.log(data);
+      const record = await db.collection('recipes_duplicate').create(data);
 
       setIsLoading(false);
       setError(null);
 
-      return record; // Adjust the return value according to your data structure
+      return record; 
     } catch (error) {
       setIsLoading(false);
-      // setError(error.message);
-      throw error; // Rethrow the error to propagate it to the calling code
+      
+      throw error; 
     }
   }
 
@@ -124,6 +134,7 @@ function useUploadRecipe(): UseUploadRecipeResult {
 
 export function CreateTwo() {
   const {uploadRecipe} = useUploadRecipe();
+  
 
   return (
     <div className="h-full w-full flex flex-col">
@@ -137,11 +148,11 @@ export function CreateTwo() {
           buttonCase="medium"
           text={['이전', '완료']}
           route={[() => '/create', () => '../complete']} />
-        <Link 
-          to="../complete" 
+        <Link
+          to="../complete"
           className=" text-center w-full py-10pxr bg-primary text-white rounded-lg"
           onClick={() => {
-            uploadRecipe();
+            uploadRecipe()
           }}>완료</Link>
       </footer>
     </div>

@@ -12,6 +12,7 @@ interface TextAreaProps {
 }
 
 
+
 function TextAreaComponent({ inputTitle, requiredText, maxCharCount, setData }: TextAreaProps) {
   const [text, setText] = useState('');
   const [charCount, setCharCount] = useState(0);
@@ -53,6 +54,7 @@ function TextAreaComponent({ inputTitle, requiredText, maxCharCount, setData }: 
 
 
 
+
 export function CreateThree() {
   const [steps, setSteps] = useAtom(recipeSteps);
   const [description, setDescription] = useState('');
@@ -84,7 +86,7 @@ export function CreateThree() {
           onClick={() => {
             console.log(description, tips);
             // change image value to the image url
-            setSteps([...steps, {"image": '', "description": description, "tips": tips}]) 
+            setSteps(JSON.stringify([...steps, {"image": '', "description": description, "tips": tips}])) 
           }}>완료
         </Link>
       </footer>
