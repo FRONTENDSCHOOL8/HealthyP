@@ -8,28 +8,26 @@ import { useRef } from 'react';
 
 function FakeButtons() {
   return (
-    <ul className='flex w-full justify-center py-30pxr gap-32pxr'>
-      <li className='flex flex-col items-center'>
-        <Link to="../search" className='h-50pxr w-50pxr bg-gray-400'></Link>
+    <ul className="flex w-full justify-center py-30pxr gap-32pxr">
+      <li className="flex flex-col items-center">
+        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
         <p>건강식</p>
       </li>
-      <li className='flex flex-col items-center'>
-        <Link to="../search" className='h-50pxr w-50pxr bg-gray-400'></Link>
+      <li className="flex flex-col items-center">
+        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
         <p>다이어트</p>
       </li>
-      <li className='flex flex-col items-center'>
-        <Link to="../search" className='h-50pxr w-50pxr bg-gray-400'></Link>
+      <li className="flex flex-col items-center">
+        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
         <p>벌크업</p>
       </li>
-      <li className='flex flex-col items-center'>
-        <Link to="../search" className='h-50pxr w-50pxr bg-gray-400'></Link>
+      <li className="flex flex-col items-center">
+        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
         <p>비건</p>
       </li>
     </ul>
-  )
+  );
 }
-
-
 
 export function MainPage() {
   const urls = useRef(null);
@@ -54,7 +52,6 @@ export function MainPage() {
         <p>스켈레톤 ui 나올듯?</p>
       </div>
     );
-
   if (error)
     return (
       <div>
@@ -63,7 +60,7 @@ export function MainPage() {
     );
   console.log(data);
   return (
-    <div className='overflow-y-scroll overflow-x-hidden h-full w-full pb-90pxr no-scrollbar'>
+    <div className="overflow-y-scroll overflow-x-hidden h-full w-full pb-90pxr no-scrollbar">
       <SwiperMain />
       <FakeButtons />
       <section>

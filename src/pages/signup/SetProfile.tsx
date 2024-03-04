@@ -1,4 +1,5 @@
-import { Button, Footer, Header, InputComponent } from '@/components';
+import { Button, Footer, Header } from '@/components';
+import NicknameComponent from '@/components/input/NicknameComponent';
 import { ProgressBar } from '@/components/pagination/Pagination';
 import { generateRandomName } from '@/components/term/termData';
 
@@ -8,6 +9,7 @@ export function SetProfile() {
   const goToComplete = () => {
     return '/signup/complete';
   };
+
   return (
     <>
       <Header option="titleWithClose" title="회원가입" />
@@ -17,7 +19,7 @@ export function SetProfile() {
           <span className={emphasizeClass}>입력</span>하시고 <br /> 가입을
           완료해주세요
         </p>
-        <InputComponent option="nickname" placeholder={generateRandomName()} />
+        <NicknameComponent placeholder={generateRandomName()} />
       </div>
       <Footer>
         <ProgressBar init={66} progress={100} />

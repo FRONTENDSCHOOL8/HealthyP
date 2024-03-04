@@ -7,7 +7,7 @@ export function ConfirmVerification() {
       route={() => '/signup/setup'}
       icons={[emailCirclePrimary, '이메일']}
       text={['이메일 인증을', '확인해주세요']}
-      isExistDescription={true}
+      hasDetailedDescription={true}
       description={[
         '확인 메일을 보내드렸어요',
         '이메일 확인 후, 인증 링크를 클릭하시면',

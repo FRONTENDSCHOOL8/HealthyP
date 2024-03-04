@@ -1,8 +1,12 @@
-import { pb } from '@/api/pocketbase';
-import { Button, Footer, InputComponent } from '@/components';
+import { Button, Footer } from '@/components';
 import Header from '@/components/header/Header';
+import { EmailComponent } from '@/components/input/EmailComponent';
+import {
+  PasswordComponent,
+  PasswordConfirmComponent,
+} from '@/components/input/PasswordComponent';
 import { ProgressBar } from '@/components/pagination/Pagination';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const emphasizeClass = 'text-title-2-em text-primary';
 
@@ -26,13 +30,9 @@ export function Verification() {
           <span className={emphasizeClass}>비밀번호</span>를 <br /> 입력해주세요
         </p>
         <form role="group" className="flex flex-col">
-          <InputComponent option="email" onValidationChange={setIsEmailValid} />
-          <InputComponent
-            option="password"
-            onValidationChange={setIsPasswordValid}
-          />
-          <InputComponent
-            option="passwordConfirm"
+          <EmailComponent onValidationChange={setIsEmailValid} />
+          <PasswordComponent onValidationChange={setIsPasswordValid} />
+          <PasswordConfirmComponent
             onValidationChange={setIsPasswordConfirmValid}
           />
         </form>
@@ -50,17 +50,3 @@ export function Verification() {
     </>
   );
 }
-
-useEffect(() => {
-  const login = async () => {
-    try {
-      const record = await pb.collection('users').getOne('p85jypwlgke40oq');
-      // 로그인 후 사용자 정보 가져오기
-      console.log('record', record);
-    } catch (error) {
-      console.error('Error logging in:', error);
-    }
-  };
-
-  login();
-}, []);
