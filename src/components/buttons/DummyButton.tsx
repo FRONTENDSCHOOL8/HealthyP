@@ -5,7 +5,7 @@ interface DummyButtonProps {
 export default function DummyButton({ size = 30 }: DummyButtonProps) {
   return (
     <>
-      <button className={`size-${size}`} />
+      <button className={`size-${size}pxr`} />
     </>
   );
 }

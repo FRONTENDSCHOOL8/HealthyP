@@ -12,4 +12,10 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  /* input 이 포커스 될 때 label 을 bold 로 설정 */
+  .label-focus-within:focus-within {
+    font-weight: bold; /* 폰트를 굵게 설정 */
+    color: #000;
+  }
 }

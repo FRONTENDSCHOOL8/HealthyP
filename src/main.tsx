@@ -4,6 +4,7 @@ import './styles/style.css';
 import './styles/index.css';
 import SearchPage from './pages/search/';
 import MissingPage from './pages/MissingPage';
+import FullPageInfoLayout from './pages/FullPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from './RootLayout';
 
@@ -134,12 +135,17 @@ const router = createBrowserRouter([
       },
     ],
   },
+  // 풀페이지인포
+  {
+    path: '/fullPage',
+    element: <FullPageInfoLayout />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
-      <div className="mobile:w-full max-w-1300pxr h-svh mx-auto bg-white">
+      <div className="w-full h-svh mx-auto bg-white">
         <RouterProvider router={router} />
       </div>
     </Suspense>

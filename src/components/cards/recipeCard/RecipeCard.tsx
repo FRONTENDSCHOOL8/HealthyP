@@ -2,11 +2,11 @@ import { Rating } from '@/types';
 import Review from '../../review/Review';
 import Star from '../../star/Star';
 
-export interface RecipeCardProps {
+export type RecipeCardProps = {
   title: string;
   url: string;
-  rating: Rating[];
-}
+  rating: [];
+};
 
 export default function RecipeCard({ title, url, rating }: RecipeCardProps) {
   return (
