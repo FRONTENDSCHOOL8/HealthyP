@@ -2,10 +2,17 @@ import { Button, Footer, Header } from '@/components';
 import NicknameComponent from '@/components/input/NicknameComponent';
 import { ProgressBar } from '@/components/pagination/Pagination';
 import { generateRandomName } from '@/components/term/termData';
+import { useState } from 'react';
 
 const emphasizeClass = 'text-title-2-em text-primary';
 
 export function SetProfile() {
+  const [isNicknameValid, setIsNicknameValid] = useState(false);
+
+  const updateNicknameValidity = (isValid: boolean) => {
+    setIsNicknameValid(isValid);
+  };
+
   const goToComplete = () => {
     return '/signup/complete';
   };
@@ -19,7 +26,10 @@ export function SetProfile() {
           <span className={emphasizeClass}>입력</span>하시고 <br /> 가입을
           완료해주세요
         </p>
-        <NicknameComponent placeholder={generateRandomName()} />
+        <NicknameComponent
+          placeholder={generateRandomName()}
+          updateValidity={updateNicknameValidity}
+        />
       </div>
       <Footer>
         <ProgressBar init={66} progress={100} />
@@ -27,7 +37,7 @@ export function SetProfile() {
           buttonCase="large"
           text={['시작하기']}
           route={[goToComplete]}
-          isActive={false}
+          isActive={isNicknameValid}
         />
       </Footer>
     </>
