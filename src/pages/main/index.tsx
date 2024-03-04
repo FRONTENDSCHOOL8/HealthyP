@@ -80,7 +80,7 @@ export function MainPage() {
                     key={id}
                     title={title}
                     url={urls?.current[idx]}
-                    rating={expand.rating}
+                    rating={expand?.rating}
                   />
                 );
               })}
