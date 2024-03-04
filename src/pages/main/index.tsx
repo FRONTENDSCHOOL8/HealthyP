@@ -54,7 +54,6 @@ export function MainPage() {
         <p>스켈레톤 ui 나올듯?</p>
       </div>
     );
-
   if (error)
     return (
       <div>
