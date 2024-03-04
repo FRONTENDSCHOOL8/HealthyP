@@ -1,8 +1,6 @@
 import { useAtom } from 'jotai';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { passwordAtom } from '@/pages';
-import { getDataAtomFamily } from '@/util';
-import { debounce, set } from 'lodash';
 
 interface InputProps {
   option:
