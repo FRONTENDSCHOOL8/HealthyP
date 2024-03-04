@@ -86,7 +86,7 @@ interface TitleComponent {
 
 function TitleComponent({inputTitle, placeholder} : TitleComponent) {
 
-  const [titleField, setTitleField] = useAtom(title);
+  const [, setTitleField] = useAtom(title);
 
   function titleInputHandler(e : React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
@@ -118,10 +118,9 @@ interface FileInputComponentProps {
 }
 
 function FileInputComponent({inputTitle} : FileInputComponentProps) {
-  const [imageFile, setImageFile] = useAtom(image);
+  const [, setImageFile] = useAtom(image);
   const [preview, setPreview] = useState<string | undefined>('');
   
-
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) {
@@ -130,9 +129,11 @@ function FileInputComponent({inputTitle} : FileInputComponentProps) {
     }
     
     if(selectedFile) {
+      const formData = new FormData();
+      formData.append('image', selectedFile);
       const objectUrl = URL.createObjectURL(selectedFile);
       setPreview(objectUrl);
-      setImageFile(selectedFile);
+      setImageFile(formData);
     }
   }
 

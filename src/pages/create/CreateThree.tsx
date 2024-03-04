@@ -12,6 +12,7 @@ interface TextAreaProps {
 }
 
 
+
 function TextAreaComponent({ inputTitle, requiredText, maxCharCount, setData }: TextAreaProps) {
   const [text, setText] = useState('');
   const [charCount, setCharCount] = useState(0);

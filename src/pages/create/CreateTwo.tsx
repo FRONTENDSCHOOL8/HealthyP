@@ -6,7 +6,8 @@ import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
 import move from '@/assets/icons/move.svg';
 import { db } from "@/api/pocketbase";
-import {title, ingredients, seasoning, recipeSteps, image} from '.';
+import {title, ingredients, recipeSteps, image} from '.';
+
 
 function TipContainer() {
   return (
@@ -64,13 +65,12 @@ function StepContainer() {
 
 interface RecipeData {
   title: string;
-  ingredients: { name: string, amount: string}[];
-  steps: {image: string, description: string, tips: string}[];
+  ingredients: {name : string, amount : string}[];
+  steps: {image : string, description : string, tips : string}[];
   views: number;
   category: string;
   keywords: string;
   desc: string;
-  image: File | null;
   rating: string[];
 }
 
@@ -93,42 +93,31 @@ function useUploadRecipe(): UseUploadRecipeResult {
     try {
       setIsLoading(true);
 
-      // const data: RecipeData = {
-      //   title: titleField,
-      //   ingredients: [...ingredientData],
-      //   steps: steps,
-      //   views: 0,
-      //   category: "test",
-      //   keywords: "test",
-      //   desc: "test",
-      //   image: imageFile,
-      //   rating: []
-      // };
+      console.log(ingredientData);
+      console.log(steps);
 
       const data: RecipeData = {
         title: titleField,
-        ingredients: [{name: "hello", amount:"100g"}],
-        steps: [{image: "hello", description:"100g", tips:"tips"}],
+        ingredients: [...ingredientData],
+        steps: steps,
         views: 0,
         category: "test",
         keywords: "test",
         desc: "test",
-        image: imageFile,
+        ...image,
         rating: []
       };
 
       const record = await db.collection('recipes').create(data);
 
-      // Additional logic if needed
-
       setIsLoading(false);
       setError(null);
 
-      return record; // Adjust the return value according to your data structure
+      return record; 
     } catch (error) {
       setIsLoading(false);
-      // setError(error.message);
-      throw error; // Rethrow the error to propagate it to the calling code
+      
+      throw error; 
     }
   }
 
@@ -152,8 +141,8 @@ export function CreateTwo() {
           buttonCase="medium"
           text={['이전', '완료']}
           route={[() => '/create', () => '../complete']} />
-        <Link 
-          to="../complete" 
+        <Link
+          to="../complete"
           className=" text-center w-full py-10pxr bg-primary text-white rounded-lg"
           onClick={() => {
             uploadRecipe();
