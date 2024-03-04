@@ -8,13 +8,8 @@ export { CreateComplete } from './CreateComplete';
 import { atom, Provider, useAtom } from 'jotai';
 
 
-const temp_data : [] = [
 
-]
 
-const temp_data_two : [] = [
-
-]
 
 const temp_data_three = [
   {
@@ -35,12 +30,16 @@ const temp_data_three = [
 ]
 
 
+type RecipeData = {
+  name: string,
+  amount: string,
+}
 
-export const ingredients = atom(temp_data);
-export const seasoning = atom(temp_data_two);
+export const ingredients = atom<RecipeData[]>([]);
+export const seasoning = atom<RecipeData[]>([]);
 export const recipeSteps = atom(temp_data_three);
 export const title = atom('');
-export const image = atom('');
+export const image = atom<File | null>(null);
 
 export function CreateLayout() {
   const [titleField, setTitleField] = useAtom(title);

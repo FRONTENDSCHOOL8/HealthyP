@@ -6,7 +6,7 @@ import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
 import move from '@/assets/icons/move.svg';
 import { db } from "@/api/pocketbase";
-import {title, ingredients, seasoning, recipeSteps} from '.';
+import {title, ingredients, seasoning, recipeSteps, image} from '.';
 
 function TipContainer() {
   return (
@@ -34,8 +34,6 @@ function AddButton() {
 
 function StepContainer() {
   const [steps,] = useAtom(recipeSteps);
-
-
   return (
     <div className="w-full grow bg-gray_150 relative p-14pxr flex flex-col gap-8pxr">
       <AddButton />
@@ -62,14 +60,17 @@ function StepContainer() {
   )
 }
 
+
+
 interface RecipeData {
   title: string;
   ingredients: { name: string, amount: string}[];
-  steps: { image: string, description: string, tips: string}[];
+  steps: {image: string, description: string, tips: string}[];
   views: number;
   category: string;
   keywords: string;
   desc: string;
+  image: File | null;
   rating: string[];
 }
 
@@ -82,23 +83,37 @@ interface UseUploadRecipeResult {
 function useUploadRecipe(): UseUploadRecipeResult {
   const [titleField,] = useAtom(title);
   const [ingredientData,] = useAtom(ingredients);
-  const [seasoningData,] = useAtom(seasoning);
+  // const [seasoningData,] = useAtom(seasoning);
   const [steps,] = useAtom(recipeSteps);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [imageFile,] = useAtom(image);
 
   async function uploadRecipe() {
     try {
       setIsLoading(true);
 
+      // const data: RecipeData = {
+      //   title: titleField,
+      //   ingredients: [...ingredientData],
+      //   steps: steps,
+      //   views: 0,
+      //   category: "test",
+      //   keywords: "test",
+      //   desc: "test",
+      //   image: imageFile,
+      //   rating: []
+      // };
+
       const data: RecipeData = {
         title: titleField,
-        ingredients: [...ingredientData, ...seasoningData],
-        steps: steps,
+        ingredients: [{name: "hello", amount:"100g"}],
+        steps: [{image: "hello", description:"100g", tips:"tips"}],
         views: 0,
         category: "test",
         keywords: "test",
         desc: "test",
+        image: imageFile,
         rating: []
       };
 
