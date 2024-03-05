@@ -7,7 +7,6 @@ interface InputProps {
     | 'search'
     | 'email'
     | 'password'
-    | 'nickname'
     | 'passwordConfirm'
     | 'fileInput'
     | 'defaultInput';
@@ -55,6 +54,7 @@ function useInputMapping({
   const [isPasswordConfirmFocused, setIsPasswordConfirmFocused] =
     useState(false);
   const [isNicknameFocused, setIsNicknameFocused] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
 
   function pwConfirm(e: React.ChangeEvent<HTMLInputElement>) {
     const isValid = e.target.value === password;
@@ -96,6 +96,19 @@ function useInputMapping({
   }, [selectedFile]);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
+      const selectedFile = e.target.files?.[0];
+      console.log(selectedFile);
+      if(selectedFile) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const fileUrl = reader.result as string;
+          setImageUrl(fileUrl);
+          console.log(fileUrl);
+        }
+        reader.readAsDataURL(selectedFile);
+      }
+    
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
       return;
@@ -244,7 +257,7 @@ function useInputMapping({
               height="48"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
-              className={preview ? 'hidden' : 'block'}
+              className={imageUrl ? 'hidden' : 'block'}
             >
               <circle cx="12" cy="12" r="9.75" className="fill-inherit" />
               <path
@@ -253,16 +266,16 @@ function useInputMapping({
               />
             </svg>
             <img
-              src={preview ? preview : ''}
+              src={imageUrl ? imageUrl : ''}
               alt=""
-              className={`object-cover h-full w-full ${preview ? 'block' : 'hidden'}`}
+              className={`object-cover h-full w-full ${imageUrl ? 'block' : 'hidden'}`}
             />
           </div>
           <input
             id="dropzone-file"
             type="file"
             className="hidden"
-            onChange={onSelectFile}
+            onChange={changeHandler}
           />
         </label>
       </>

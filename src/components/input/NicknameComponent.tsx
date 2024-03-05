@@ -1,11 +1,10 @@
 import { db } from '@/api/pocketbase';
-import { getDataAtomFamily } from '@/util';
-import { useAtom } from 'jotai';
-import { debounce, set } from 'lodash';
+import { debounce } from '@/util/debounce';
 import { useCallback, useEffect, useState } from 'react';
 
 interface NicknameComponentProps {
   placeholder: string;
+  updateValidity: (isValid: boolean) => void;
 }
 
 const labelFocusWithin = 'text-black';
@@ -13,36 +12,38 @@ const labelFocusWithout = 'text-gray-500';
 
 export default function NicknameComponent({
   placeholder,
+  updateValidity,
 }: NicknameComponentProps) {
   const [isNicknameFocused, setIsNicknameFocused] = useState(false);
   const [nicknameValue, setNicknameValue] = useState('');
-  const [nicknameData, setNicknameData] = useState(null);
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState(true);
 
-  const fetchNicknameData = async () => {
-    const data = await db
-      .collection('users')
-      .getFullList({ filter: `${nicknameValue}` });
-    setNicknameData(data);
+  const checkNickname = async (nickname: string) => {
+    const data = await db.collection('users').getFullList();
+    const isAvailable = !data.some((user) => user.username === nickname);
+    setIsNicknameAvailable(isAvailable);
   };
 
-  const debouncedFetchNicknameData = useCallback(
-    debounce(async () => {
-      const data = await db
-        .collection('users')
-        .getFullList({ filter: `${nicknameValue}` });
-      setNicknameData(data);
-    }, 300), // 300ms의 디바운스 시간
+  const debouncedCheckNickname = useCallback(
+    debounce((nickname) => {
+      checkNickname(nickname);
+    }, 300),
     []
   );
 
   useEffect(() => {
-    if (nicknameValue) {
-      debouncedFetchNicknameData(nicknameValue);
-    }
-  }, [nicknameValue, debouncedFetchNicknameData]);
+    updateValidity(isNicknameAvailable);
+  }, [isNicknameAvailable, updateValidity]);
 
-  const handleNicknameChange = (e) => {
-    setNicknameValue(e.target.value);
+  useEffect(() => {
+    if (nicknameValue.trim()) {
+      debouncedCheckNickname(nicknameValue);
+    }
+  }, [nicknameValue]);
+
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setNicknameValue(newValue);
   };
 
   return (
@@ -65,7 +66,7 @@ export default function NicknameComponent({
       />
       <div className="h-30pxr">
         <p
-          className={`text-cap-1 text-warning ${nicknameData ? 'block' : 'hidden'}`}
+          className={`text-cap-1 text-warning ${!isNicknameAvailable ? 'block' : 'hidden'}`}
         >
           이미 사용중인 닉네임입니다.
         </p>

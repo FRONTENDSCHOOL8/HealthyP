@@ -30,17 +30,20 @@ export const getDataAtomFamily = atomFamily((params: getDataInterface) => {
   };
 
   return atom(async () => {
-    const state: DataState<object> = {
-      data: null,
+    const state: DataState<object[]> = {
+      data: [],
       loading: true,
       error: null,
+      map: function (callback: (data: object) => any): any[] {
+        if (!this.data) return [];
+        return this.data.map(callback); // 배열의 map 함수를 사용
+      },
     };
-
     try {
       const { typeOfGetData } = params;
       const dataFunction = dataFunctionsMap[typeOfGetData];
       if (dataFunction) {
-        state.data = await dataFunction();
+        state.data = (await dataFunction()) as object[];
       } else {
         console.error(`지원하지 않는 typeOfGetData 입니다: ${typeOfGetData}`);
       }

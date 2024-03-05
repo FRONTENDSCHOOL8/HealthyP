@@ -1,11 +1,5 @@
-
-
-
+import main from '@/util/data/gpt';
 
 export function SignupComplete() {
-  return (
-    <>
-      <p>Signup Complete!</p>
-    </>
-  )
+  main();
 }
