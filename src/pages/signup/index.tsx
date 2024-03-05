@@ -1,3 +1,4 @@
+import { Provider } from 'jotai';
 import { Outlet } from 'react-router-dom';
 
 export { ConfirmVerification } from './ConfirmVerification';
@@ -9,7 +10,9 @@ export { SignupComplete } from './SignupComplete';
 export function RegisterLayout() {
   return (
     <>
-      <Outlet />
+      <Provider>
+        <Outlet />
+      </Provider>
     </>
-  )
+  );
 }
