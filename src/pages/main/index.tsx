@@ -35,7 +35,7 @@ export function MainPage() {
   const urls = useRef(null);
   const [{ data, loading, error }] = useAtom(
     getDataAtomFamily({
-      item: 'recipes',
+      item: 'recipes_duplicate',
       typeOfGetData: 'getFullList',
       options: { expand: 'rating' },
     })
@@ -60,7 +60,7 @@ export function MainPage() {
         <p>에러</p>
       </div>
     );
-  console.log(data);
+  
   return (
     <div className="overflow-y-scroll overflow-x-hidden h-full w-full pb-90pxr no-scrollbar">
       <SwiperMain />
