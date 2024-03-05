@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 
-import InputComponent from './InputComponent';
+import InputComponent from '../../pages/create/components/InputComponent';
 
 //👇 This default export determines where your story goes in the story list
 const meta: Meta<typeof InputComponent> = {

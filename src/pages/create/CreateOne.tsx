@@ -1,4 +1,6 @@
-import { Header, Button, FileInputComponent, TextAreaComponent } from "@/components"
+import { Header, Button } from "@/components"
+import FileInputComponent from "./components/FileInputComponent";
+import TextAreaComponent from "./components/TextAreaComponent";
 import { PrimitiveAtom, useAtom, useSetAtom } from "jotai";
 import { useState } from "react"
 import { Form } from "react-router-dom"

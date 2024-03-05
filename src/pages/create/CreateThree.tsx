@@ -1,4 +1,5 @@
-import { InputComponent, Header, Button, TextAreaComponent } from "@/components"
+import { InputComponent, Header, Button } from "@/components"
+import TextAreaComponent from "./components/TextAreaComponent";
 import { useAtom } from "jotai";
 import { useState } from 'react';
 import { recipeSteps } from ".";
