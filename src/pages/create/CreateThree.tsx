@@ -1,58 +1,8 @@
-import { InputComponent, Header, Button } from "@/components"
+import { InputComponent, Header, Button, TextAreaComponent } from "@/components"
 import { useAtom } from "jotai";
-import React, { useState, useEffect, } from 'react';
+import { useState } from 'react';
 import { recipeSteps } from ".";
 import { Link } from "react-router-dom";
-
-interface TextAreaProps {
-  inputTitle : string;
-  maxCharCount : number;
-  requiredText? : string;
-  setData : (value : string) => void;
-}
-
-
-
-function TextAreaComponent({ inputTitle, requiredText, maxCharCount, setData }: TextAreaProps) {
-  const [text, setText] = useState('');
-  const [charCount, setCharCount] = useState(0);
-
-  useEffect(() => {
-    setCharCount(text.length);
-  }, [text]);
-
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newText = e.target.value;
-
-    if (newText.length <= maxCharCount) {
-      setText(newText);
-    }
-  };
-
-  return (
-    <div>
-      <label htmlFor="text-area" className="text-sub-em flex flex-col gap-10pxr">
-        <p>
-          {inputTitle}
-          <span className="text-sub">{requiredText}</span>
-        </p>
-        <textarea
-          id="text-area"
-          placeholder="요리 설명을 작성해주세요"
-          className="w-full h-120pxr py-8pxr px-10pxr bg-gray_150 rounded-md text-sub focus:outline-primary"
-          value={text}
-          onChange={(e) => {
-            handleTextChange(e);
-            setData(e.target.value);
-          }}
-        />
-      </label>
-        <p className="text-cap-1 text-gray-500 float-right">{`${charCount} / ${maxCharCount}`}</p>
-    </div>
-  );
-}
-
-
 
 
 export function CreateThree() {
@@ -86,7 +36,8 @@ export function CreateThree() {
           onClick={() => {
             console.log(description, tips);
             // change image value to the image url
-            setSteps(JSON.stringify([...steps, {"image": '', "description": description, "tips": tips}])) 
+            setSteps(JSON.stringify([...JSON.parse(steps), {"image": '', "description": description, "tips": tips}])) 
+            console.log(steps)
           }}>완료
         </Link>
       </footer>

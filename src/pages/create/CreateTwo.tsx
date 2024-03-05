@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
-import { useState, useEffect } from "react";
-import { useAtom } from "jotai";
+import { useState } from "react";
+import { useAtom, useAtomValue } from "jotai";
 import { Header, Button } from "@/components"
 import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
 import move from '@/assets/icons/move.svg';
 import { db } from "@/api/pocketbase";
-import {title, ingredients, recipeSteps, image} from '.';
+import {title, ingredients, recipeSteps, image, description} from '.';
 
 
 function TipContainer() {
@@ -86,9 +86,10 @@ interface UseUploadRecipeResult {
 function useUploadRecipe(): UseUploadRecipeResult {
   const [titleField,] = useAtom(title);
   // const [seasoningData,] = useAtom(seasoning);
-  const [ingredientData,] = useAtom(ingredients);
-  const [imageFile,] = useAtom(image);
-  const [steps,] = useAtom(recipeSteps);
+  const ingredientData = useAtomValue(ingredients);
+  const imageFile = useAtomValue(image);
+  const descriptionText = useAtomValue(description);
+  const steps = useAtomValue(recipeSteps);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
@@ -108,7 +109,7 @@ function useUploadRecipe(): UseUploadRecipeResult {
         views: 0,
         category: "test",
         keywords: "test",
-        desc: "test",
+        desc: descriptionText,
         image: imageFile,
         rating: []
       };
@@ -134,11 +135,13 @@ function useUploadRecipe(): UseUploadRecipeResult {
 
 export function CreateTwo() {
   const {uploadRecipe} = useUploadRecipe();
-  
+  const [steps, setStep] = useAtom(recipeSteps)
+  console.log(steps);
+
 
   return (
     <div className="h-full w-full flex flex-col">
-      <div className="sticky top-0">
+      <div className="">
         <Header option="titleWithClose" title="레시피 등록하기" />
         <TipContainer />
       </div>

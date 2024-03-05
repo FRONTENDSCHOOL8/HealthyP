@@ -71,6 +71,45 @@ const temp_data_one = [
   }
 ]
 
+const temp_data_two = [
+  {
+    "name": "물",
+    "amount": "5컵"
+  },
+  {
+    "name": "신선한 생강(2인치, 반으로 썬 것)",
+    "amount": "1조각"
+  },
+  {
+    "name": "표고버섯(줄기는 제거하고 보관한 것)",
+    "amount": "4온스"
+  },
+  {
+    "name": "타마리 소스",
+    "amount": "¼컵 (맛에 따라 더 추가)"
+  },
+  {
+    "name": "현미 식초",
+    "amount": "1큰술 (맛에 따라 더 추가)"
+  },
+  {
+    "name": "다진 파",
+    "amount": "2개"
+  },
+  {
+    "name": "베이비 복초이",
+    "amount": "2개 (길게 4등분)"
+  },
+  {
+    "name": "얼려 꺼낸 에다마메",
+    "amount": "½컵"
+  },
+  {
+    "name": "삶은 쌀국수",
+    "amount": "4온스"
+  }
+]
+
 
 const temp_data_three = [
   {
@@ -93,10 +132,11 @@ const temp_data_three = [
 
 
 export const ingredients = atom(JSON.stringify(temp_data_one));
-export const seasoning = atom([]);
+export const seasoning = atom(JSON.stringify(temp_data_two));
 export const recipeSteps = atom(JSON.stringify(temp_data_three));
 export const title = atom('');
 export const image = atom<File | null>(null);
+export const description = atom('');
 
 export function CreateLayout() {
   const [titleField, setTitleField] = useAtom(title);
@@ -104,6 +144,7 @@ export function CreateLayout() {
   const [seasoningData, setSeasoningData] = useAtom(seasoning);
   const [steps, setSteps] = useAtom(recipeSteps);
   const [imageUrl, setImageUrl] = useAtom(image);
+  const [descriptionText, setDescriptionText] = useAtom(description);
 
   return (
     <div className="w-full h-full relative bg-white">

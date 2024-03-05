@@ -15,3 +15,4 @@ export { default as InputComponent } from '@/components/input/InputComponent';
 export { default as RecipeCard } from '@/components/cards/recipeCard/RecipeCard';
 export { default as GlobalNavigationBar } from '@/components/navigation/GlobalNavigationBar';
 export { default as TextAreaComponent } from '@/components/input/TextAreaComponent';
+export { default as FileInputComponent } from '@/components/input/FileInputComponent';
