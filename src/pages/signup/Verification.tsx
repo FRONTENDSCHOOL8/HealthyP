@@ -1,19 +1,24 @@
 import { Button, Footer } from '@/components';
 import Header from '@/components/header/Header';
-import { EmailComponent } from '@/components/input/EmailComponent';
+import { MemoizedEmailComponent as EmailComponent } from '@/pages/signup/components/EmailComponent';
 import {
-  PasswordComponent,
-  PasswordConfirmComponent,
-} from '@/components/input/PasswordComponent';
+  MemoizedPasswordComponent as PasswordComponent,
+  MemoizedPasswordConfirmComponent as PasswordConfirmComponent,
+} from '@/pages/signup/components/PasswordComponent';
 import { ProgressBar } from '@/components/pagination/Pagination';
-import { useState } from 'react';
+import { useAtom } from 'jotai';
+import {
+  emailValid,
+  passwordConfirmValid,
+  passwordValid,
+} from '@/stores/stores';
 
 const emphasizeClass = 'text-title-2-em text-primary';
 
 export function Verification() {
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isPasswordConfirmValid, setIsPasswordConfirmValid] = useState(false);
+  const [isEmailValid] = useAtom(emailValid);
+  const [isPasswordValid] = useAtom(passwordValid);
+  const [isPasswordConfirmValid] = useAtom(passwordConfirmValid);
 
   const isActive = isEmailValid && isPasswordValid && isPasswordConfirmValid;
 
@@ -30,11 +35,9 @@ export function Verification() {
           <span className={emphasizeClass}>비밀번호</span>를 <br /> 입력해주세요
         </p>
         <form role="group" className="flex flex-col">
-          <EmailComponent onValidationChange={setIsEmailValid} />
-          <PasswordComponent onValidationChange={setIsPasswordValid} />
-          <PasswordConfirmComponent
-            onValidationChange={setIsPasswordConfirmValid}
-          />
+          <EmailComponent />
+          <PasswordComponent />
+          <PasswordConfirmComponent />
         </form>
       </div>
 

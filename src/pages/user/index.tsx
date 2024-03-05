@@ -1,11 +1,9 @@
-import { Link, Outlet } from "react-router-dom"
+import { Link, Outlet } from 'react-router-dom';
 
-
-export { MyComments } from './MyComments'
-export { MyRecipes } from './MyRecipes'
-export { Notifications } from './Notifications'
-export { RecentRecipes } from './RecentRecipes'
-
+export { MyComments } from './MyComments';
+export { MyRecipes } from './MyRecipes';
+export { Notifications } from './Notifications';
+export { RecentRecipes } from './RecentRecipes';
 
 export function UserLayout() {
   return (
@@ -24,5 +22,5 @@ export function UserLayout() {
       </ul>
       <Outlet />
     </div>
-  )
+  );
 }

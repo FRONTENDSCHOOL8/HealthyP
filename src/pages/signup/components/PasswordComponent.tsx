@@ -1,31 +1,38 @@
-import { useState } from "react";
-import { useAtom } from "jotai";
-import { passwordAtom } from "@/pages";
+import { memo, useRef, useState } from 'react';
+import { useAtom } from 'jotai';
+import {
+  passwordConfirmValid,
+  passwordValid,
+  passwordAtom,
+} from '@/stores/stores';
 
 const labelFocusWithin = 'text-black';
 const labelFocusWithout = 'text-gray-500';
-
 
 function pwReg(text: string) {
   const re = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{6,16}$/;
   return re.test(String(text).toLowerCase());
 }
 
-interface PasswordComponentProps {
-  onValidationChange?: (isValid: boolean) => void;
-}
-
-export function PasswordComponent({onValidationChange} : PasswordComponentProps) {
+function PasswordComponent() {
   const [pwBorder, setPwBorder] = useState('');
   const [password, setPassword] = useAtom(passwordAtom);
-  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [, setPasswordValid] = useAtom(passwordValid);
+  const isPasswordFocused = useRef(false);
 
-  function validatePassword(e: React.ChangeEvent<HTMLInputElement>) {
+  const validatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isValid = pwReg(e.target.value);
     setPassword(e.target.value);
     setPwBorder(isValid ? '' : 'border-warning border');
-    onValidationChange?.(isValid); // 유효성 검사 결과 전달
-  }
+    setPasswordValid(isValid);
+  };
+
+  const handleFocus = () => {
+    isPasswordFocused.current = true;
+  };
+  const handleBlur = () => {
+    isPasswordFocused.current = false;
+  };
 
   return (
     <>
@@ -42,8 +49,8 @@ export function PasswordComponent({onValidationChange} : PasswordComponentProps)
         placeholder="비밀번호를 입력해주세요"
         onChange={validatePassword}
         value={password}
-        onFocus={() => setIsPasswordFocused(true)}
-        onBlur={() => setIsPasswordFocused(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
       <div className="h-30pxr">
         <p
@@ -53,25 +60,33 @@ export function PasswordComponent({onValidationChange} : PasswordComponentProps)
         </p>
       </div>
     </>
-  )
+  );
 }
 
-export function PasswordConfirmComponent ({onValidationChange} : PasswordComponentProps) {
-  const [isPasswordConfirmFocused, setIsPasswordConfirmFocused] = useState(false);
-  const [password, setPassword] = useAtom(passwordAtom);
+function PasswordConfirmComponent() {
+  const [password] = useAtom(passwordAtom);
   const [confirmBorder, setConfirmBorder] = useState('');
-  
-  function pwConfirm(e: React.ChangeEvent<HTMLInputElement>) {
+  const [, setPasswordConfirmValid] = useAtom(passwordConfirmValid);
+  const isPasswordConfirmFocused = useRef(false);
+
+  const pwConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isValid = e.target.value === password;
     if (isValid) {
       setConfirmBorder('');
-      onValidationChange?.(true); // 패스워드가 일치하면 true 전달
+      setPasswordConfirmValid(true); // 패스워드가 일치하면 true 전달
     } else {
       setConfirmBorder('border-warning border');
-      onValidationChange?.(false); // 패스워드가 일치하지 않으면 false 전달
+      setPasswordConfirmValid(false); // 패스워드가 일치하지 않으면 false 전달
     }
-  }
+  };
 
+  const handleFocus = () => {
+    isPasswordConfirmFocused.current = true;
+  };
+
+  const handleBlur = () => {
+    isPasswordConfirmFocused.current = false;
+  };
 
   return (
     <>
@@ -87,8 +102,8 @@ export function PasswordConfirmComponent ({onValidationChange} : PasswordCompone
         className={`w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md ${confirmBorder} focus:outline-primary`}
         placeholder="비밀번호를 입력해주세요"
         onChange={pwConfirm}
-        onFocus={() => setIsPasswordConfirmFocused(true)}
-        onBlur={() => setIsPasswordConfirmFocused(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
       <div className="h-228pxr">
         <p
@@ -98,5 +113,8 @@ export function PasswordConfirmComponent ({onValidationChange} : PasswordCompone
         </p>
       </div>
     </>
-  )
+  );
 }
+
+export const MemoizedPasswordComponent = memo(PasswordComponent);
+export const MemoizedPasswordConfirmComponent = memo(PasswordConfirmComponent);
