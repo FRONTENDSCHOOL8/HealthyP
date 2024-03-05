@@ -6,7 +6,13 @@ import Finder from './components/Finder';
 import line from '@/assets/icons/line.svg';
 import outh2 from '@/assets/icons/outh2.svg';
 import { useAtom } from 'jotai';
-import { emailAtom, nicknameAtom, passwordAtom } from '@/stores/stores';
+import {
+  emailAtom,
+  isStore,
+  nicknameAtom,
+  passwordAtom,
+  storeData,
+} from '@/stores/stores';
 import { db } from '@/api/pocketbase';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -16,6 +22,8 @@ export function Login() {
   const [passwordValue] = useAtom(passwordAtom);
   const [isFail, setIsFail] = useState(false);
   const [, setNickname] = useAtom(nicknameAtom);
+  const [, setExistStore] = useAtom(isStore);
+  const [, setStore] = useAtom(storeData);
 
   const navigate = useNavigate();
 
@@ -32,6 +40,8 @@ export function Login() {
       if (modelString) {
         const model = JSON.parse(modelString);
         const name = model.model.name;
+        setStore(model);
+        setExistStore(true);
         setNickname(name);
       }
 
