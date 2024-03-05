@@ -35,8 +35,8 @@ export function Verification() {
           <span className={emphasizeClass}>비밀번호</span>를 <br /> 입력해주세요
         </p>
         <form role="group" className="flex flex-col">
-          <EmailComponent />
-          <PasswordComponent />
+          <EmailComponent label />
+          <PasswordComponent label />
           <PasswordConfirmComponent />
         </form>
       </div>
