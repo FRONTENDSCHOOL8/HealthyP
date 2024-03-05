@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom"
-import { useState } from "react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { Header, Button } from "@/components"
 import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
 import move from '@/assets/icons/move.svg';
-import { db } from "@/api/pocketbase";
-import {title, ingredients, recipeSteps, image, description} from '.';
 import { motion, AnimatePresence } from "framer-motion";
-
+import useUploadRecipe from "@/hooks/useUploadRecipe";
+import { recipeSteps } from "@/stores/stores";
 
 function TipContainer() {
   return (
@@ -34,8 +32,9 @@ function AddButton() {
   )
 }
 
-const DELETE_BTN_WIDTH = 70
 
+// Animation Properties
+const DELETE_BTN_WIDTH = 70
 const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 }
 const MESSAGE_DELETE_TRANSITION = {
   opacity: {
@@ -55,7 +54,6 @@ function StepContainer() {
       setSteps(JSON.stringify(stepData));
     }
   }
-
 
 
   return (
@@ -103,82 +101,8 @@ function StepContainer() {
 }
 
 
-
-interface RecipeData {
-  title: string;
-  ingredients: string;
-  steps: string;
-  views: number;
-  category: string;
-  keywords: string;
-  desc: string;
-  image: File | null;
-  rating: string[];
-}
-
-interface UseUploadRecipeResult {
-  uploadRecipe: () => void; // Adjust the return type according to your data structure
-  isLoading: boolean;
-  error: string | null;
-}
-
-
-
-function useUploadRecipe(): UseUploadRecipeResult {
-  const [titleField,] = useAtom(title);
-  // const [seasoningData,] = useAtom(seasoning);
-  const ingredientData = useAtomValue(ingredients);
-  const imageFile = useAtomValue(image);
-  const descriptionText = useAtomValue(description);
-  const steps = useAtomValue(recipeSteps);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  
-
-  async function uploadRecipe() {
-    try {
-      setIsLoading(true);
-
-      console.log(JSON.stringify(ingredientData));
-      console.log(JSON.parse(steps));
-
-
-      const data: RecipeData = {
-        title: titleField,
-        ingredients: ingredientData,
-        steps: steps,
-        views: 0,
-        category: "test",
-        keywords: "test",
-        desc: descriptionText,
-        image: imageFile,
-        rating: []
-      };
-
-      console.log(data);
-      const record = await db.collection('recipes_duplicate').create(data);
-
-      setIsLoading(false);
-      setError(null);
-
-      return record; 
-    } catch (error) {
-      setIsLoading(false);
-      
-      throw error; 
-    }
-  }
-
-  return { uploadRecipe, isLoading, error };
-}
-
-
-
 export function CreateTwo() {
   const {uploadRecipe} = useUploadRecipe();
-  const [steps, setStep] = useAtom(recipeSteps)
-  console.log(steps);
-
 
   return (
     <div className="h-full w-full flex flex-col">

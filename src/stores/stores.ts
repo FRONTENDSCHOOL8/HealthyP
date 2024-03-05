@@ -10,3 +10,12 @@ export const emailValid = atom(false); // 이메일 유효성
 export const emailAtom = atom(''); // 이메일 입력값
 export const passwordAtom = atom(''); // 패스워드 입력값
 export const nicknameAtom = atom(''); // 닉네임 입력값
+
+
+// 생성 페이지 (temp_data는 삭제 예정)
+export const ingredients = atom('[]');
+export const seasoning = atom(('[]'));
+export const recipeSteps = atom(('[]'));
+export const title = atom('');
+export const image = atom<File | null>(null);
+export const description = atom('');

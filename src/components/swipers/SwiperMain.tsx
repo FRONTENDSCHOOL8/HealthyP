@@ -35,7 +35,7 @@ const bannerData = [
   },
 ];
 
-import InputComponent from '../../pages/create/components/InputComponent';
+import InputComponent from '../input/InputComponent';
 
 export default function SwiperMain() {
   // const[swiper, setSwiper] = useState<SwiperClass>();

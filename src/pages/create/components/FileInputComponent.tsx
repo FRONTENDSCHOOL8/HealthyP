@@ -3,10 +3,10 @@ import { useState } from "react";
 
 interface FileInputComponentProps {
   inputTitle: string;
-  setFile: SetAtom<[SetStateAction<File | null>], void>
+  setFile: SetAtom<[SetStateAction<File | null>], void | SetStateAction<[SetStateAction<File | null>]>>
 }
 
-export default function FileInputComponent({inputTitle, setFile} : FileInputComponentProps) {
+export function FileInputComponent({inputTitle, setFile} : FileInputComponentProps) {
   
   const [preview, setPreview] = useState<string | undefined>('');
   
