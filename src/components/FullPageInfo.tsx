@@ -5,6 +5,7 @@ type FullPageInfoProps = {
   icons: string[];
   text: string[];
   route: () => string;
+  isSetTimeout?: boolean;
   hasDetailedDescription: boolean;
   description?: string[];
 };
@@ -15,18 +16,21 @@ const FullPageInfo = ({
   text,
   hasDetailedDescription,
   description,
+  isSetTimeout = true,
 }: FullPageInfoProps) => {
   const navigate = useNavigate();
   const path = route();
 
   // 일정 시간 경과 후 route 경로로 페이지 이동
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigate(path);
-    }, 2000);
+    if (isSetTimeout) {
+      const timer = setTimeout(() => {
+        navigate(path);
+      }, 2000);
 
-    return () => clearTimeout(timer);
-  }, [path, navigate]);
+      return () => clearTimeout(timer);
+    }
+  }, [path, navigate, isSetTimeout]);
 
   // isExistDescription 존재 여부에 따라 컨텐츠를 렌더링
   const renderContent = () => {

@@ -14,7 +14,13 @@ function pwReg(text: string) {
   return re.test(String(text).toLowerCase());
 }
 
-function PasswordComponent() {
+interface PasswordComponentProps {
+  label?: boolean;
+  error?: boolean;
+  style?: string;
+}
+
+function PasswordComponent({ label, error, style }: PasswordComponentProps) {
   const [pwBorder, setPwBorder] = useState('');
   const [password, setPassword] = useAtom(passwordAtom);
   const [, setPasswordValid] = useAtom(passwordValid);
@@ -38,21 +44,21 @@ function PasswordComponent() {
     <>
       <label
         htmlFor="password-input"
-        className={`mb-8pxr ml-2pxr text-foot-em ${isPasswordFocused ? labelFocusWithin : labelFocusWithout}`}
+        className={`mb-8pxr ml-2pxr text-foot-em ${isPasswordFocused ? labelFocusWithin : labelFocusWithout} ${label ? 'block' : 'hidden'}`}
       >
         비밀번호
       </label>
       <input
         id="password-input"
         type="password"
-        className={`w-full h-48pxr py-0 px-10pxr bg-gray_150  rounded-md ${pwBorder} focus:outline-primary`}
+        className={`w-full h-48pxr py-0 px-10pxr bg-gray_150  rounded-md ${pwBorder} focus:outline-primary ${style}`}
         placeholder="비밀번호를 입력해주세요"
         onChange={validatePassword}
         value={password}
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
-      <div className="h-30pxr">
+      <div className={`h-30pxr ${error ? 'block' : 'hidden'}`}>
         <p
           className={`text-cap-1 text-warning ${pwBorder ? 'block' : 'hidden'}`}
         >
