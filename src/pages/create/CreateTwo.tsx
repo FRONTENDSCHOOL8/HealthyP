@@ -5,7 +5,8 @@ import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
 import { motion, AnimatePresence } from "framer-motion";
 import useUploadRecipe from "@/hooks/useUploadRecipe";
-import { recipeSteps } from "@/stores/stores";
+import { recipeSteps, temp_image } from "@/stores/stores";
+import { useEffect, useState } from "react";
 
 function TipContainer() {
   return (
@@ -45,6 +46,7 @@ const MESSAGE_DELETE_TRANSITION = {
 function StepContainer() {
   const [steps, setSteps] = useAtom(recipeSteps);
 
+
   console.log(steps);
   function handleDragEnd (info, stepId) {
     const dragDistance = info.point.x
@@ -60,7 +62,8 @@ function StepContainer() {
       <AddButton />
       <ul className="flex flex-col gap-10pxr">
         <AnimatePresence>
-          {JSON.parse(steps).map((item, index) => (
+          {JSON.parse(steps).map((item, index) => {
+            return (
             <motion.li
               key={item.id}
               exit={MESSAGE_DELETE_ANIMATION}
@@ -94,7 +97,7 @@ function StepContainer() {
               <div className="
                 absolute bg-red rounded-xl right-2pxr top-1/2 transform -translate-y-1/2 h-[calc(100%-2px)] w-70pxr flex justify-center items-center">삭제</div>
             </motion.li>
-          ))}
+          )})}
         </AnimatePresence>
       </ul>
     </div>

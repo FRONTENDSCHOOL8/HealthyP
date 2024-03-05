@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAtom, PrimitiveAtom } from "jotai";
+import { temp_image } from "@/stores/stores";
 
 
 interface IngredientsProps {
@@ -11,6 +12,7 @@ export function IngredientsComponent({titleText, atom} : IngredientsProps) {
   const [ingredName, setIngredName] = useState('');
   const [ingredAmount, setIngredAmount] = useState('');
   const [ingredientData, setIngredientData] = useAtom(atom);
+  
 
   return (
     <div className="flex flex-col gap-10pxr">

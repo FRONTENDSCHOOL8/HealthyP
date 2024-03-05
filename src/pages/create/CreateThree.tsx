@@ -39,14 +39,29 @@ export function CreateThree() {
         <Link 
           to="../two" 
           className=" text-center w-full py-10pxr bg-primary text-white rounded-lg"
-          onClick={() => {
-            console.log(description, tips);
+          onClick={async () => {
+            // console.log(description, tips);
             // change image value to the image url
             const id = getRandomId();
+            // let imageURL : string | ArrayBuffer | null = ''
+            const reader = new FileReader();
+
+            const readerPromise = new Promise((resolve) => {
+              reader.onloadend = () => {
+                resolve(reader.result);
+              };
+            });
+      
+            reader.readAsDataURL(image);
+            const imageURL = await readerPromise;
             
-            const imageUrl = URL.createObjectURL(image);
-            setSteps(JSON.stringify([...JSON.parse(steps), {"id":id, "image":imageUrl, "description": description, "tips": tips}])) 
-            console.log(image)
+            const stepsData = new FormData();
+            stepsData.append('id', id);
+            stepsData.append('image', imageURL);
+            stepsData.append('description', description);
+            stepsData.append('tips', tips);
+            setSteps(JSON.stringify([...JSON.parse(steps), Object.fromEntries(stepsData)])) 
+            console.log(imageURL); 
           }}>완료
         </Link>
       </footer>
