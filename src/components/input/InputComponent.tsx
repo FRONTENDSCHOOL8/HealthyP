@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { useState, useEffect } from 'react';
-import { passwordAtom } from '@/pages';
+import { passwordAtom } from '@/stores/stores';
 
 interface InputProps {
   option:
@@ -96,19 +96,18 @@ function useInputMapping({
   }, [selectedFile]);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    
-      const selectedFile = e.target.files?.[0];
-      console.log(selectedFile);
-      if(selectedFile) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const fileUrl = reader.result as string;
-          setImageUrl(fileUrl);
-          console.log(fileUrl);
-        }
-        reader.readAsDataURL(selectedFile);
-      }
-    
+    const selectedFile = e.target.files?.[0];
+    console.log(selectedFile);
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const fileUrl = reader.result as string;
+        setImageUrl(fileUrl);
+        console.log(fileUrl);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
       return;

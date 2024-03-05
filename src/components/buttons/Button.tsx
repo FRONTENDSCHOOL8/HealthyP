@@ -8,6 +8,7 @@ type ButtonProps = {
   text: string[];
   route: (() => string)[];
   isActive?: boolean;
+  onClick?: (idx: number) => void;
 };
 
 const buttonVariant = {
@@ -62,6 +63,7 @@ const ButtonContent = ({
   text,
   route,
   isActive = true,
+  onClick,
 }: ButtonProps): JSX.Element => {
   const navigate = useNavigate();
 
@@ -82,8 +84,16 @@ const ButtonContent = ({
 
   // 콜백 함수로 들어온 경로로 이동하는 핸들러
   const handleOnClick = (idx: number): void => {
-    const path = route[idx](); // 해당 인덱스의 콜백 함수를 호출하여 경로 추출
-    navigate(path); // 추출된 경로로 이동
+    // onClick prop이 제공되었으면 사용자 정의 클릭 핸들러 호출
+    if (onClick) {
+      (async () => {
+        await onClick(idx);
+      })();
+    } else {
+      // onClick prop이 없으면 기존 로직(경로 이동) 수행
+      const path = route[idx]();
+      navigate(path);
+    }
   };
 
   const getDynamicClassName = (buttonCase: string, index: number) => {

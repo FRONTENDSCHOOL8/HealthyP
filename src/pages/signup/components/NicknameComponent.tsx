@@ -1,10 +1,11 @@
 import { db } from '@/api/pocketbase';
+import { nicknameAtom, nicknameValidAtom } from '@/stores/stores';
 import { debounce } from '@/util/debounce';
-import { useCallback, useEffect, useState } from 'react';
+import { useAtom } from 'jotai';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface NicknameComponentProps {
   placeholder: string;
-  updateValidity: (isValid: boolean) => void;
 }
 
 const labelFocusWithin = 'text-black';
@@ -12,11 +13,16 @@ const labelFocusWithout = 'text-gray-500';
 
 export default function NicknameComponent({
   placeholder,
-  updateValidity,
 }: NicknameComponentProps) {
   const [isNicknameFocused, setIsNicknameFocused] = useState(false);
-  const [nicknameValue, setNicknameValue] = useState('');
-  const [isNicknameAvailable, setIsNicknameAvailable] = useState(true);
+  const [nicknameValue, setNicknameValue] = useAtom(nicknameAtom);
+  const [isNicknameAvailable, setIsNicknameAvailable] =
+    useAtom(nicknameValidAtom);
+  const nicknameValueRef = useRef(nicknameValue);
+
+  useEffect(() => {
+    nicknameValueRef.current = nicknameValue;
+  }, [nicknameValue]);
 
   const checkNickname = async (nickname: string) => {
     const data = await db.collection('users').getFullList();
@@ -25,25 +31,20 @@ export default function NicknameComponent({
   };
 
   const debouncedCheckNickname = useCallback(
-    debounce((nickname) => {
-      checkNickname(nickname);
+    debounce(() => {
+      checkNickname(nicknameValueRef.current);
     }, 300),
     []
   );
 
   useEffect(() => {
-    updateValidity(isNicknameAvailable);
-  }, [isNicknameAvailable, updateValidity]);
-
-  useEffect(() => {
     if (nicknameValue.trim()) {
-      debouncedCheckNickname(nicknameValue);
+      debouncedCheckNickname();
     }
-  }, [nicknameValue]);
+  }, [debouncedCheckNickname, nicknameValue]);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setNicknameValue(newValue);
+    setNicknameValue(e.target.value);
   };
 
   return (
