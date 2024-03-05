@@ -11,7 +11,7 @@ export function CreateOne() {
   return (
     <>
       <Header option="titleWithClose" title="레시피 등록하기" />
-      <Form action='two' className='px-20pxr py-20pxr flex flex-col gap-42pxr pb-120pxr'>
+      <Form action='two' className='px-20pxr py-20pxr flex flex-col gap-42pxr pb-120pxr bg-white'>
         <FileInputComponent inputTitle={"레시피 이미지"} setFile={setImageFile}/>
         <TitleComponent inputTitle="레시피 제목" placeholder="레시피 제목" />
         <TextAreaComponent inputTitle="레시피 설명" maxCharCount={400} requiredText=" (필수)" setData={setDescription}/>
@@ -24,7 +24,6 @@ export function CreateOne() {
             route={[() => 'two']} />
         </footer>
       </Form>
-      
     </>
   )
 }

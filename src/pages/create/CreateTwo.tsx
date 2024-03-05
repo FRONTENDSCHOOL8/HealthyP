@@ -3,7 +3,6 @@ import { useAtom } from "jotai";
 import { Header, Button } from "@/components"
 import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
-import move from '@/assets/icons/move.svg';
 import { motion, AnimatePresence } from "framer-motion";
 import useUploadRecipe from "@/hooks/useUploadRecipe";
 import { recipeSteps } from "@/stores/stores";
@@ -32,7 +31,6 @@ function AddButton() {
   )
 }
 
-
 // Animation Properties
 const DELETE_BTN_WIDTH = 70
 const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 }
@@ -47,6 +45,7 @@ const MESSAGE_DELETE_TRANSITION = {
 function StepContainer() {
   const [steps, setSteps] = useAtom(recipeSteps);
 
+  console.log(steps);
   function handleDragEnd (info, stepId) {
     const dragDistance = info.point.x
     if(dragDistance < -DELETE_BTN_WIDTH) {
@@ -73,25 +72,27 @@ function StepContainer() {
                 dragConstraints={{left: 0, right: 0}}
                 onDragEnd={(_, info) => handleDragEnd(info, item.id)}
                 key={item.id}
-                className="flex items-center gap-10pxr p-6pxr z-10 relative bg-white rounded-xl"
+                className="flex items-center h-full gap-10pxr px-10pxr py-8pxr z-10 relative bg-white rounded-xl"
               >
-                <img
-                  src={item.image}
-                  alt=""
-                  className="w-64pxr h-64pxr rounded-lg"
-                />
-                <div className="w-4/5">
-                  <h2 className="text-foot-em flex justify-between">
-                    Step {index + 1}. {item.tips !== "" ? <span>tips</span> : <></>}
-                  </h2>
-                  <p className="text-cap-1-em">{item.description}</p>
+                <div className="w-64pxr h-64pxr rounded-lg">
+                  <img
+                    src={item.image}
+                    alt=""
+                    className="w-full h-full rounded-lg object-cover"
+                  />
                 </div>
-                <button className="border-l-2 w-50pxr h-full px-10pxr">
+                <div className="w-full h-full">
+                  <h2 className="text-foot-em flex justify-between">
+                    Step {index + 1}. {item.tips !== "" ? <span className="text-gray-400">tips</span> : <></>}
+                  </h2>
+                  <p className="text-cap-1-em line-clamp-2">{item.description}</p>
+                </div>
+                {/* <button className="border-l-2 w-50pxr h-full px-10pxr">
                   <img src={move} alt="정렬" className="w-full" />
-                </button>
+                </button> */}
               </motion.div>
               <div className="
-                absolute bg-red rounded-xl   right-2pxr top-1/2 transform -translate-y-1/2 h-[calc(100%-2px)] w-70pxr flex justify-center items-center">삭제</div>
+                absolute bg-red rounded-xl right-2pxr top-1/2 transform -translate-y-1/2 h-[calc(100%-2px)] w-70pxr flex justify-center items-center">삭제</div>
             </motion.li>
           ))}
         </AnimatePresence>

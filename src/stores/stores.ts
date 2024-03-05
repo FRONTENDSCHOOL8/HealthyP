@@ -19,3 +19,4 @@ export const recipeSteps = atom(('[]'));
 export const title = atom('');
 export const image = atom<File | null>(null);
 export const description = atom('');
+export const temp_image = atom<File | null>(null);

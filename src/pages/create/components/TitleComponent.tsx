@@ -27,7 +27,7 @@ export function TitleComponent({inputTitle, placeholder} : TitleComponent) {
         <input
           id="nickname-input"
           type="text"
-          className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md"
+          className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md text-sub"
           placeholder={placeholder}
           onChange={titleInputHandler}
         />

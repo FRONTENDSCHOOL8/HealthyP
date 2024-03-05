@@ -14,7 +14,7 @@ export function IngredientsComponent({titleText, atom} : IngredientsProps) {
 
   return (
     <div className="flex flex-col gap-10pxr">
-      <h3 className="text-sub-em">{titleText}<span className="text-sub">{'(필수)'}</span></h3>
+      <h3 className="text-sub-em">{titleText}<span className="text-sub">{' (필수)'}</span></h3>
       <div className="flex items-center justify-center gap-6pxr">
         <label htmlFor="ingredient-name" className="sr-only">재료명</label>
         <input 
@@ -51,7 +51,7 @@ export function IngredientsComponent({titleText, atom} : IngredientsProps) {
             setIngredientData(JSON.stringify(updateIngreds));
           }}>추가</button>
       </div>
-      <div className="border-t-2 border-b-2 h-150pxr overflow-y-scroll no-scrollbar">
+      <div className="border-t-2 border-b-2 h-150pxr overflow-y-scroll no-scrollbar bg-gray_150">
         {
           JSON.parse(ingredientData).map((item, index) => {
             return (

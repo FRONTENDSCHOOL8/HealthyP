@@ -1,4 +1,5 @@
 
+import { Provider } from 'jotai';
 import { Outlet } from 'react-router-dom';
 export { CreateOne } from './CreateOne';
 export { CreateTwo } from './CreateTwo';
@@ -9,8 +10,9 @@ export function CreateLayout() {
 
   return (
     <div className="w-full h-full relative bg-white">
-      
-      <Outlet />
+      <Provider>
+        <Outlet />
+      </Provider>
       
     </div>
   );

@@ -2,7 +2,7 @@ import { Header, Button } from "@/components"
 import { TextAreaComponent, FileInputComponent } from "./components/";
 import { useAtom } from "jotai";
 import { useState } from 'react';
-import { recipeSteps } from '@/stores/stores';
+import { recipeSteps, temp_image } from '@/stores/stores';
 import { Link } from "react-router-dom";
 import { getRandomId } from "@/util/math/getRandomId";
 
@@ -11,7 +11,10 @@ export function CreateThree() {
   const [steps, setSteps] = useAtom(recipeSteps);
   const [description, setDescription] = useState('');
   const [tips, setTips] = useState('');
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useAtom(temp_image);
+  
+
+
 
   return (
     <div className="flex flex-col h-full">
@@ -40,8 +43,10 @@ export function CreateThree() {
             console.log(description, tips);
             // change image value to the image url
             const id = getRandomId();
-            setSteps(JSON.stringify([...JSON.parse(steps), {"id":id,"image": image, "description": description, "tips": tips}])) 
-            console.log(steps)
+            
+            const imageUrl = URL.createObjectURL(image);
+            setSteps(JSON.stringify([...JSON.parse(steps), {"id":id, "image":imageUrl, "description": description, "tips": tips}])) 
+            console.log(image)
           }}>완료
         </Link>
       </footer>
