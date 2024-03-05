@@ -1,6 +1,6 @@
 import { InputComponent, Header, Button } from "@/components"
 import { useAtom } from "jotai";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { recipeSteps } from ".";
 import { Link } from "react-router-dom";
 
@@ -8,7 +8,7 @@ interface TextAreaProps {
   inputTitle : string;
   maxCharCount : number;
   requiredText? : string;
-  setData : React.Dispatch<React.SetStateAction<string>>;
+  setData : (value : string) => void;
 }
 
 
