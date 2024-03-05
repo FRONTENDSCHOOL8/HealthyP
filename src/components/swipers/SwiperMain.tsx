@@ -62,7 +62,7 @@ export default function SwiperMain() {
               <img
                 src={item.image}
                 alt={item.alt}
-                className="object-cover h-full"
+                className="object-cover w-full h-full"
               />
               {index === 1 ? (
                 // 두 번째 슬라이드에만 적용되는 텍스트

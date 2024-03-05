@@ -3,9 +3,11 @@ import { useAtom } from 'jotai';
 import SwiperMain from '@/components/swipers/SwiperMain';
 import { Link } from 'react-router-dom';
 import { pb } from '@/api/pocketbase';
-import RecipeCard from '@/components/cards/recipeCard/RecipeCard';
+import RecipeCard, {
+  RecipeCardProps,
+} from '@/components/cards/recipeCard/RecipeCard';
 import { useRef } from 'react';
-
+import { Rating } from '@/types';
 function FakeButtons() {
   return (
     <ul className="flex w-full justify-center py-30pxr gap-32pxr">
@@ -71,7 +73,7 @@ export function MainPage() {
           <h2>오늘의 레시피</h2>
           <span className="size-30pxr bg-arrow-small-icon rotate-[270deg] bg-center"></span>
         </Link>
-        <div className="w-full overflow-x-scroll">
+        <div className="w-full overflow-x-auto">
           <div className="flex gap-2 px-side w-max pb-2">
             {data &&
               data.map(({ id, title, expand }, idx) => {

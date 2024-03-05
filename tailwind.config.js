@@ -64,7 +64,7 @@ export default {
         'search-icon': "url('/src/assets/icons/search.svg')",
         'search-fill-icon': "url('/src/assets/icons/searchFill.svg')",
       },
-      spacing: { side: '0.875rem', overflow: '12vw', ...pxToRemFunc(0, 1000) }, // px을 rem으로 변환
+      spacing: { side: '0.875rem', overflow: '12vw', ...pxToRemFunc(0, 1301) }, // px을 rem으로 변환
       inset: {
         ...pxToRemFunc(0, 1000),
       },

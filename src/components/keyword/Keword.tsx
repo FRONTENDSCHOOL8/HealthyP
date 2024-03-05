@@ -6,15 +6,15 @@ export default function Keyword({ items }: { items: string }) {
   const sliceItemsArray = itemsArray.slice(0, 5);
 
   return (
-    <div className="px-4 pt-4 gap-2 flex items-start self-stretch">
+    <ul className="gap-2 flex items-start self-stretch flex-wrap list-none">
       {sliceItemsArray.map((item, index: Key) => (
-        <div
+        <li
           key={index}
-          className="bg-tag_color rounded-[7px] flex px-1 py-6pxr justify-center items-center"
+          className="shrink-0 bg-tag_color rounded-[7px] flex px-1 py-6pxr justify-center items-center text-cap-1"
         >
-          <p className="text-cap-1">{item}</p>
-        </div>
+          {item}
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
