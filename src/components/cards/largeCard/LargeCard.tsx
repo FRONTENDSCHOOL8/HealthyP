@@ -52,7 +52,7 @@ export default function LargeCard({
       <Link to={'#' + id}>
         <h3 className="text-title-3-em mt-19pxr">{title}</h3>
         <p
-          className="w-full py-4pxr text-sub text-gray-700 line-clamp-2"
+          className="w-full py-4pxr text-sub text-gray-700 line-clamp-2 leading-normal"
           dangerouslySetInnerHTML={{ __html: clearHTML }}
         />
       </Link>
