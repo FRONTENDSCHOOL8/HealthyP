@@ -1,4 +1,4 @@
-import { Header, Button } from "@/components"
+import { Header, Button, FnButton } from "@/components"
 import { useAtom } from "jotai";
 import { useState } from "react"
 import { Form } from "react-router-dom"
@@ -178,8 +178,13 @@ function FileInputComponent({inputTitle} : FileInputComponentProps) {
 
 
 
+import icon from "@/assets/icons/add.svg"
+
 
 export function CreateOne() {
+
+
+
 
   return (
     <>
@@ -196,6 +201,7 @@ export function CreateOne() {
             route={[() => 'two']} />
         </footer>
       </Form>
+      
     </>
   )
 }

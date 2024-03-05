@@ -1,6 +1,6 @@
 interface FnButtonProps {
   image: string;
-  clickHandler?: () => void;
+  clickHandler?: (React.MouseEventHandler<HTMLButtonElement>);
   altText?: string;
   size?: number;
 }
@@ -18,7 +18,7 @@ export default function FnButton({
         className={`size-${size}pxr flex justify-center items-center`}
         onClick={clickHandler}
       >
-        <img src={image} alt="" />
+        <img src={image} alt="" className="w-full" />
       </button>
     </>
   );

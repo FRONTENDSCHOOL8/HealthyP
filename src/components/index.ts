@@ -1,3 +1,5 @@
+
+
 // buttons
 export { default as Button } from '@/components/buttons/Button';
 export { default as FnButton } from '@/components/buttons/FnButton';
@@ -12,3 +14,4 @@ export { default as SwiperMain } from '@/components/swipers/SwiperMain';
 export { default as InputComponent } from '@/components/input/InputComponent';
 export { default as RecipeCard } from '@/components/cards/recipeCard/RecipeCard';
 export { default as GlobalNavigationBar } from '@/components/navigation/GlobalNavigationBar';
+export { default as TextAreaComponent } from '@/components/input/TextAreaComponent';
