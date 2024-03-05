@@ -5,8 +5,8 @@ import { FnButton } from '@/components';
 import bookmark from '@/assets/icons/bookmark.svg';
 import DOMPurify from 'dompurify';
 import img from '@/assets/images/flower3.jpg';
-import { cloneElement } from 'react';
 import { Link } from 'react-router-dom';
+import profileDefaultImg from '@/assets/images/medal_gold.png';
 
 export interface LargeCardProps {
   title: string;
@@ -17,11 +17,17 @@ export interface LargeCardProps {
   rating: Rating[];
   id: string;
 }
-function BookmarkHeader() {
+
+function BookmarkHeader({ profile, profileImg }) {
+  console.log(profile);
   return (
     <div className="flex justify-between min-h-54pxr items-center">
-      <span src="" alt="" className="size-24pxr bg-gray-200 rounded-[12px]" />
-      <p className="ml-4pxr mr-auto text-foot-em">홈마니반메홈</p>
+      <span
+        src={profileImg}
+        alt=""
+        className="size-24pxr bg-gray_400 rounded-[12px]"
+      />
+      <p className="ml-4pxr mr-auto text-foot-em">{profile.name}</p>
 
       <FnButton image={bookmark} altText="북마크" size={48} />
     </div>
@@ -34,6 +40,8 @@ export default function LargeCard({
   rating,
   desc,
   id,
+  profile,
+  profileImg,
 }: LargeCardProps) {
   const clearHTML = DOMPurify.sanitize(desc, {
     // ALLOWED_ATTR: ['style', 'class', 'type', 'href', 'rel'],
@@ -43,16 +51,16 @@ export default function LargeCard({
   });
   return (
     <article className="h-max overflow-hidden p-14pxr bg-white max-w-400pxr shrink-0 shadow-default">
-      <BookmarkHeader />
+      <BookmarkHeader profile={profile} profileImg={profileImg} />
       <img
-        className="aspect-video object-cover w-full rounded-[5px] bg-gray-100"
+        className="aspect-video object-cover w-full rounded-[5px] bg-gray_100"
         src={url || img}
         alt=""
       />
       <Link to={'#' + id}>
         <h3 className="text-title-3-em mt-19pxr">{title}</h3>
         <p
-          className="w-full py-4pxr text-sub text-gray-700 line-clamp-2 leading-normal"
+          className="w-full py-4pxr text-sub text-gray_700 line-clamp-2 leading-normal"
           dangerouslySetInnerHTML={{ __html: clearHTML }}
         />
       </Link>
