@@ -22,7 +22,7 @@ function TwoButtonModalComponent({
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 bg-gray_500 backdrop-blur-[3px] flex justify-center items-center"
+          className="fixed inset-0 bg-gray_500  backdrop-blur-[3px] flex justify-center items-center"
         >
           <div className="flex flex-col justify-center items-center bg-white p-24pxr rounded-[20px] gap-6">
             <div className="items-center flex flex-col gap-10pxr">
