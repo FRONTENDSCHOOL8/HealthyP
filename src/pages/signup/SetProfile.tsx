@@ -12,6 +12,8 @@ import {
 import { db } from '@/api/pocketbase';
 
 import { useNavigate } from 'react-router-dom';
+import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
+import { useState } from 'react';
 
 // label 에 들어갈 css class
 const emphasizeClass = 'text-title-2-em text-primary';
@@ -36,6 +38,24 @@ export function SetProfile() {
   const [isNicknameValid] = useAtom(nicknameValidAtom);
   const [emailValue] = useAtom(emailAtom);
   const [passwordValue] = useAtom(passwordAtom);
+
+  // 모달창 상태관리
+  const [isOpen, setIsOpen] = useState(false);
+
+  // 헤더 닫기 버튼 클릭 시
+  const handleHeaderClick = () => {
+    setIsOpen(true);
+  };
+
+  // 모달창 닫기 버튼 클릭 시
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  // 모달창 확인 버튼 클릭 시
+  const handleConfirm = () => {
+    navigate('/');
+  };
 
   // 회원가입 완료 페이지로 이동
   const goToComplete = () => {
@@ -78,7 +98,11 @@ export function SetProfile() {
 
   return (
     <>
-      <Header option="titleWithClose" title="회원가입" />
+      <Header
+        option="titlewithCloseAndFn"
+        title="회원가입"
+        handleClick={handleHeaderClick}
+      />
       <div role="group" className="mx-14pxr mt-18pxr mb-198pxr">
         <p className="text-title-2 mb-59pxr">
           <span className={emphasizeClass}>사용자 정보</span>를 <br />
@@ -97,6 +121,12 @@ export function SetProfile() {
           onClick={handleClick}
         />
       </Footer>
+      <TwoButtonModal
+        isOpen={isOpen}
+        headline="정말 나가시겠습니까?"
+        closeModal={handleClose}
+        confirmModal={handleConfirm}
+      />
     </>
   );
 }
