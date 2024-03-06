@@ -1,5 +1,6 @@
 import { Button, Footer } from '@/components';
 import Header from '@/components/header/Header';
+import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
 import { ProgressBar } from '@/components/pagination/Pagination';
 import AllAgreeButton from '@/components/term/AllAgreeButton';
 import { Term } from '@/components/term/Term';
@@ -28,6 +29,24 @@ export function Terms() {
   );
   const [isCheckedOptions, setIsCheckedOptions] = useAtom(isCheckedOptionsAtom);
   const [isCheckedAll, setIsCheckedAll] = useState(false);
+
+  // 모달창 상태관리
+  const [isOpen, setIsOpen] = useState(false);
+
+  // 헤더 닫기 버튼 클릭 시
+  const handleHeaderClick = () => {
+    setIsOpen(true);
+  };
+
+  // 모달창 닫기 버튼 클릭 시
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  // 모달창 확인 버튼 클릭 시
+  const handleConfirm = () => {
+    navigate('/');
+  };
 
   const handleAllCheckedChange = () => {
     const newCheckedState = !isCheckedAll;
@@ -58,7 +77,11 @@ export function Terms() {
 
   return (
     <>
-      <Header option="titleWithClose" title="회원가입" />
+      <Header
+        option="titlewithCloseAndFn"
+        title="회원가입"
+        handleClick={handleHeaderClick}
+      />
       <div role="group" className="mx-14pxr mt-18pxr pb-140pxr mb-198pxr">
         <p className="text-title-2 mb-59pxr">
           <span className={emphasizeClass}>이용약관</span>을 보시고 <br />{' '}
@@ -91,6 +114,12 @@ export function Terms() {
           text={['다음']}
           route={[goToMakeIdPage]}
           isActive={isActive}
+        />
+        <TwoButtonModal
+          isOpen={isOpen}
+          headline="정말 나가시겠습니까?"
+          closeModal={handleClose}
+          confirmModal={handleConfirm}
         />
       </Footer>
     </>
