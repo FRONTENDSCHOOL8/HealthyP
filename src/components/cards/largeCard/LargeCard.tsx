@@ -1,4 +1,4 @@
-import { Rating, UsersResponse } from '@/types';
+import { RatingsResponse, UsersResponse } from '@/types';
 import { FnButton, Star, Review } from '@/components';
 import { Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
@@ -17,7 +17,7 @@ export interface LargeCardProps extends profileProps {
   url: string;
   keywords?: string;
   desc: string;
-  rating: Rating[];
+  rating: RatingsResponse[];
   id: string;
 }
 
