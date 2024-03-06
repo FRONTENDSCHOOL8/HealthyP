@@ -81,26 +81,18 @@ export function MainPage() {
         </Link>
         <div className="w-full overflow-x-auto">
           <div className="flex gap-2 px-side w-max pb-2">
-            {/* {data &&
-              data.map(
-                (
-                  {
-                    id,
-                    title,
-                    expand,
-                  }: DataItem
-                  idx
-                ) => {
-                  return (
-                    <RecipeCard
-                      key={id}
-                      title={title}
-                      url={urls?.current[idx]}
-                      rating={expand?.rating}
-                    />
-                  );
-                }
-              )} */}
+            {data &&
+              data.map(({ id, title, expand }, idx) => {
+                return (
+                  <RecipeCard
+                    key={id}
+                    id={id}
+                    title={title}
+                    url={urls?.current[idx]}
+                    rating={expand?.rating}
+                  />
+                );
+              })}
           </div>
         </div>
       </section>
