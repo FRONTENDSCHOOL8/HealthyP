@@ -48,19 +48,21 @@ const Tab = () => {
 
   return (
     <>
-      <div className="mt-37pxr p-6pxr w-full rounded-[12px] bg-gray_150 flex flex-row justify-center items-center]">
-        <ul className="flex flex-row gap-5pxr text-center text-sm text-foot w-full">
-          {tabs.map((tab, index) => (
-            <TabItem
-              key={index}
-              index={tab.index}
-              isActive={openedTabIndex === tab.index}
-              onClick={handleTabClick}
-            >
-              {tab.label}
-            </TabItem>
-          ))}
-        </ul>
+      <div className="mx-14pxr">
+        <div className="mt-37pxr p-6pxr w-full rounded-[12px] bg-gray_150 flex flex-row justify-center items-center">
+          <ul className="flex flex-row gap-5pxr text-center text-sm text-foot w-full">
+            {tabs.map((tab, index) => (
+              <TabItem
+                key={index}
+                index={tab.index}
+                isActive={openedTabIndex === tab.index}
+                onClick={handleTabClick}
+              >
+                {tab.label}
+              </TabItem>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );
