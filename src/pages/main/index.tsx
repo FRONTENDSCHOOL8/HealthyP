@@ -80,6 +80,7 @@ export function MainPage() {
                 return (
                   <RecipeCard
                     key={id}
+                    id={id}
                     title={title}
                     url={urls?.current[idx]}
                     rating={expand?.rating}
