@@ -7,6 +7,7 @@ import MissingPage from './pages/MissingPage';
 import FullPageInfoLayout from './pages/FullPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from './RootLayout';
+import ProtectedRoute from './pages/ProtectedRoute';
 
 import {
   CreateLayout,
@@ -48,11 +49,19 @@ const router = createBrowserRouter([
       },
       {
         path: 'bookmark',
-        element: <BookmarkPage />,
+        element: (
+          <ProtectedRoute>
+            <BookmarkPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'user',
-        element: <UserLayout />,
+        element: (
+          <ProtectedRoute>
+            <UserLayout />
+          </ProtectedRoute>
+        ),
         children: [
           {
             path: 'recent',
@@ -73,7 +82,11 @@ const router = createBrowserRouter([
   // 생성하기
   {
     path: '/create',
-    element: <CreateLayout />,
+    element: (
+      <ProtectedRoute>
+        <CreateLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,

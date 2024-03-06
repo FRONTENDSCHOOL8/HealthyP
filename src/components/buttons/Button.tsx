@@ -8,7 +8,7 @@ type ButtonProps = {
   text: string[];
   route: (() => string)[];
   isActive?: boolean;
-  onClick?: (idx: number) => void;
+  onClick?: (idx: number | React.FormEvent<HTMLFormElement>) => void;
 };
 
 const buttonVariant = {

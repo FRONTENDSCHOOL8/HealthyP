@@ -1,21 +1,19 @@
-import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-
-
+import FullPageInfo from '@/components/FullPageInfo';
+import checkCirclePrimary from '@/assets/icons/checkCirclePrimary.svg';
+import { useAtom } from 'jotai';
+import { nicknameAtom } from '@/stores/stores';
 
 export function Welcome() {
-  const navigate = useNavigate();
-
-
-  useEffect(() => {
-    setTimeout(() => {
-      navigate("/");
-    }, 2000)
-  })
+  const [name] = useAtom(nicknameAtom);
 
   return (
     <>
-      <p className="text-xl bg-yellow-400">Welcome Back</p>
+      <FullPageInfo
+        icons={[checkCirclePrimary, '로그인완료']}
+        route={() => '/'}
+        text={[`${name}님`, '이랏샤이마세']}
+        hasDetailedDescription={false}
+      />
     </>
-  )
+  );
 }
