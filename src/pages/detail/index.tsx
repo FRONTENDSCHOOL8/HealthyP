@@ -1,0 +1,3 @@
+
+
+export { DetailPage } from './DetailPage';

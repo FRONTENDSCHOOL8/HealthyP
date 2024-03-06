@@ -3,7 +3,7 @@ import arrowBig from '@/assets/icons/arrowBig.svg';
 import close from '@/assets/icons/close.svg';
 import bookmark from '@/assets/icons/bookmark.svg';
 import bell from '@/assets/icons/bell.svg';
-import { FnButton, DummyButton, InputComponent } from '@/components';
+import { FnButton, DummyButton, SearchComponent } from '@/components';
 
 interface HeaderTitleProps {
   title?: string;
@@ -18,7 +18,7 @@ function HeaderTitle({ title }: HeaderTitleProps) {
 }
 
 interface HeaderProps {
-  option:
+  option :
     | 'onlyArrow'
     | 'onlyClose'
     | 'titleWithBack'
@@ -27,15 +27,16 @@ interface HeaderProps {
     | 'onlySearch'
     | 'prevWithBookMark'
     | 'onlyAlarm';
-  title?: string;
+  title? : string;
+  bgColor? : string;
 }
 
-function useMapping({ title, option }: HeaderProps) {
+function useMapping({ title, option, bgColor }: HeaderProps) {
   const navigate = useNavigate();
 
   const headerMappings = {
     onlyArrow: (
-      <header className="w-full bg-white px-10pxr py-12pxr sticky top-0">
+      <header className={`w-full bg-white bg-${bgColor} px-10pxr py-12pxr sticky top-0`}>
         <FnButton
           image={arrowBig}
           clickHandler={() => navigate(-1)}
@@ -45,7 +46,7 @@ function useMapping({ title, option }: HeaderProps) {
       </header>
     ),
     onlyClose: (
-      <header className="w-full bg-white px-10pxr py-12pxr flex items-center justify-between sticky top-0">
+      <header className={`w-full ${bgColor} px-10pxr py-12pxr flex items-center justify-between sticky top-0`}>
         <DummyButton size={30} />
         <FnButton image={close} clickHandler={() => navigate(-1)} />
       </header>
@@ -67,19 +68,12 @@ function useMapping({ title, option }: HeaderProps) {
     searchWithBack: (
       <header className="w-full bg-white gap-12pxr px-10pxr py-12pxr flex items-center justify-between sticky top-0">
         <FnButton image={arrowBig} clickHandler={() => navigate(-1)} />
-        <InputComponent
-          option="search"
-          placeholder="재료, 해시태그, 요리로 검색해주세요"
-        />
+        <SearchComponent />
       </header>
     ),
     onlySearch: (
       <header className="w-full px-10pxr py-12pxr flex items-center justify-between sticky top-0">
-        <InputComponent
-          option="search"
-          placeholder="재료, 해시태그, 요리로 검색해주세요"
-          bgColor="bg-white"
-        />
+        <SearchComponent />
       </header>
     ),
     prevWithBookMark: (
@@ -103,8 +97,8 @@ function useMapping({ title, option }: HeaderProps) {
   }
 }
 
-export default function Header({ option, title }: HeaderProps) {
-  const headerComponent = useMapping({ title, option }) || <></>;
+export default function Header({ option, title, bgColor }: HeaderProps) {
+  const headerComponent = useMapping({ title, option, bgColor }) || <></>;
 
   // Handle unexpected option values
   if (!headerComponent) {
