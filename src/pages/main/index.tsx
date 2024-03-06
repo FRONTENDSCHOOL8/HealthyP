@@ -7,7 +7,7 @@ import RecipeCard, {
   RecipeCardProps,
 } from '@/components/cards/recipeCard/RecipeCard';
 import { useRef } from 'react';
-import { Rating } from '@/types';
+import { RatingsResponse } from '@/types';
 function FakeButtons() {
   return (
     <ul className="flex w-full justify-center py-30pxr gap-32pxr">
@@ -60,7 +60,7 @@ export function MainPage() {
         <p>에러</p>
       </div>
     );
-  
+
   return (
     <div className="overflow-y-scroll overflow-x-hidden h-full w-full pb-90pxr no-scrollbar">
       <SwiperMain />

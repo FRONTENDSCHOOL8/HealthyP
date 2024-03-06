@@ -1,10 +1,10 @@
-import { Rating } from '@/types';
+import { RatingsResponse } from '@/types';
 
 export default function Review({
   rating,
   caseType,
 }: {
-  rating: Rating[];
+  rating: RatingsResponse[];
   caseType: 'literal' | 'number';
 }) {
   const count: number = rating?.length ?? 0;

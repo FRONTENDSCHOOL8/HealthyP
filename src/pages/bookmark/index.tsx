@@ -5,12 +5,13 @@ import { useAtom } from 'jotai';
 import { useRef } from 'react';
 
 export function BookmarkPage() {
-  const urls = useRef(null);
+  const urls = useRef<[]>(null);
+  const profilesUrl = useRef<[]>(null);
   const [{ data, loading, error }] = useAtom(
     getDataAtomFamily({
       item: 'recipes',
       typeOfGetData: 'getFullList',
-      options: { expand: 'rating' },
+      options: { expand: 'rating, profile' },
     })
   );
 
@@ -18,7 +19,12 @@ export function BookmarkPage() {
     const urlArr = data.map((data: object) =>
       pb.files.getUrl(data, data?.image)
     );
+    const profileUrlArr = data.map((data: object) =>
+      pb.files.getUrl(data, data.expand.profile?.avatar)
+    );
+
     urls.current = urlArr;
+    profilesUrl.current = profileUrlArr;
   }
 
   if (loading)
@@ -45,6 +51,8 @@ export function BookmarkPage() {
               {...data}
               rating={data?.expand?.rating}
               url={urls.current[idx]}
+              profileImg={profilesUrl.current[idx]}
+              profile={data?.expand?.profile}
             />
           );
         }

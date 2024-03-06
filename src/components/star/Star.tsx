@@ -1,6 +1,6 @@
-import { Rating } from '@/types';
+import { RatingsResponse } from '@/types';
 
-export default function Star({ rating }: { rating: Rating[] }) {
+export default function Star({ rating }: { rating: RatingsResponse[] }) {
   // data가 불러온 레시피들 리스트 중 하나만 가져오게
 
   const getStarCount = () => {
