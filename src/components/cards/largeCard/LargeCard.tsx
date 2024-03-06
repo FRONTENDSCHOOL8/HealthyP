@@ -1,14 +1,17 @@
-import { Rating } from '@/types';
-import Review from '../../review/Review';
-import Star from '../../star/Star';
-import { FnButton } from '@/components';
-import bookmark from '@/assets/icons/bookmark.svg';
-import DOMPurify from 'dompurify';
-import img from '@/assets/images/flower3.jpg';
+import { Rating, UsersResponse } from '@/types';
+import { FnButton, Star, Review } from '@/components';
 import { Link } from 'react-router-dom';
-import profileDefaultImg from '@/assets/images/medal_gold.png';
+import DOMPurify from 'dompurify';
+import bookmark from '@/assets/icons/bookmark.svg';
+import foodDefaultImg from '@/assets/images/flower3.jpg';
+// import profileDefaultImg from '@/assets/images/medal_gold.png';
 
-export interface LargeCardProps {
+interface profileProps {
+  profile: UsersResponse;
+  profileImg: string;
+}
+
+export interface LargeCardProps extends profileProps {
   title: string;
   type: 'bookmark' | 'myRecipe';
   url: string;
@@ -18,11 +21,10 @@ export interface LargeCardProps {
   id: string;
 }
 
-function BookmarkHeader({ profile, profileImg }) {
-  console.log(profile);
+function BookmarkHeader({ profile, profileImg }: profileProps) {
   return (
     <div className="flex justify-between min-h-54pxr items-center">
-      <span
+      <img
         src={profileImg}
         alt=""
         className="size-24pxr bg-gray_400 rounded-[12px]"
@@ -49,12 +51,13 @@ export default function LargeCard({
     // RETURN_DOM: true,
     // must add these tag manually if use this option.
   });
+
   return (
     <article className="h-max overflow-hidden p-14pxr bg-white max-w-400pxr shrink-0 shadow-default">
       <BookmarkHeader profile={profile} profileImg={profileImg} />
       <img
         className="aspect-video object-cover w-full rounded-[5px] bg-gray_100"
-        src={url || img}
+        src={url || foodDefaultImg}
         alt=""
       />
       <Link to={'#' + id}>
