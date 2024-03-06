@@ -1,12 +1,13 @@
-import { pb } from '@/api/pocketbase';
+import { db } from '@/api/pocketbase';
 import LargeCard from '@/components/cards/largeCard/LargeCard';
+import { UsersResponse } from '@/types';
 import { getDataAtomFamily } from '@/util/data/getDataAtomFamily';
 import { useAtom } from 'jotai';
 import { useRef } from 'react';
 
 export function BookmarkPage() {
-  const urls = useRef<[]>(null);
-  const profilesUrl = useRef<[]>(null);
+  const urls = useRef<Array<string> | null>(null);
+  const profilesUrl = useRef<Array<string> | null>(null);
   const [{ data, loading, error }] = useAtom(
     getDataAtomFamily({
       item: 'recipes',
@@ -17,10 +18,13 @@ export function BookmarkPage() {
 
   if (data) {
     const urlArr = data.map((data: object) =>
-      pb.files.getUrl(data, data?.image)
+      db.files.getUrl(data, (data as { image: string })?.image)
     );
     const profileUrlArr = data.map((data: object) =>
-      pb.files.getUrl(data, data.expand.profile?.avatar)
+      db.files.getUrl(
+        data,
+        (data as { expand: { profile: UsersResponse } }).expand.profile?.avatar
+      )
     );
 
     urls.current = urlArr;
@@ -43,20 +47,24 @@ export function BookmarkPage() {
 
   return (
     <div className="flex flex-col h-svh gap-6pxr w-svw overflow-auto pb-140pxr bg-gray-200">
-      {data.map((data, idx) => {
-        if (data) {
-          return (
-            <LargeCard
-              key={data?.id}
-              {...data}
-              rating={data?.expand?.rating}
-              url={urls.current[idx]}
-              profileImg={profilesUrl.current[idx]}
-              profile={data?.expand?.profile}
-            />
-          );
-        }
-      })}
+      {data &&
+        data.map((data, idx) => {
+          if (data) {
+            return (
+              <LargeCard
+                key={(data as { id: string })?.id}
+                {...data}
+                rating={(data as { expand: { rating: [] } }).expand?.rating}
+                url={urls.current ? urls.current[idx] : ''}
+                profileImg={profilesUrl.current ? profilesUrl.current[idx] : ''}
+                profile={
+                  (data as { expand: { profile: UsersResponse } }).expand
+                    ?.profile
+                }
+              />
+            );
+          }
+        })}
       <p>bookmark</p>
     </div>
   );

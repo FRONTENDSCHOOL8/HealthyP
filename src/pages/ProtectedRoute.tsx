@@ -10,8 +10,6 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const [isAuth] = useAtom(isStore);
   const location = useLocation();
 
-  console.log(isAuth);
-
   if (!isAuth) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }

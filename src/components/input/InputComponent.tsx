@@ -46,14 +46,13 @@ function useInputMapping({
   const [confirmBorder, setConfirmBorder] = useState('');
   const [password, setPassword] = useAtom(passwordAtom);
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
-  const [preview, setPreview] = useState<string | undefined>('');
+  const [, setPreview] = useState<string | undefined>('');
   const [emailBorder, setEmailBorder] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isPasswordConfirmFocused, setIsPasswordConfirmFocused] =
     useState(false);
-  const [isNicknameFocused, setIsNicknameFocused] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
 
   function pwConfirm(e: React.ChangeEvent<HTMLInputElement>) {
