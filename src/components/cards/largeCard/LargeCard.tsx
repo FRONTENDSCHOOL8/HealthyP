@@ -24,13 +24,13 @@ function BookmarkHeader({ profile, profileImg }: profileProps) {
   return (
     <div className="flex justify-between min-h-54pxr items-center">
       <img
-        src={profileImg}
+        src={profileImg && profileDefaultImg}
         alt=""
-        className="size-24pxr bg-gray_400 rounded-[12px]"
+        className="size-30pxr bg-gray_400 rounded-[30px]"
       />
-      <p className="ml-4pxr mr-auto text-foot-em">{profile.name}</p>
+      <p className="ml-4pxr mr-auto text-sub-em">{profile.name}</p>
 
-      <FnButton image={bookmark} altText="북마크" size={48} />
+      <FnButton image={bookmark} altText="북마크" size={'size-30pxr'} />
     </div>
   );
 }

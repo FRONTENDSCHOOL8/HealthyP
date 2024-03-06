@@ -59,11 +59,7 @@ export function BookmarkPage() {
                 desc={(data as { desc: string })?.desc}
                 rating={(data as { expand: { rating: [] } }).expand?.rating}
                 url={urls.current[idx]}
-                profileImg={
-                  profilesUrl.current
-                    ? profilesUrl.current[idx]
-                    : profileDefaultImg
-                }
+                profileImg={profilesUrl.current[idx]}
                 profile={
                   (data as { expand: { profile: UsersResponse } }).expand
                     ?.profile

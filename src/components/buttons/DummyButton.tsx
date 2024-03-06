@@ -1,11 +1,11 @@
 interface DummyButtonProps {
-  size?: number;
+  size?: string;
 }
 
-export default function DummyButton({ size = 30 }: DummyButtonProps) {
+export default function DummyButton({ size = 'size-30pxr' }: DummyButtonProps) {
   return (
     <>
-      <button className={`size-${size}pxr`} />
+      <button className={`${size}`} />
     </>
   );
 }

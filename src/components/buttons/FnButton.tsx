@@ -2,20 +2,21 @@ interface FnButtonProps {
   image: string;
   clickHandler?: (React.MouseEventHandler<HTMLButtonElement>);
   altText?: string;
-  size?: number;
+  size?: string;
 }
 
 export default function FnButton({
   image,
   clickHandler,
   altText,
-  size,
+  size = 'size-30pxr',
 }: FnButtonProps) {
+
   return (
     <>
       <button
         aria-label={altText}
-        className={`size-${size}pxr flex justify-center items-center`}
+        className={`${size} flex justify-center items-center`}
         onClick={clickHandler}
       >
         <img src={image} alt="" className="w-full" />
