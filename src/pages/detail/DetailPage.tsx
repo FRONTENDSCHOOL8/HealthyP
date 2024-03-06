@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom"
 import { db } from "@/api/pocketbase";
 import { useEffect, useState } from "react";
 import { RecordModel } from "pocketbase";
-
-
+import { FnButton } from "@/components";
+import arrow from '@/assets/icons/add.svg';
 
 export function DetailPage() {
   const {recipeId} = useParams();
@@ -29,8 +29,9 @@ export function DetailPage() {
   return (
     <>
       <Header option="onlyArrow" bgColor="bg-primary"/>
-      <img src={JSON.parse(recipeData.steps)[0].image} alt="" />
+      <img src={imageURL} alt="" />
       <div>{recipeData?.title}</div>
+      <FnButton image={arrow} size={'size-90pxr'} />
     </>
   )
 }
