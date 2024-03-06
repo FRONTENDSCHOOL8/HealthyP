@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import bookmark from '@/assets/icons/bookmark.svg';
 import foodDefaultImg from '@/assets/images/flower3.jpg';
-// import profileDefaultImg from '@/assets/images/medal_gold.png';
+import profileDefaultImg from '@/assets/images/medal_gold.png';
 
 interface profileProps {
   profile: UsersResponse;
@@ -14,7 +14,7 @@ interface profileProps {
 export interface LargeCardProps extends profileProps {
   title: string;
   type: 'bookmark' | 'myRecipe';
-  url: string;
+  url: string | null;
   keywords?: string;
   desc: string;
   rating: RatingsResponse[];
