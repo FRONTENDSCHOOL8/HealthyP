@@ -108,7 +108,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/detail',
+    path: '/detail/:recipeId',
     element: <DetailPage />
   },
   // 로그인 페이지
