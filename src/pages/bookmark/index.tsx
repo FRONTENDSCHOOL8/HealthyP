@@ -4,7 +4,6 @@ import { UsersResponse } from '@/types';
 import { getDataAtomFamily } from '@/util/data/getDataAtomFamily';
 import { useAtom } from 'jotai';
 import { useRef } from 'react';
-import profileDefaultImg from '@/assets/images/medal_gold.png';
 
 export function BookmarkPage() {
   const urls = useRef<Array<string> | null>(null);
@@ -60,11 +59,7 @@ export function BookmarkPage() {
                 desc={(data as { desc: string })?.desc}
                 rating={(data as { expand: { rating: [] } }).expand?.rating}
                 url={urls.current[idx]}
-                profileImg={
-                  profilesUrl.current
-                    ? profilesUrl.current[idx]
-                    : profileDefaultImg
-                }
+                profileImg={profilesUrl.current[idx]}
                 profile={
                   (data as { expand: { profile: UsersResponse } }).expand
                     ?.profile
