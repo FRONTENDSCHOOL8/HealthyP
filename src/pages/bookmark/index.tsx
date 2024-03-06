@@ -4,6 +4,7 @@ import { UsersResponse } from '@/types';
 import { getDataAtomFamily } from '@/util/data/getDataAtomFamily';
 import { useAtom } from 'jotai';
 import { useRef } from 'react';
+import profileDefaultImg from '@/assets/images/medal_gold.png';
 
 export function BookmarkPage() {
   const urls = useRef<Array<string> | null>(null);
@@ -17,10 +18,10 @@ export function BookmarkPage() {
   );
 
   if (data) {
-    const urlArr = data.map((data: object) =>
+    const urlArr: Array<string> | null = data.map((data: object) =>
       db.files.getUrl(data, (data as { image: string })?.image)
     );
-    const profileUrlArr = data.map((data: object) =>
+    const profileUrlArr: Array<string> = data.map((data: object) =>
       db.files.getUrl(
         data,
         (data as { expand: { profile: UsersResponse } }).expand.profile?.avatar
@@ -53,10 +54,17 @@ export function BookmarkPage() {
             return (
               <LargeCard
                 key={(data as { id: string })?.id}
-                {...data}
+                id={(data as { id: string })?.id}
+                title={(data as { title: string })?.title}
+                type="bookmark"
+                desc={(data as { desc: string })?.desc}
                 rating={(data as { expand: { rating: [] } }).expand?.rating}
-                url={urls.current ? urls.current[idx] : ''}
-                profileImg={profilesUrl.current ? profilesUrl.current[idx] : ''}
+                url={urls.current[idx]}
+                profileImg={
+                  profilesUrl.current
+                    ? profilesUrl.current[idx]
+                    : profileDefaultImg
+                }
                 profile={
                   (data as { expand: { profile: UsersResponse } }).expand
                     ?.profile

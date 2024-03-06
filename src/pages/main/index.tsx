@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { pb } from '@/api/pocketbase';
 
 import RecipeCard from '@/components/cards/recipeCard/RecipeCard';
-import { useEffect, useRef } from 'react';
-import { RecipesResponse } from '@/types/Database';
+import { useRef } from 'react';
+import { RatingsResponse } from '@/types';
 
 function FakeButtons() {
   return (
@@ -31,8 +31,14 @@ function FakeButtons() {
   );
 }
 
+interface DataItem {
+  id: string;
+  titile: string;
+  expand: { rating: RatingsResponse };
+}
+
 export function MainPage() {
-  const urls = useRef(null);
+  const urls = useRef<Array<string> | null>(null);
   const [{ data, loading, error }] = useAtom(
     getDataAtomFamily({
       item: 'recipes_duplicate',
@@ -43,7 +49,7 @@ export function MainPage() {
 
   if (data) {
     const urlArr = data.map((data: object) =>
-      pb.files.getUrl(data, data?.image)
+      pb.files.getUrl(data, (data as { image: string })?.image)
     );
     urls.current = urlArr;
   }
@@ -75,17 +81,26 @@ export function MainPage() {
         </Link>
         <div className="w-full overflow-x-auto">
           <div className="flex gap-2 px-side w-max pb-2">
-            {data &&
-              data.map(({ id, title, expand }, idx) => {
-                return (
-                  <RecipeCard
-                    key={id}
-                    title={title}
-                    url={urls?.current[idx]}
-                    rating={expand?.rating}
-                  />
-                );
-              })}
+            {/* {data &&
+              data.map(
+                (
+                  {
+                    id,
+                    title,
+                    expand,
+                  }: DataItem
+                  idx
+                ) => {
+                  return (
+                    <RecipeCard
+                      key={id}
+                      title={title}
+                      url={urls?.current[idx]}
+                      rating={expand?.rating}
+                    />
+                  );
+                }
+              )} */}
           </div>
         </div>
       </section>
