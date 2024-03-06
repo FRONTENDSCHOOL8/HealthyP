@@ -1,5 +1,10 @@
+
+import { useAtomValue } from "jotai"
+import { ingredients } from "@/stores/stores"
+
 export function MyRecipes() {
-  // const [ingredientData, setIngredientData] = useAtom(ingredients);
+  const ingredientData = useAtomValue(ingredients);
+
 
   return <></>;
 }

@@ -3,11 +3,11 @@ import { useAtom } from 'jotai';
 import SwiperMain from '@/components/swipers/SwiperMain';
 import { Link } from 'react-router-dom';
 import { pb } from '@/api/pocketbase';
-import RecipeCard, {
-  RecipeCardProps,
-} from '@/components/cards/recipeCard/RecipeCard';
-import { useRef } from 'react';
-import { RatingsResponse } from '@/types';
+
+import RecipeCard from '@/components/cards/recipeCard/RecipeCard';
+import { useEffect, useRef } from 'react';
+import { RecipesResponse } from '@/types/Database';
+
 function FakeButtons() {
   return (
     <ul className="flex w-full justify-center py-30pxr gap-32pxr">
