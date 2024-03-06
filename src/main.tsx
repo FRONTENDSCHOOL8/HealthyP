@@ -65,7 +65,8 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            path: 'recent',
+            index: true,
+            // path: 'recent',
             element: <RecentRecipes />,
           },
           {

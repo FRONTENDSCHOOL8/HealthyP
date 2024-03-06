@@ -157,79 +157,73 @@ export interface UsersUpdate extends AuthCollectionUpdate {
 }
 
 export interface UsersCollection {
-	type: 'auth';
-	collectionId: string;
-	collectionName: 'users';
-	response: UsersResponse;
-	create: UsersCreate;
-	update: UsersUpdate;
-	relations: {
-		bookmark: RatingsCollection[];
-		'recipes(profile)': RecipesCollection[];
-		'ratings(creator)': RatingsCollection[];
-		'bookmarks(bookmarked_by)': BookmarksCollection[];
-		'recipes_duplicate(profile)': RecipesDuplicateCollection[];
-	};
+  type: 'auth';
+  collectionId: string;
+  collectionName: 'users';
+  response: UsersResponse;
+  create: UsersCreate;
+  update: UsersUpdate;
+  relations: {
+    bookmark: RatingsCollection[];
+    'ratings(creator)': RatingsCollection[];
+    'bookmarks(bookmarked_by)': BookmarksCollection[];
+  };
 }
 
 // ===== recipes =====
 
 export interface RecipesResponse extends BaseCollectionResponse {
-	collectionName: 'recipes';
-	title: string;
-	ingredients: any;
-	steps: any;
-	views: number;
-	category: string;
-	keywords: string;
-	desc: string;
-	image: string;
-	rating: Array<string>;
-	profile: string;
+  collectionName: 'recipes';
+  title: string;
+  ingredients: unknown;
+  steps: unknown;
+  views: number;
+  category: string;
+  keywords: string;
+  desc: string;
+  image: string;
+  rating: Array<string>;
 }
 
 export interface RecipesCreate extends BaseCollectionCreate {
-	title?: string;
-	ingredients?: any;
-	steps?: any;
-	views?: number;
-	category?: string;
-	keywords?: string;
-	desc?: string;
-	image?: File | null;
-	rating?: MaybeArray<string>;
-	profile: string;
+  title?: string;
+  ingredients?: unknown;
+  steps?: unknown;
+  views?: number;
+  category?: string;
+  keywords?: string;
+  desc?: string;
+  image?: File | null;
+  rating?: MaybeArray<string>;
 }
 
 export interface RecipesUpdate extends BaseCollectionUpdate {
-	title?: string;
-	ingredients?: any;
-	steps?: any;
-	views?: number;
-	'views+'?: number;
-	'views-'?: number;
-	category?: string;
-	keywords?: string;
-	desc?: string;
-	image?: File | null;
-	rating?: MaybeArray<string>;
-	'rating+'?: MaybeArray<string>;
-	'rating-'?: MaybeArray<string>;
-	profile?: string;
+  title?: string;
+  ingredients?: unknown;
+  steps?: unknown;
+  views?: number;
+  'views+'?: number;
+  'views-'?: number;
+  category?: string;
+  keywords?: string;
+  desc?: string;
+  image?: File | null;
+  rating?: MaybeArray<string>;
+  'rating+'?: MaybeArray<string>;
+  'rating-'?: MaybeArray<string>;
 }
 
 export interface RecipesCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'recipes';
-	response: RecipesResponse;
-	create: RecipesCreate;
-	update: RecipesUpdate;
-	relations: {
-		rating: RatingsCollection[];
-		profile: UsersCollection;
-		'bookmarks(recipe)': BookmarksCollection[];
-	};
+  type: 'base';
+  collectionId: string;
+  collectionName: 'recipes';
+  response: RecipesResponse;
+  create: RecipesCreate;
+  update: RecipesUpdate;
+  relations: {
+    rating: RatingsCollection[];
+    'bookmarks(recipe)': BookmarksCollection[];
+  };
 }
 
 // ===== ratings =====
@@ -256,18 +250,17 @@ export interface RatingsUpdate extends BaseCollectionUpdate {
 }
 
 export interface RatingsCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'ratings';
-	response: RatingsResponse;
-	create: RatingsCreate;
-	update: RatingsUpdate;
-	relations: {
-		'users(bookmark)': UsersCollection[];
-		'recipes(rating)': RecipesCollection[];
-		creator: UsersCollection;
-		'recipes_duplicate(rating)': RecipesDuplicateCollection[];
-	};
+  type: 'base';
+  collectionId: string;
+  collectionName: 'ratings';
+  response: RatingsResponse;
+  create: RatingsCreate;
+  update: RatingsUpdate;
+  relations: {
+    'users(bookmark)': UsersCollection[];
+    'recipes(rating)': RecipesCollection[];
+    creator: UsersCollection;
+  };
 }
 
 // ===== bookmarks =====
@@ -301,74 +294,11 @@ export interface BookmarksCollection {
 	};
 }
 
-// ===== recipes_duplicate =====
-
-export interface RecipesDuplicateResponse extends BaseCollectionResponse {
-	collectionName: 'recipes_duplicate';
-	title: string;
-	views: number;
-	category: string;
-	keywords: string;
-	desc: string;
-	image: string;
-	rating: Array<string>;
-	ingredients: string;
-	steps: string;
-	seasoning: string;
-	profile: string;
-}
-
-export interface RecipesDuplicateCreate extends BaseCollectionCreate {
-	title?: string;
-	views?: number;
-	category?: string;
-	keywords?: string;
-	desc?: string;
-	image?: File | null;
-	rating?: MaybeArray<string>;
-	ingredients?: string;
-	steps?: string;
-	seasoning?: string;
-	profile?: string;
-}
-
-export interface RecipesDuplicateUpdate extends BaseCollectionUpdate {
-	title?: string;
-	views?: number;
-	'views+'?: number;
-	'views-'?: number;
-	category?: string;
-	keywords?: string;
-	desc?: string;
-	image?: File | null;
-	rating?: MaybeArray<string>;
-	'rating+'?: MaybeArray<string>;
-	'rating-'?: MaybeArray<string>;
-	ingredients?: string;
-	steps?: string;
-	seasoning?: string;
-	profile?: string;
-}
-
-export interface RecipesDuplicateCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'recipes_duplicate';
-	response: RecipesDuplicateResponse;
-	create: RecipesDuplicateCreate;
-	update: RecipesDuplicateUpdate;
-	relations: {
-		rating: RatingsCollection[];
-		profile: UsersCollection;
-	};
-}
-
 // ===== Schema =====
 
 export type Schema = {
-	users: UsersCollection;
-	recipes: RecipesCollection;
-	ratings: RatingsCollection;
-	bookmarks: BookmarksCollection;
-	recipes_duplicate: RecipesDuplicateCollection;
+  users: UsersCollection;
+  recipes: RecipesCollection;
+  ratings: RatingsCollection;
+  bookmarks: BookmarksCollection;
 };

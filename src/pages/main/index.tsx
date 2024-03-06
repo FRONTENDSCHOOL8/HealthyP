@@ -3,10 +3,10 @@ import { useAtom } from 'jotai';
 import SwiperMain from '@/components/swipers/SwiperMain';
 import { Link } from 'react-router-dom';
 import { pb } from '@/api/pocketbase';
+
 import RecipeCard from '@/components/cards/recipeCard/RecipeCard';
 import { useEffect, useRef } from 'react';
 import { RecipesResponse } from '@/types/Database';
-
 
 function FakeButtons() {
   return (
@@ -60,7 +60,7 @@ export function MainPage() {
         <p>에러</p>
       </div>
     );
-  
+
   return (
     <div className="overflow-y-scroll overflow-x-hidden h-full w-full pb-90pxr no-scrollbar">
       <SwiperMain />
