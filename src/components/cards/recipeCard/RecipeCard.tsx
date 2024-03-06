@@ -6,6 +6,7 @@ export type RecipeCardProps = {
   title: string;
   url: string;
   rating: RatingsResponse[];
+  id: string;
 };
 
 export default function RecipeCard({ title, url, rating, id }: RecipeCardProps) {

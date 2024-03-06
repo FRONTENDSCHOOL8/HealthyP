@@ -4,35 +4,35 @@
 
 // https://pocketbase.io/docs/collections/#base-collection
 export interface BaseCollectionResponse {
-	/**
-	 * 15 characters string to store as record ID.
-	 */
-	id: string;
-	/**
-	 * Date string representation for the creation date.
-	 */
-	created: string;
-	/**
-	 * Date string representation for the creation date.
-	 */
-	updated: string;
-	/**
-	 * The collection id.
-	 */
-	collectionId: string;
-	/**
-	 * The collection name.
-	 */
-	collectionName: string;
+  /**
+   * 15 characters string to store as record ID.
+   */
+  id: string;
+  /**
+   * Date string representation for the creation date.
+   */
+  created: string;
+  /**
+   * Date string representation for the creation date.
+   */
+  updated: string;
+  /**
+   * The collection id.
+   */
+  collectionId: string;
+  /**
+   * The collection name.
+   */
+  collectionName: string;
 }
 
 // https://pocketbase.io/docs/api-records/#create-record
 export interface BaseCollectionCreate {
-	/**
-	 * 15 characters string to store as record ID.
-	 * If not set, it will be auto generated.
-	 */
-	id?: string;
+  /**
+   * 15 characters string to store as record ID.
+   * If not set, it will be auto generated.
+   */
+  id?: string;
 }
 
 // https://pocketbase.io/docs/api-records/#update-record
@@ -40,93 +40,93 @@ export interface BaseCollectionUpdate {}
 
 // https://pocketbase.io/docs/collections/#auth-collection
 export interface AuthCollectionResponse extends BaseCollectionResponse {
-	/**
-	 * The username of the auth record.
-	 */
-	username: string;
-	/**
-	 * Auth record email address.
-	 */
-	email: string;
-	/**
-	 * Whether to show/hide the auth record email when fetching the record data.
-	 */
-	emailVisibility: boolean;
-	/**
-	 * Indicates whether the auth record is verified or not.
-	 */
-	verified: boolean;
+  /**
+   * The username of the auth record.
+   */
+  username: string;
+  /**
+   * Auth record email address.
+   */
+  email: string;
+  /**
+   * Whether to show/hide the auth record email when fetching the record data.
+   */
+  emailVisibility: boolean;
+  /**
+   * Indicates whether the auth record is verified or not.
+   */
+  verified: boolean;
 }
 
 // https://pocketbase.io/docs/api-records/#create-record
 export interface AuthCollectionCreate extends BaseCollectionCreate {
-	/**
-	 * The username of the auth record.
-	 * If not set, it will be auto generated.
-	 */
-	username?: string;
-	/**
-	 * Auth record email address.
-	 */
-	email?: string;
-	/**
-	 * Whether to show/hide the auth record email when fetching the record data.
-	 */
-	emailVisibility?: boolean;
-	/**
-	 * Auth record password.
-	 */
-	password: string;
-	/**
-	 * Auth record password confirmation.
-	 */
-	passwordConfirm: string;
-	/**
-	 * Indicates whether the auth record is verified or not.
-	 * This field can be set only by admins or auth records with "Manage" access.
-	 */
-	verified?: boolean;
+  /**
+   * The username of the auth record.
+   * If not set, it will be auto generated.
+   */
+  username?: string;
+  /**
+   * Auth record email address.
+   */
+  email?: string;
+  /**
+   * Whether to show/hide the auth record email when fetching the record data.
+   */
+  emailVisibility?: boolean;
+  /**
+   * Auth record password.
+   */
+  password: string;
+  /**
+   * Auth record password confirmation.
+   */
+  passwordConfirm: string;
+  /**
+   * Indicates whether the auth record is verified or not.
+   * This field can be set only by admins or auth records with "Manage" access.
+   */
+  verified?: boolean;
 }
 
 // https://pocketbase.io/docs/api-records/#update-record
 export interface AuthCollectionUpdate {
-	/**
-	 * The username of the auth record.
-	 */
-	username?: string;
-	/**
-	 * The auth record email address.
-	 * This field can be updated only by admins or auth records with "Manage" access.
-	 * Regular accounts can update their email by calling "Request email change".
-	 */
-	email?: string;
-	/**
-	 * Whether to show/hide the auth record email when fetching the record data.
-	 */
-	emailVisibility?: boolean;
-	/**
-	 * Old auth record password.
-	 * This field is required only when changing the record password. Admins and auth records with "Manage" access can skip this field.
-	 */
-	oldPassword?: string;
-	/**
-	 * New auth record password.
-	 */
-	password?: string;
-	/**
-	 * New auth record password confirmation.
-	 */
-	passwordConfirm?: string;
-	/**
-	 * Indicates whether the auth record is verified or not.
-	 * This field can be set only by admins or auth records with "Manage" access.
-	 */
-	verified?: boolean;
+  /**
+   * The username of the auth record.
+   */
+  username?: string;
+  /**
+   * The auth record email address.
+   * This field can be updated only by admins or auth records with "Manage" access.
+   * Regular accounts can update their email by calling "Request email change".
+   */
+  email?: string;
+  /**
+   * Whether to show/hide the auth record email when fetching the record data.
+   */
+  emailVisibility?: boolean;
+  /**
+   * Old auth record password.
+   * This field is required only when changing the record password. Admins and auth records with "Manage" access can skip this field.
+   */
+  oldPassword?: string;
+  /**
+   * New auth record password.
+   */
+  password?: string;
+  /**
+   * New auth record password confirmation.
+   */
+  passwordConfirm?: string;
+  /**
+   * Indicates whether the auth record is verified or not.
+   * This field can be set only by admins or auth records with "Manage" access.
+   */
+  verified?: boolean;
 }
 
 // https://pocketbase.io/docs/collections/#view-collection
 export interface ViewCollectionRecord {
-	id: string;
+  id: string;
 }
 
 // utilities
@@ -136,24 +136,24 @@ type MaybeArray<T> = T | T[];
 // ===== users =====
 
 export interface UsersResponse extends AuthCollectionResponse {
-	collectionName: 'users';
-	name: string;
-	avatar: string;
-	bookmark: Array<string>;
+  collectionName: 'users';
+  name: string;
+  avatar: string;
+  bookmark: Array<string>;
 }
 
 export interface UsersCreate extends AuthCollectionCreate {
-	name?: string;
-	avatar?: File | null;
-	bookmark?: MaybeArray<string>;
+  name?: string;
+  avatar?: File | null;
+  bookmark?: MaybeArray<string>;
 }
 
 export interface UsersUpdate extends AuthCollectionUpdate {
-	name?: string;
-	avatar?: File | null;
-	bookmark?: MaybeArray<string>;
-	'bookmark+'?: MaybeArray<string>;
-	'bookmark-'?: MaybeArray<string>;
+  name?: string;
+  avatar?: File | null;
+  bookmark?: MaybeArray<string>;
+  'bookmark+'?: MaybeArray<string>;
+  'bookmark-'?: MaybeArray<string>;
 }
 
 export interface UsersCollection {
@@ -165,8 +165,10 @@ export interface UsersCollection {
   update: UsersUpdate;
   relations: {
     bookmark: RatingsCollection[];
+    'recipes(profile)': RecipesCollection[];
     'ratings(creator)': RatingsCollection[];
     'bookmarks(bookmarked_by)': BookmarksCollection[];
+    'recipes_duplicate(profile)': RecipesDuplicateCollection[];
   };
 }
 
@@ -183,6 +185,7 @@ export interface RecipesResponse extends BaseCollectionResponse {
   desc: string;
   image: string;
   rating: Array<string>;
+  profile: string;
 }
 
 export interface RecipesCreate extends BaseCollectionCreate {
@@ -195,6 +198,7 @@ export interface RecipesCreate extends BaseCollectionCreate {
   desc?: string;
   image?: File | null;
   rating?: MaybeArray<string>;
+  profile: string;
 }
 
 export interface RecipesUpdate extends BaseCollectionUpdate {
@@ -211,6 +215,7 @@ export interface RecipesUpdate extends BaseCollectionUpdate {
   rating?: MaybeArray<string>;
   'rating+'?: MaybeArray<string>;
   'rating-'?: MaybeArray<string>;
+  profile?: string;
 }
 
 export interface RecipesCollection {
@@ -222,6 +227,7 @@ export interface RecipesCollection {
   update: RecipesUpdate;
   relations: {
     rating: RatingsCollection[];
+    profile: UsersCollection;
     'bookmarks(recipe)': BookmarksCollection[];
   };
 }
@@ -229,24 +235,24 @@ export interface RecipesCollection {
 // ===== ratings =====
 
 export interface RatingsResponse extends BaseCollectionResponse {
-	collectionName: 'ratings';
-	creator: string;
-	review_stars: number;
-	review_text: string;
+  collectionName: 'ratings';
+  creator: string;
+  review_stars: number;
+  review_text: string;
 }
 
 export interface RatingsCreate extends BaseCollectionCreate {
-	creator?: string;
-	review_stars?: number;
-	review_text?: string;
+  creator?: string;
+  review_stars?: number;
+  review_text?: string;
 }
 
 export interface RatingsUpdate extends BaseCollectionUpdate {
-	creator?: string;
-	review_stars?: number;
-	'review_stars+'?: number;
-	'review_stars-'?: number;
-	review_text?: string;
+  creator?: string;
+  review_stars?: number;
+  'review_stars+'?: number;
+  'review_stars-'?: number;
+  review_text?: string;
 }
 
 export interface RatingsCollection {
@@ -260,38 +266,101 @@ export interface RatingsCollection {
     'users(bookmark)': UsersCollection[];
     'recipes(rating)': RecipesCollection[];
     creator: UsersCollection;
+    'recipes_duplicate(rating)': RecipesDuplicateCollection[];
   };
 }
 
 // ===== bookmarks =====
 
 export interface BookmarksResponse extends BaseCollectionResponse {
-	collectionName: 'bookmarks';
-	bookmarked_by: string;
-	recipe: string;
+  collectionName: 'bookmarks';
+  bookmarked_by: string;
+  recipe: string;
 }
 
 export interface BookmarksCreate extends BaseCollectionCreate {
-	bookmarked_by?: string;
-	recipe?: string;
+  bookmarked_by?: string;
+  recipe?: string;
 }
 
 export interface BookmarksUpdate extends BaseCollectionUpdate {
-	bookmarked_by?: string;
-	recipe?: string;
+  bookmarked_by?: string;
+  recipe?: string;
 }
 
 export interface BookmarksCollection {
-	type: 'base';
-	collectionId: string;
-	collectionName: 'bookmarks';
-	response: BookmarksResponse;
-	create: BookmarksCreate;
-	update: BookmarksUpdate;
-	relations: {
-		bookmarked_by: UsersCollection;
-		recipe: RecipesCollection;
-	};
+  type: 'base';
+  collectionId: string;
+  collectionName: 'bookmarks';
+  response: BookmarksResponse;
+  create: BookmarksCreate;
+  update: BookmarksUpdate;
+  relations: {
+    bookmarked_by: UsersCollection;
+    recipe: RecipesCollection;
+  };
+}
+
+// ===== recipes_duplicate =====
+
+export interface RecipesDuplicateResponse extends BaseCollectionResponse {
+  collectionName: 'recipes_duplicate';
+  title: string;
+  views: number;
+  category: string;
+  keywords: string;
+  desc: string;
+  image: string;
+  rating: Array<string>;
+  ingredients: string;
+  steps: string;
+  seasoning: string;
+  profile: string;
+}
+
+export interface RecipesDuplicateCreate extends BaseCollectionCreate {
+  title?: string;
+  views?: number;
+  category?: string;
+  keywords?: string;
+  desc?: string;
+  image?: File | null;
+  rating?: MaybeArray<string>;
+  ingredients?: string;
+  steps?: string;
+  seasoning?: string;
+  profile?: string;
+}
+
+export interface RecipesDuplicateUpdate extends BaseCollectionUpdate {
+  title?: string;
+  views?: number;
+  'views+'?: number;
+  'views-'?: number;
+  category?: string;
+  keywords?: string;
+  desc?: string;
+  image?: File | null;
+  rating?: MaybeArray<string>;
+  'rating+'?: MaybeArray<string>;
+  'rating-'?: MaybeArray<string>;
+  ingredients?: string;
+  steps?: string;
+  seasoning?: string;
+  profile?: string;
+}
+
+export interface RecipesDuplicateCollection {
+  type: 'base';
+  collectionId: string;
+  collectionName: 'recipes_duplicate';
+  response: RecipesDuplicateResponse;
+  create: RecipesDuplicateCreate;
+  update: RecipesDuplicateUpdate;
+  relations: {
+    rating: RatingsCollection[];
+    profile: UsersCollection;
+  };
 }
 
 // ===== Schema =====
@@ -301,4 +370,5 @@ export type Schema = {
   recipes: RecipesCollection;
   ratings: RatingsCollection;
   bookmarks: BookmarksCollection;
+  recipes_duplicate: RecipesDuplicateCollection;
 };
