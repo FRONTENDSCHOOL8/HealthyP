@@ -4,7 +4,6 @@ import { UsersResponse } from '@/types';
 import { getDataAtomFamily } from '@/util/data/getDataAtomFamily';
 import { useAtom } from 'jotai';
 import { useRef } from 'react';
-import profileDefaultImg from '@/assets/images/medal_gold.png';
 
 export function BookmarkPage() {
   const urls = useRef<Array<string> | null>(null);
