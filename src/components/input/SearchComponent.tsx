@@ -1,11 +1,9 @@
 
 
 interface SearchComponentProps {
-  bgColor: string;
-  changeHandler: (React.ChangeEventHandler<HTMLInputElement>);
+  bgColor?: string;
+  changeHandler?: (React.ChangeEventHandler<HTMLInputElement>);
 }
-
-
 
 export default function SearchComponent({bgColor, changeHandler}: SearchComponentProps) {
   return (

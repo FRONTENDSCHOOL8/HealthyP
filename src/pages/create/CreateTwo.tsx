@@ -3,10 +3,9 @@ import { useAtom } from "jotai";
 import { Header, Button } from "@/components"
 import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import useUploadRecipe from "@/hooks/useUploadRecipe";
-import { recipeSteps, temp_image } from "@/stores/stores";
-import { useEffect, useState } from "react";
+import { recipeSteps } from "@/stores/stores";
 
 function TipContainer() {
   return (
@@ -43,18 +42,27 @@ const MESSAGE_DELETE_TRANSITION = {
   }
 }
 
+interface stepType {
+  id: string;
+  image: string;
+  description: string;
+  tips: string;
+}
+
 function StepContainer() {
   const [steps, setSteps] = useAtom(recipeSteps);
 
 
   console.log(steps);
-  function handleDragEnd (info, stepId) {
+  function handleDragEnd (info : PanInfo, stepId : string) {
     const dragDistance = info.point.x
+    
     if(dragDistance < -DELETE_BTN_WIDTH) {
-      const stepData = JSON.parse(steps).filter(item => item.id !== stepId);
+      const stepData = JSON.parse(steps).filter((item : stepType) => item.id !== stepId);
       setSteps(JSON.stringify(stepData));
     }
   }
+
 
 
   return (
@@ -62,7 +70,7 @@ function StepContainer() {
       <AddButton />
       <ul className="flex flex-col gap-10pxr">
         <AnimatePresence>
-          {JSON.parse(steps).map((item, index) => {
+          {JSON.parse(steps).map((item : stepType, index : number) => {
             return (
             <motion.li
               key={item.id}

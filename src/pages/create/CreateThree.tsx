@@ -45,14 +45,18 @@ export function CreateThree() {
                 resolve(reader.result);
               };
             });
-            reader.readAsDataURL(image);
-            const imageURL = await readerPromise;
-            const stepsData = new FormData();
-            stepsData.append('id', id);
-            stepsData.append('image', imageURL);
-            stepsData.append('description', description);
-            stepsData.append('tips', tips);
-            setSteps(JSON.stringify([...JSON.parse(steps), Object.fromEntries(stepsData)])) 
+            if(image) {
+              reader.readAsDataURL(image);
+              const imageURL = await readerPromise;
+              const stepsData = new FormData();
+              stepsData.append('id', id);
+              stepsData.append('image', imageURL as Blob | string);
+              stepsData.append('description', description);
+              stepsData.append('tips', tips);
+              setSteps(JSON.stringify([...JSON.parse(steps), Object.fromEntries(stepsData)])) 
+            } else {
+              alert('이미지를 추가 해주세요!');
+            }
           }}>완료
         </Link>
       </footer>

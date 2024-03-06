@@ -1,6 +1,8 @@
 import { SetStateAction } from "jotai";
 import { useState } from "react";
 
+type SetAtom<Args extends any[], Result> = (...args: Args) => Result;
+
 interface FileInputComponentProps {
   inputTitle: string;
   setFile: SetAtom<[SetStateAction<File | null>], void | SetStateAction<[SetStateAction<File | null>]>>

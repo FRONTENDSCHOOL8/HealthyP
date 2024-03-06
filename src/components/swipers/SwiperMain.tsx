@@ -3,6 +3,7 @@ import { Keyboard, Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { useState } from 'react';
 import flower from '@/assets/images/flower3.jpg';
 import whiteHealth from '@/assets/images/whiteHealth.webp';
+import { SearchComponent } from '@/components';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
@@ -35,7 +36,7 @@ const bannerData = [
   },
 ];
 
-import InputComponent from '../input/InputComponent';
+
 
 export default function SwiperMain() {
   // const[swiper, setSwiper] = useState<SwiperClass>();
@@ -87,7 +88,7 @@ export default function SwiperMain() {
           );
         })}
         <div className="absolute w-full flex px-10pxr top-10pxr z-10">
-          <InputComponent option="search" />
+          <SearchComponent />
         </div>
       </Swiper>
     </>

@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { useAtom, PrimitiveAtom } from "jotai";
-import { temp_image } from "@/stores/stores";
 
 
 interface IngredientsProps {
   titleText: string;
   atom : PrimitiveAtom<string>;
 }
+
+interface IngredientData {
+  name: string;
+  amount: string;
+}
+
 
 export function IngredientsComponent({titleText, atom} : IngredientsProps) {
   const [ingredName, setIngredName] = useState('');
@@ -55,7 +60,7 @@ export function IngredientsComponent({titleText, atom} : IngredientsProps) {
       </div>
       <div className="border-t-2 border-b-2 h-150pxr overflow-y-scroll no-scrollbar bg-gray_150">
         {
-          JSON.parse(ingredientData).map((item, index) => {
+          JSON.parse(ingredientData).map((item : IngredientData, index : string) => {
             return (
               <div key={index} className="flex gap-6pxr py-8pxr pl-10pxr border-b-2">
                 <div className="w-5/6 flex justify-between pr-10pxr">
@@ -65,7 +70,7 @@ export function IngredientsComponent({titleText, atom} : IngredientsProps) {
                 <div className="h-29pxr w-1pxr bg-gray-300"></div>
                 <button className="w-1/6" onClick={(e) => {
                   e.preventDefault();
-                  const updateIngreds = JSON.parse(ingredientData).filter(i => i.name !== item.name);
+                  const updateIngreds = JSON.parse(ingredientData).filter((i: IngredientData) => i.name !== item.name);
                   setIngredientData(JSON.stringify(updateIngreds));
                   // update ingreds within the database
                 }}>삭제</button>

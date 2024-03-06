@@ -30,6 +30,7 @@ import {
   RecentRecipes,
   UserLayout,
   SignupComplete,
+  DetailPage
 } from './pages/';
 
 const router = createBrowserRouter([
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
         element: <CreateComplete />,
       },
     ],
+  },
+  {
+    path: '/detail',
+    element: <DetailPage />
   },
   // 로그인 페이지
   {
