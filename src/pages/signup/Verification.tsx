@@ -1,10 +1,10 @@
 import { Button, Footer } from '@/components';
 import Header from '@/components/header/Header';
-import { MemoizedEmailComponent as EmailComponent } from '@/pages/signup/components/EmailComponent';
+import { MemoizedEmailComponent as EmailComponent } from '@/components/input/EmailComponent';
 import {
   MemoizedPasswordComponent as PasswordComponent,
   MemoizedPasswordConfirmComponent as PasswordConfirmComponent,
-} from '@/pages/signup/components/PasswordComponent';
+} from '@/components/input/PasswordComponent';
 import { ProgressBar } from '@/components/pagination/Pagination';
 import { useAtom } from 'jotai';
 import {

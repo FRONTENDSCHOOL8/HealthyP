@@ -1,6 +1,6 @@
 import { Button, Header } from '@/components';
-import { MemoizedEmailComponent as EmailComponet } from '../signup/components/EmailComponent';
-import { MemoizedPasswordComponent as PasswordComponet } from '../signup/components/PasswordComponent';
+import { MemoizedEmailComponent as EmailComponet } from '../../components/input/EmailComponent';
+import { MemoizedPasswordComponent as PasswordComponet } from '../../components/input/PasswordComponent';
 import { MemoizedAutoLogin as AutoLogin } from './components/AutoLogin';
 import Finder from './components/Finder';
 import line from '@/assets/icons/line.svg';
@@ -81,7 +81,11 @@ export function Login() {
           buttonCase="large"
           text={['로그인']}
           route={[goToMain]}
-          onClick={handleClick}
+          onClick={
+            handleClick as (
+              idx: number | React.FormEvent<HTMLFormElement>
+            ) => void
+          }
         />
         <Finder />
       </form>
