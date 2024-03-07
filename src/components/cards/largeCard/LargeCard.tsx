@@ -36,6 +36,9 @@ function BookmarkHeader({ profile, profileImg }: profileProps) {
   );
 }
 
+/**
+ * 북마크, 나의 레시피 카드 컴포넌트
+ */
 export default function LargeCard({
   title,
   url,
