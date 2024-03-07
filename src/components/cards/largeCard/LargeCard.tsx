@@ -58,7 +58,7 @@ export default function LargeCard({
   });
 
   return (
-    <article className="h-max overflow-hidden p-14pxr bg-white max-w-400pxr shrink-0 shadow-default">
+    <article className="h-max overflow-hidden p-14pxr bg-white max-w-430pxr shrink-0 shadow-default">
       <div className="flex justify-between min-h-54pxr items-center">
         <UserProfile profile={profile} />
         <BookmarkButton

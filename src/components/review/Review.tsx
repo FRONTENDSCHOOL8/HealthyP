@@ -15,7 +15,7 @@ function Review({ rating = [], caseType }: ReviewProps) {
   const renderText = renderTextMap[caseType](count);
   return (
     <>
-      <p className="text-foot">{renderText}</p>
+      <p className="text-foot ">{renderText}</p>
     </>
   );
 }
