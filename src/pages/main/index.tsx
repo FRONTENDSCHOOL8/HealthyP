@@ -48,6 +48,7 @@ export function MainPage() {
   );
 
   if (data) {
+    console.log(data);
     const urlArr = data.map((data: object) =>
       pb.files.getUrl(data, (data as { image: string })?.image)
     );

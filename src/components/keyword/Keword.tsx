@@ -1,7 +1,8 @@
 import separateComma from '@/util/separateComma';
 import { Key } from 'react';
 
-export default function Keyword({ items }: { items: string }) {
+export default function Keyword({ items }: { items: string | undefined }) {
+  if (!items) return;
   const itemsArray = separateComma(items);
   const sliceItemsArray = itemsArray.slice(0, 5);
 
