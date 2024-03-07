@@ -1,4 +1,3 @@
-import { OneButtonModal } from '@/components/modal/OneButtonModal';
 import { Provider } from 'jotai';
 
 export default function SearchPage() {
@@ -10,10 +9,5 @@ export default function SearchPage() {
 }
 
 function SearchPageContent() {
-  const handleConfirmClick = () => {};
-  return (
-    <>
-      <OneButtonModal isOpen={true} confirmModal={handleConfirmClick} />
-    </>
-  );
+  return <>hi</>;
 }
