@@ -58,7 +58,7 @@ export default function LargeCard({
   });
 
   return (
-    <article className="h-max overflow-hidden p-14pxr bg-white max-w-400pxr shrink-0 shadow-default">
+    <article className="h-max overflow-hidden p-14pxr bg-white max-w-430pxr shrink-0 shadow-default">
       <div className="flex justify-between min-h-54pxr items-center">
         <UserProfile profile={profile} />
         <BookmarkButton
@@ -66,23 +66,23 @@ export default function LargeCard({
           recipeId={id}
         />
       </div>
-      <img
-        className="aspect-video object-cover w-full rounded-[5px] bg-gray_100"
-        src={url || foodDefaultImg}
-        alt=""
-      />
-      <Keyword items={keywords} />
-      <Link to={'#' + id}>
+      <Link to={`/detail/${id}`}>
+        <img
+          className="aspect-video object-cover w-full rounded-[5px] bg-gray_100"
+          src={url || foodDefaultImg}
+          alt=""
+        />
+        <Keyword items={keywords} />
         <h3 className="text-title-3-em mt-19pxr">{title}</h3>
         <p
           className="w-full py-4pxr text-sub text-gray_700 line-clamp-2 min-h-52pxr leading-normal"
           dangerouslySetInnerHTML={{ __html: clearHTML }}
         />
+        <div className="flex px-2pxr pt-16pxr pb-40pxr gap-4pxr items-center">
+          <Star rating={rating} />
+          <Review rating={rating} caseType={'literal'} />
+        </div>
       </Link>
-      <button className="flex px-2pxr pt-16pxr pb-40pxr gap-4pxr items-center">
-        <Star rating={rating} />
-        <Review rating={rating} caseType={'literal'} />
-      </button>
     </article>
   );
 }
