@@ -2,30 +2,33 @@ import { RatingsResponse, UsersResponse } from '@/types';
 import { Star, Review, Keyword, BookmarkButton } from '@/components';
 import { Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
-import bookmark from '@/assets/icons/bookmark.svg';
-import bookmarkFill from '@/assets/icons/bookmarkFill.svg';
 import foodDefaultImg from '@/assets/images/flower3.jpg';
-import profileDefaultImg from '@/assets/images/medal_gold.png';
+import { RecordModel } from 'pocketbase';
+import getPbImage from '@/util/data/getPBImage';
+
 interface profileProps {
   profile: UsersResponse;
-  profileImg: string;
+  profileImg?: string;
 }
 
 export interface LargeCardProps extends profileProps {
   title: string;
-  type: 'bookmark' | 'myRecipe';
-  url: string | null;
+  type?: 'bookmark' | 'myRecipe';
+  url?: string;
   keywords?: string;
   desc: string;
   rating: RatingsResponse[];
   id: string;
+  userData: RecordModel | undefined;
 }
 
-function UserProfile({ profile, profileImg }: profileProps) {
+function UserProfile({ profile }: profileProps) {
+  const url = getPbImage("_pb_users_auth_", profile.id, profile.avatar)
+
   return (
     <>
       <img
-        src={profileImg || profileDefaultImg}
+        src={url}
         alt=""
         className="size-30pxr bg-gray_400 rounded-[30px]"
       />
@@ -44,8 +47,8 @@ export default function LargeCard({
   desc,
   id,
   profile,
-  profileImg,
   keywords,
+  userData
 }: LargeCardProps) {
   const clearHTML = DOMPurify.sanitize(desc, {
     // ALLOWED_ATTR: ['style', 'class', 'type', 'href', 'rel'],
@@ -57,10 +60,9 @@ export default function LargeCard({
   return (
     <article className="h-max overflow-hidden p-14pxr bg-white max-w-400pxr shrink-0 shadow-default">
       <div className="flex justify-between min-h-54pxr items-center">
-        <UserProfile profile={profile} profileImg={profileImg} />
+        <UserProfile profile={profile} />
         <BookmarkButton
-          activeImage={bookmarkFill}
-          inactiveImage={bookmark}
+          userData={userData}
           recipeId={id}
         />
       </div>
