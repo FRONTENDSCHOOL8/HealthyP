@@ -179,7 +179,7 @@ export default function App() {
   }
 
   return (
-    <div className="w-full max-w-1300pxr h-full mx-auto bg-white">
+    <div className="w-full max-w-1300pxr h-svh mx-auto bg-white">
       <RouterProvider router={router} />
     </div>
   );
