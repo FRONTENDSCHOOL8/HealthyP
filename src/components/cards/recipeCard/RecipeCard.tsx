@@ -12,8 +12,6 @@ export type RecipeCardProps = {
 
 export default function RecipeCard({ title, url, rating, id }: RecipeCardProps) {
 
-  
-
   return (
     <Link to={`/detail/${id}`} className="w-136pxr min-h-181pxr overflow-hidden shrink-0">
       <img
