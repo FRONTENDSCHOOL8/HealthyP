@@ -1,5 +1,3 @@
-
-
 // buttons
 export { default as Button } from '@/components/buttons/Button';
 export { default as FnButton } from '@/components/buttons/FnButton';
@@ -12,6 +10,9 @@ export { default as Footer } from '@/components/footer/Footer';
 export { default as Review } from '@/components/review/Review';
 export { default as Keyword } from '@/components/keyword/Keword';
 export { default as SwiperMain } from '@/components/swipers/SwiperMain';
-export { default as RecipeCard } from '@/components/cards/recipeCard/RecipeCard';
-export { default as GlobalNavigationBar } from '@/components/navigation/GlobalNavigationBar';
 export { default as SearchComponent } from '@/components/input/SearchComponent';
+export { default as GlobalNavigationBar } from '@/components/navigation/GlobalNavigationBar';
+
+// cards
+export { default as LargeCard } from '@/components/cards/largeCard/LargeCard';
+export { default as RecipeCard } from '@/components/cards/recipeCard/RecipeCard';

@@ -59,6 +59,9 @@ http://scripts.sil.org/OFL
   position: absolute;
   width: 100%;
   display: flex;
-  border-radius: 0px;  
+  border-radius: 0px;
 }
 
+details > summary::-webkit-details-marker {
+  display: none;
+}

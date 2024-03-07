@@ -1,12 +1,12 @@
-import { getDataAtomFamily } from '@/util';
-import { useAtom } from 'jotai';
-import SwiperMain from '@/components/swipers/SwiperMain';
-import { Link } from 'react-router-dom';
-import { pb } from '@/api/pocketbase';
+import getPbImage from '@/util/data/getPBImage';
 
-import RecipeCard from '@/components/cards/recipeCard/RecipeCard';
-import { useRef } from 'react';
-import { RatingsResponse } from '@/types';
+import { db } from '@/api/pocketbase';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { ListResult, RecordModel } from 'pocketbase';
+import { SwiperMain, RecipeCard } from '@/components';
+
+import foodDefaultImg from '@/assets/images/flower3.jpg';
 
 function FakeButtons() {
   return (
@@ -31,42 +31,28 @@ function FakeButtons() {
   );
 }
 
-interface DataItem {
-  id: string;
-  titile: string;
-  expand: { rating: RatingsResponse };
-}
-
 export function MainPage() {
-  const urls = useRef<Array<string> | null>(null);
-  const [{ data, loading, error }] = useAtom(
-    getDataAtomFamily({
-      item: 'recipes',
-      typeOfGetData: 'getFullList',
-      options: { expand: 'rating' },
-    })
-  );
+  const [data, setData] = useState<ListResult<RecordModel>>();
 
-  if (data) {
-    console.log(data);
-    const urlArr = data.map((data: object) =>
-      pb.files.getUrl(data, (data as { image: string })?.image)
-    );
-    urls.current = urlArr;
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const getRecipeData = async () =>
+        await db.collection('recipes').getList(1, 10, { expand: 'rating' });
 
-  if (loading)
-    return (
-      <div>
-        <p>스켈레톤 ui 나올듯?</p>
-      </div>
-    );
-  if (error)
-    return (
-      <div>
-        <p>에러</p>
-      </div>
-    );
+      // getRecipeData 함수의 결과를 기다립니다.
+      const recipeData: ListResult<RecordModel> = await getRecipeData();
+
+      // 실제 데이터를 상태에 설정합니다.
+      setData(recipeData);
+    };
+
+    // fetchData 함수를 호출합니다.
+    fetchData();
+
+    return () => {
+      db.collection('users').unsubscribe();
+    };
+  }, []);
 
   return (
     <div className="overflow-y-scroll overflow-x-hidden h-full w-full pb-90pxr no-scrollbar">
@@ -82,14 +68,15 @@ export function MainPage() {
         </Link>
         <div className="w-full overflow-x-auto no-scrollbar">
           <div className="flex gap-2 px-side w-max pb-2">
-            {data &&
-              data.map(({ id, title, expand }, idx) => {
+            {data?.items &&
+              data?.items.map(({ id, title, expand, image }) => {
+                const url = getPbImage('recipes', id, image);
                 return (
                   <RecipeCard
                     key={id}
                     id={id}
                     title={title}
-                    url={urls?.current[idx]}
+                    url={image ? url : foodDefaultImg}
                     rating={expand?.rating}
                   />
                 );
