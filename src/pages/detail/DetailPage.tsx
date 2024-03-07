@@ -33,7 +33,7 @@ export function DetailPage() {
       setImageURL(url);
       setRecipeData(record);
     }
-    const handleScroll = () => {
+    function handleScroll() {
       const scrollPosition = window.scrollY;
       const threshold = 100;
       if (scrollPosition > threshold) {
@@ -41,9 +41,7 @@ export function DetailPage() {
       } else {
         setHeaderBg('bg-none');
       }
-    };
-    window.addEventListener('scroll', handleScroll);
-
+    }
     async function getUserData() {
       const currentUser = localStorage.getItem("pocketbase_auth");
       if(currentUser === null) return;
@@ -58,6 +56,7 @@ export function DetailPage() {
     }
     getRecipeData();
     getUserData();
+    window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       db.collection('users').unsubscribe();
