@@ -10,7 +10,7 @@ const labelFocusWithin = 'text-black';
 const labelFocusWithout = 'text-gray-500';
 
 function pwReg(text: string) {
-  const re = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{6,16}$/;
+  const re = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{8,16}$/;
   return re.test(String(text).toLowerCase());
 }
 
@@ -62,7 +62,7 @@ function PasswordComponent({ label, error, style }: PasswordComponentProps) {
         <p
           className={`text-cap-1 text-warning ${pwBorder ? 'block' : 'hidden'}`}
         >
-          영어 대소문자, 특수문자, 숫자 포함 12자리 이상 입력해주세요
+          영어 대소문자, 특수문자, 숫자 포함 8자리 이상 입력해주세요
         </p>
       </div>
     </>
