@@ -5,13 +5,11 @@ import { useEffect, useState } from "react";
 import { RecordModel } from "pocketbase";
 import {Star, Review} from "@/components";
 import DOMPurify from "dompurify";
-import { useAtom } from "jotai";
-import { getDataAtomFamily } from "@/util";
+
 interface IngredientData {
   name: string;
   amount: string;
 }
-
 
 export function DetailPage() {
   const {recipeId} = useParams();
@@ -32,7 +30,7 @@ export function DetailPage() {
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      const threshold = 300;
+      const threshold = 100;
 
       if (scrollPosition > threshold) {
         setHeaderBg('bg-white');
@@ -40,12 +38,8 @@ export function DetailPage() {
         setHeaderBg('mix-blend-exclusion');
       }
     };
-
-
     window.addEventListener('scroll', handleScroll);
-
     getRecipeData();
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     }
@@ -57,12 +51,12 @@ export function DetailPage() {
   const clearText = DOMPurify.sanitize(recipeData?.desc, {ALLOWED_TAGS: ['p', 'em', 'br']});
 
   return (
-    <div className="bg-white">
-      <div className="fixed w-full z-10 ">
+    <div className="z-[1] relative">
+      <div className="fixed w-full z-10">
         <Header option="prevWithBookMark"  bgColor={headerBg}/>
       </div>
-      <img src={imageURL} alt="" className="w-full max-h-365pxr object-cover  z-0"/>
-      <div className="flex flex-col gap-20pxr py-20pxr z-20">
+      <img src={imageURL} alt="" className="w-full max-h-365pxr object-cover sticky top-0 z-0"/>
+      <div className="flex flex-col gap-20pxr py-20pxr bg-white z-10">
         <div className="px-14pxr flex flex-col gap-8pxr">
           <h1 className="text-title-2-em">{recipeData?.title}</h1>
           <p dangerouslySetInnerHTML={{__html: clearText}}></p>
@@ -88,7 +82,7 @@ export function DetailPage() {
           <details className="w-full border-2">
             <summary className="text-body px-14pxr py-12pxr">양념</summary>
             <ul className="py-12pxr px-14pxr bg-gray-100">
-              {JSON.parse(recipeData?.ingredients).map((item:IngredientData, index:number) => {
+              {JSON.parse(recipeData?.seasoning).map((item:IngredientData, index:number) => {
                 return (
                   <li key={index} className="flex justify-between w-full py-11pxr text-sub border-b-2">
                     <p>{item.name}</p>
@@ -101,7 +95,7 @@ export function DetailPage() {
           <details className="w-full border-2">
             <summary className="text-body px-14pxr py-12pxr">영양정보</summary>
             <ul className="py-12pxr px-14pxr bg-gray-100">
-              {JSON.parse(recipeData?.ingredients).map((item:IngredientData, index:number) => {
+              {JSON.parse(recipeData?.seasoning).map((item:IngredientData, index:number) => {
                 return (
                   <li key={index} className="flex justify-between w-full py-11pxr text-sub border-b-2">
                     <p>{item.name}</p>
