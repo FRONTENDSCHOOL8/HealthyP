@@ -1,4 +1,4 @@
-import { Button, Footer } from '@/components';
+import { FooterButton, Footer } from '@/components';
 import Header from '@/components/header/Header';
 import { MemoizedEmailComponent as EmailComponent } from '@/components/input/EmailComponent';
 import {
@@ -70,7 +70,7 @@ export function Verification() {
 
       <Footer>
         <ProgressBar init={33} progress={66} />
-        <Button
+        <FooterButton
           buttonCase="large"
           text={['이메일 인증 받기']}
           route={[goToEmailVerification]}

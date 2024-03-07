@@ -1,5 +1,5 @@
 // buttons
-export { default as Button } from '@/components/buttons/Button';
+export { default as FooterButton } from '@/components/buttons/FooterButton';
 export { default as FnButton } from '@/components/buttons/FnButton';
 export { default as DummyButton } from '@/components/buttons/DummyButton';
 export { default as BookmarkButton } from '@/components/buttons/BookmarkButton';
