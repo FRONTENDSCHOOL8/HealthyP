@@ -6,6 +6,8 @@ import { RecordModel } from "pocketbase";
 import {Star, Review} from "@/components";
 import DOMPurify from "dompurify";
 
+
+
 interface IngredientData {
   name: string;
   amount: string;
@@ -16,23 +18,20 @@ export function DetailPage() {
   const [recipeData, setRecipeData] = useState<RecordModel>();
   const [imageURL, setImageURL] = useState('');
   const [headerBg, setHeaderBg] = useState('');
-  const [bookmark, setBookmark] = useState(true);
   
   useEffect(() => {
     async function getRecipeData() {
       if(recipeId === undefined) return;
-      const record = await db.collection("recipes_duplicate").getOne(recipeId, {
+      const record = await db.collection("recipes").getOne(recipeId, {
         expand: 'rating'
       });
       const url = db.files.getUrl(record, record.image);
       setImageURL(url);
       setRecipeData(record);
     }
-
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const threshold = 100;
-
       if (scrollPosition > threshold) {
         setHeaderBg('bg-white');
       } else {
@@ -46,23 +45,26 @@ export function DetailPage() {
     }
   }, [recipeId])
 
+
   if (!recipeData) {
     return <div>Loading...</div>
   }
+
   const clearText = DOMPurify.sanitize(recipeData?.desc, {ALLOWED_TAGS: ['p', 'em', 'br']});
 
+  // 북마크 클릭 핸들러
   async function triggerBookmark() {
     const currentUser = localStorage.getItem("pocketbase_auth");
     if(currentUser === null) return;
-    console.log({...JSON.parse(currentUser).model});
-    const userData = {...JSON.parse(currentUser).model}
-    
-    const { bookmark_test } = userData;
-    
-    const bookmarkData = await db.collection('bookmarks').getOne(bookmark_test);
-    bookmarkData.recipe.push(recipeId);
-    const newData = {...bookmarkData};
-    await db.collection('bookmarks').update(bookmark_test, newData); 
+    const currentUserData = {...JSON.parse(currentUser).model}
+    const { id } = currentUserData;
+    const userRecord = await db.collection('users').getOne(id);
+    if (userRecord.bookmark.includes(recipeId)) {
+      return;
+    } else {
+      userRecord.bookmark.push(recipeId);
+      await db.collection('users').update(userRecord.id, userRecord); 
+    }
   }
 
   return (
@@ -71,6 +73,7 @@ export function DetailPage() {
         <Header option="prevWithBookMark" bgColor={headerBg} handleClick={triggerBookmark}/>
       </div>
       <img src={imageURL} alt="" className="w-full max-h-365pxr object-cover"/>
+
       <div className="flex flex-col gap-20pxr py-20pxr bg-white">
         <div className="px-14pxr flex flex-col gap-8pxr">
           <h1 className="text-title-2-em">{recipeData?.title}</h1>
