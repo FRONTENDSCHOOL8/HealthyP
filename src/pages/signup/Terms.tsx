@@ -1,4 +1,4 @@
-import { Button, Footer } from '@/components';
+import { FooterButton, Footer } from '@/components';
 import Header from '@/components/header/Header';
 import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
 import { ProgressBar } from '@/components/pagination/Pagination';
@@ -109,7 +109,7 @@ export function Terms() {
 
       <Footer>
         <ProgressBar init={0} progress={progress} />
-        <Button
+        <FooterButton
           buttonCase="large"
           text={['다음']}
           route={[goToMakeIdPage]}

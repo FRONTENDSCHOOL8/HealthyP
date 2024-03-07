@@ -1,4 +1,4 @@
-import { Header, Button } from '@/components';
+import { Header, FooterButton, Footer } from '@/components';
 import {
   FileInputComponent,
   TextAreaComponent,
@@ -33,10 +33,14 @@ export function CreateOne() {
         />
         <IngredientsComponent titleText="재료" atom={ingredients} />
         <IngredientsComponent titleText="양념" atom={seasoning} />
-        <footer className="fixed bottom-0 left-0 w-full px-18pxr py-30pxr bg-white">
-          <Button buttonCase="large" text={['다음']} route={[() => 'two']} />
-        </footer>
       </Form>
+      <Footer>
+        <FooterButton
+          buttonCase="large"
+          text={['다음']}
+          route={[() => 'two']}
+        />
+      </Footer>
     </>
   );
 }

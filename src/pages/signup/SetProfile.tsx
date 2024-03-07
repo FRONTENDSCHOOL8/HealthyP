@@ -1,4 +1,4 @@
-import { Button, Footer, Header } from '@/components';
+import { FooterButton, Footer, Header } from '@/components';
 import NicknameComponent from '@/pages/signup/components/NicknameComponent';
 import { ProgressBar } from '@/components/pagination/Pagination';
 import { generateRandomName } from '@/components/term/termData';
@@ -113,12 +113,12 @@ export function SetProfile() {
       </div>
       <Footer>
         <ProgressBar init={66} progress={100} />
-        <Button
+        <FooterButton
           buttonCase="large"
           text={['시작하기']}
           route={[goToComplete]}
           isActive={isNicknameValid}
-          onClick={handleClick}
+          onClickOne={handleClick}
         />
       </Footer>
       <TwoButtonModal

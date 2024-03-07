@@ -1,4 +1,4 @@
-import { Button, Footer } from '@/components';
+import { FooterButton, Footer } from '@/components';
 import notFound404 from '../assets/images/not_found.png';
 
 export default function MissingPage() {
@@ -20,7 +20,7 @@ export default function MissingPage() {
         </div>
       </div>
       <Footer>
-        <Button
+        <FooterButton
           text={['홈으로 돌아가기']}
           route={[goToHome]}
           buttonCase="large"

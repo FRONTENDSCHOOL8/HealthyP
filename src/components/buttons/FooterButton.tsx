@@ -8,7 +8,8 @@ type ButtonProps = {
   text: string[];
   route: (() => string)[];
   isActive?: boolean;
-  onClick?: (idx: number | React.FormEvent<HTMLFormElement>) => void;
+  onClickOne?: (idx: number | React.FormEvent<HTMLFormElement>) => void;
+  onClickTwo?: (idx: number | React.FormEvent<HTMLFormElement>) => void;
 };
 
 const buttonVariant = {
@@ -63,7 +64,8 @@ const ButtonContent = ({
   text,
   route,
   isActive = true,
-  onClick,
+  onClickOne,
+  onClickTwo,
 }: ButtonProps): JSX.Element => {
   const navigate = useNavigate();
 
@@ -83,14 +85,15 @@ const ButtonContent = ({
   }
 
   // 콜백 함수로 들어온 경로로 이동하는 핸들러
-  const handleOnClick = (idx: number): void => {
-    // onClick prop이 제공되었으면 사용자 정의 클릭 핸들러 호출
-    if (onClick) {
-      (async () => {
-        await onClick(idx);
-      })();
+  const handleOnClick = async (idx: number): Promise<void> => {
+    if (idx === 0 && onClickOne) {
+      // 첫 번째 버튼 클릭 시 onClickOne 핸들러 실행
+      await onClickOne(idx);
+    } else if (idx === 1 && onClickTwo) {
+      // 두 번째 버튼 클릭 시 onClickTwo 핸들러 실행
+      await onClickTwo(idx);
     } else {
-      // onClick prop이 없으면 기존 로직(경로 이동) 수행
+      // 아무 onClick 핸들러도 제공되지 않았다면 기존 로직(경로 이동) 수행
       const path = route[idx]();
       navigate(path);
     }

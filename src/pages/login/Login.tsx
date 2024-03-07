@@ -1,4 +1,4 @@
-import { Button, Header } from '@/components';
+import { FooterButton, Header } from '@/components';
 import { MemoizedEmailComponent as EmailComponet } from '../../components/input/EmailComponent';
 import { MemoizedPasswordComponent as PasswordComponet } from '../../components/input/PasswordComponent';
 import { MemoizedAutoLogin as AutoLogin } from './components/AutoLogin';
@@ -77,11 +77,11 @@ export function Login() {
             </>
           )}
         </div>
-        <Button
+        <FooterButton
           buttonCase="large"
           text={['로그인']}
           route={[goToMain]}
-          onClick={
+          onClickOne={
             handleClick as (
               idx: number | React.FormEvent<HTMLFormElement>
             ) => void
