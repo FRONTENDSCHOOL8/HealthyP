@@ -30,73 +30,82 @@ interface HeaderProps {
     | 'titlewithCloseAndFn';
   title?: string;
   bgColor?: string;
-  handleClick?: () => void;
+  handleClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
+
+
+const defaultSizing = "w-full px-10pxr py-12pxr flex items-center justify-between sticky top-0";
 
 function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
   const navigate = useNavigate();
 
   const headerMappings = {
     onlyArrow: (
-
       <header
-        className={`w-full bg-white ${bgColor} px-10pxr py-12pxr sticky top-0`}
+        className={`${bgColor} ${defaultSizing}`}
       >
-
         <FnButton
           image={arrowBig}
           clickHandler={() => navigate(-1)}
           altText="뒤로가기"
         />
+        <DummyButton 
+          size={'30pxr'} 
+        />
       </header>
     ),
     onlyClose: (
       <header
-        className={`w-full ${bgColor} px-10pxr py-12pxr flex items-center justify-between sticky top-0`}
+        className={`${bgColor} ${defaultSizing}`}
       >
-        <DummyButton size={'size-30pxr'} />mporary merge branch 2
-        <FnButton image={close} clickHandler={() => navigate(-1)} />
+        <DummyButton 
+          size={'size-30pxr'}
+        />
+        <FnButton 
+          image={close} 
+          clickHandler={() => navigate('/')}
+          altText="닫기" />
       </header>
     ),
     titleWithBack: (
-      <header className={`w-full ${bgColor} px-10pxr py-12pxr flex items-center justify-between sticky top-0`}>
+      <header className={`${bgColor} ${defaultSizing}`}>
         <FnButton image={arrowBig} clickHandler={() => navigate(-1)} />
         <HeaderTitle title={title} />
         <DummyButton  />
       </header>
     ),
     titleWithClose: (
-      <header className={`w-full ${bgColor} px-10pxr py-12pxr flex items-center justify-between sticky top-0`}>
+      <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton />
         <HeaderTitle title={title} />
-        <FnButton image={close} clickHandler={() => navigate(-1)} />
+        <FnButton image={close} clickHandler={() => navigate('/')} />
       </header>
     ),
     searchWithBack: (
-      <header className={`w-full ${bgColor} gap-12pxr px-10pxr py-12pxr flex items-center justify-between sticky top-0`}>
+      <header className={`${bgColor} gap-12pxr ${defaultSizing}`}>
         <FnButton image={arrowBig} clickHandler={() => navigate(-1)} />
         <SearchComponent />
       </header>
     ),
     onlySearch: (
-      <header className={`w-full px-10pxr py-12pxr ${bgColor} flex items-center justify-between sticky top-0`}>
+      <header className={`${bgColor} ${defaultSizing}`}>
         <SearchComponent />
       </header>
     ),
     prevWithBookMark: (
-      <header className={`w-full px-10pxr py-12pxr ${bgColor} flex items-center justify-between sticky top-0`}>
+      <header className={`${bgColor} ${defaultSizing}`}>
         <FnButton image={arrowBig} clickHandler={() => navigate(-1)} />
-        <FnButton image={bookmark} clickHandler={() => navigate(-1)} />
+        <FnButton image={bookmark} clickHandler={handleClick} />
       </header>
     ),
     onlyAlarm: (
-      <header className="w-full bg-white px-10pxr py-12pxr flex items-center justify-between sticky top-0">
+      <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton />
-        <FnButton image={bell} clickHandler={() => navigate(-1)} />
+        <FnButton image={bell} clickHandler={handleClick} />
       </header>
     ),
     titlewithCloseAndFn: (
-      <header className="w-full bg-white px-10pxr py-12pxr flex items-center justify-between sticky top-0">
+      <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton size={'size-30pxr'} />
         <HeaderTitle title={title} />
         <FnButton image={close} clickHandler={handleClick} />
@@ -114,7 +123,7 @@ function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
 export default function Header({
   option,
   title,
-  bgColor,
+  bgColor = 'bg-white',
   handleClick,
 }: HeaderProps) {
   const headerComponent = useMapping({

@@ -50,7 +50,7 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
         rating: []
       };
 
-      const record = await db.collection('recipes_duplicate').create(data);
+      const record = await db.collection('recipes').create(data);
 
       setIsLoading(false);
       setError(null);

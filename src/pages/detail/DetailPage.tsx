@@ -16,6 +16,7 @@ export function DetailPage() {
   const [recipeData, setRecipeData] = useState<RecordModel>();
   const [imageURL, setImageURL] = useState('');
   const [headerBg, setHeaderBg] = useState('');
+  const [bookmark, setBookmark] = useState(true);
   
   useEffect(() => {
     async function getRecipeData() {
@@ -50,20 +51,34 @@ export function DetailPage() {
   }
   const clearText = DOMPurify.sanitize(recipeData?.desc, {ALLOWED_TAGS: ['p', 'em', 'br']});
 
+  async function triggerBookmark() {
+    const currentUser = localStorage.getItem("pocketbase_auth");
+    if(currentUser === null) return;
+    console.log({...JSON.parse(currentUser).model});
+    const userData = {...JSON.parse(currentUser).model}
+    
+    const { bookmark_test } = userData;
+    
+    const bookmarkData = await db.collection('bookmarks').getOne(bookmark_test);
+    bookmarkData.recipe.push(recipeId);
+    const newData = {...bookmarkData};
+    await db.collection('bookmarks').update(bookmark_test, newData); 
+  }
+
   return (
     <div className="z-[1] relative">
       <div className="fixed w-full z-10">
-        <Header option="prevWithBookMark"  bgColor={headerBg}/>
+        <Header option="prevWithBookMark" bgColor={headerBg} handleClick={triggerBookmark}/>
       </div>
-      <img src={imageURL} alt="" className="w-full max-h-365pxr object-cover sticky top-0 z-0"/>
-      <div className="flex flex-col gap-20pxr py-20pxr bg-white z-10">
+      <img src={imageURL} alt="" className="w-full max-h-365pxr object-cover"/>
+      <div className="flex flex-col gap-20pxr py-20pxr bg-white">
         <div className="px-14pxr flex flex-col gap-8pxr">
           <h1 className="text-title-2-em">{recipeData?.title}</h1>
           <p dangerouslySetInnerHTML={{__html: clearText}}></p>
         </div>
         <div className="flex px-14pxr">
-          <Star rating={recipeData.expand?.review}/>
-          <Review rating={recipeData.expand?.review} caseType={'number'}/>
+          <Star rating={recipeData.expand?.rating}/>
+          <Review rating={recipeData.expand?.rating} caseType={'number'}/>
         </div>
         <div>
           <details className="w-full border-2">
