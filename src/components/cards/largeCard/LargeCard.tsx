@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import bookmark from '@/assets/icons/bookmark.svg';
 import foodDefaultImg from '@/assets/images/flower3.jpg';
-import profileDefaultImg from '@/assets/images/medal_gold.png';
 
 interface profileProps {
   profile: UsersResponse;
