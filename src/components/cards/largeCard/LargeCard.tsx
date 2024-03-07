@@ -9,7 +9,7 @@ import getPbImage from '@/util/data/getPBImage';
 import foodDefaultImg from '@/assets/images/flower3.jpg';
 
 interface profileProps {
-  profile: UsersResponse;
+  profile?: UsersResponse;
   profileImg?: string;
 }
 export interface LargeCardProps extends profileProps {
@@ -24,7 +24,9 @@ export interface LargeCardProps extends profileProps {
 }
 
 function UserProfile({ profile }: profileProps) {
-  const url = getPbImage('_pb_users_auth_', profile.id, profile.avatar);
+  if(profile === undefined) return;
+  const url = getPbImage("_pb_users_auth_", profile.id, profile.avatar)
+
 
   return (
     <>
@@ -48,35 +50,62 @@ export default function LargeCard({
   userData,
 }: LargeCardProps) {
   const clearHTML = DOMPurify.sanitize(desc, {
-    // ALLOWED_ATTR: ['style', 'class', 'type', 'href', 'rel'],
     ALLOWED_TAGS: ['br', 'em', 'strong'],
-    // RETURN_DOM: true,
-    // must add these tag manually if use this option.
+
   });
 
-  return (
-    <article className="h-max overflow-hidden p-14pxr bg-white max-w-430pxr shrink-0 shadow-default">
-      <div className="flex justify-between min-h-54pxr items-center">
-        <UserProfile profile={profile} />
-        <BookmarkButton userData={userData} recipeId={id} />
-      </div>
-      <Link to={`/detail/${id}`}>
-        <img
-          className="aspect-video object-cover w-full rounded-[5px] bg-gray_100"
-          src={url || foodDefaultImg}
-          alt=""
-        />
-        <Keyword items={keywords} />
-        <h3 className="text-title-3-em mt-19pxr">{title}</h3>
-        <p
-          className="w-full py-4pxr text-sub text-gray_700 line-clamp-2 min-h-52pxr leading-normal"
-          dangerouslySetInnerHTML={{ __html: clearHTML }}
-        />
-        <div className="flex px-2pxr pt-16pxr pb-40pxr gap-4pxr items-center">
-          <Star rating={rating} />
-          <Review rating={rating} caseType={'literal'} />
+  if(profile) {
+    return (
+      <article className="h-max overflow-hidden p-14pxr bg-white max-w-430pxr shrink-0 shadow-default">
+        <div className="flex justify-between min-h-54pxr items-center">
+          <UserProfile profile={profile} />
+          <BookmarkButton
+            userData={userData}
+            recipeId={id}
+          />
         </div>
-      </Link>
-    </article>
-  );
+        <Link to={`/detail/${id}`}>
+          <img
+            className="aspect-video object-cover w-full rounded-[5px] bg-gray_100"
+            src={url || foodDefaultImg}
+            alt=""
+          />
+          <Keyword items={keywords} />
+          <h3 className="text-title-3-em mt-19pxr">{title}</h3>
+          <p
+            className="w-full py-4pxr text-sub text-gray_700 line-clamp-2 min-h-52pxr leading-normal"
+            dangerouslySetInnerHTML={{ __html: clearHTML }}
+          />
+        </Link>
+        <div className="flex px-2pxr pt-16pxr pb-40pxr gap-4pxr items-center">
+          <Link  to={'/'} className='fit-content flex gap-4pxr'>
+            <Star rating={rating} />
+            <Review rating={rating} caseType={'literal'} />
+          </Link>
+        </div>
+      </article>
+    );
+  } else {
+    <article className="h-max overflow-hidden p-14pxr bg-white max-w-430pxr shrink-0 shadow-default">
+        <Link to={`/detail/${id}`}>
+          <img
+            className="aspect-video object-cover w-full rounded-[5px] bg-gray_100"
+            src={url || foodDefaultImg}
+            alt=""
+          />
+          <Keyword items={keywords} />
+          <h3 className="text-title-3-em mt-19pxr">{title}</h3>
+          <p
+            className="w-full py-4pxr text-sub text-gray_700 line-clamp-2 min-h-52pxr leading-normal"
+            dangerouslySetInnerHTML={{ __html: clearHTML }}
+          />
+        </Link>
+        <div className="flex px-2pxr pt-16pxr pb-40pxr gap-4pxr items-center">
+          <Link  to={'/'} className='fit-content flex gap-4pxr'>
+            <Star rating={rating} />
+            <Review rating={rating} caseType={'literal'} />
+          </Link>
+        </div>
+      </article>
+  }
 }
