@@ -12,7 +12,6 @@ interface IngredientData {
   amount: string;
 }
 
-
 export function IngredientsComponent({titleText, atom} : IngredientsProps) {
   const [ingredName, setIngredName] = useState('');
   const [ingredAmount, setIngredAmount] = useState('');

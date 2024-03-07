@@ -41,6 +41,10 @@ export default {
         gray_700: '#575758',
         tag_color: '#EEEEF0',
       },
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        card: 'repeat(auto-fill, minmax(320px, 400px))',
+      },
       backgroundImage: {
         'star-icon': "url('/src/assets/icons/star.svg')",
         'add-icon': "url('/src/assets/icons/add.svg')",
@@ -134,7 +138,7 @@ export default {
             lineHeight: '1.375rem',
           },
         ],
-        body: [
+        'body': [
           '1.0625rem',
           {
             fontWeight: 400,
@@ -150,7 +154,7 @@ export default {
             lineHeight: '1.25rem',
           },
         ],
-        sub: [
+        'sub': [
           '0.9375rem',
           {
             fontWeight: 400,

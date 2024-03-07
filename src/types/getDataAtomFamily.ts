@@ -3,6 +3,7 @@ export interface getDataInterface {
   typeOfGetData: 'getFullList' | 'getOne' | 'getList' | 'getFirstListItem';
   options?: object;
   setting?: number | string;
+  id? : string;
 }
 
 export interface DataState<T> {
