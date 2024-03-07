@@ -4,6 +4,7 @@
 export { default as Button } from '@/components/buttons/Button';
 export { default as FnButton } from '@/components/buttons/FnButton';
 export { default as DummyButton } from '@/components/buttons/DummyButton';
+export { default as BookmarkButton } from '@/components/buttons/BookmarkButton';
 
 export { default as Star } from '@/components/star/Star';
 export { default as Header } from '@/components/header/Header';
