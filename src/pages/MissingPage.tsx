@@ -8,7 +8,7 @@ export default function MissingPage() {
 
   return (
     <>
-      <div className="flex flex-col pt-193pxr gap-45pxr justify-center items-center">
+      <div className="flex flex-col gap-45pxr justify-center items-center py-100pxr">
         <img src={notFound404} alt="404" />
         <div className="flex flex-col gap-12pxr">
           <p className="text-title-1-em">페이지를 찾을 수 없습니다</p>
