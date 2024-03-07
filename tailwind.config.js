@@ -134,7 +134,7 @@ export default {
             lineHeight: '1.375rem',
           },
         ],
-        body: [
+        'body': [
           '1.0625rem',
           {
             fontWeight: 400,
@@ -150,7 +150,7 @@ export default {
             lineHeight: '1.25rem',
           },
         ],
-        sub: [
+        'sub': [
           '0.9375rem',
           {
             fontWeight: 400,

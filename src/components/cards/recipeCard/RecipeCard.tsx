@@ -2,6 +2,7 @@ import { RatingsResponse } from '@/types';
 import Review from '../../review/Review';
 import Star from '../../star/Star';
 import { Link } from 'react-router-dom';
+
 export type RecipeCardProps = {
   title: string;
   url: string;
