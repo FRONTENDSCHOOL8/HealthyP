@@ -1,8 +1,8 @@
 import { db } from '@/api/pocketbase';
-import LargeCard from '@/components/cards/largeCard/LargeCard';
-import { ListResult, RecordModel } from 'pocketbase';
+import { LargeCard } from '@/components';
 import { useState, useEffect } from 'react';
-import foodDefaultImg from '@/assets/images/flower3.jpg';
+import { ListResult, RecordModel } from 'pocketbase';
+
 import getPbImage from '@/util/data/getPBImage';
 
 export function BookmarkPage() {
@@ -24,10 +24,12 @@ export function BookmarkPage() {
     };
 
     async function getUserData() {
-      const currentUser = localStorage.getItem("pocketbase_auth");
-      if(currentUser === null) return;
+      const currentUser = localStorage.getItem('pocketbase_auth');
+      if (currentUser === null) return;
       const userId = JSON.parse(currentUser).model.id;
-      const response = await db.collection("users").getOne(userId, {requestKey:null});
+      const response = await db
+        .collection('users')
+        .getOne(userId, { requestKey: null });
       if (response === undefined) return;
       setUserData(response);
     }
@@ -35,11 +37,11 @@ export function BookmarkPage() {
     // fetchData 함수를 호출합니다.
     getUserData();
     fetchData();
-    db.collection('users').subscribe('*', getUserData)
+    db.collection('users').subscribe('*', getUserData);
 
     return () => {
       db.collection('users').unsubscribe();
-    }
+    };
   }, []);
 
   return (
@@ -49,13 +51,14 @@ export function BookmarkPage() {
           data?.items.map((data, idx) => {
             if (data) {
               const url = getPbImage('recipes', data.id, data.image);
+              console.log(data.image || url);
               return (
                 <LargeCard
                   key={idx}
                   id={data.id}
                   userData={userData}
                   rating={data.expand?.rating}
-                  url={data.image ? url : foodDefaultImg}
+                  url={data.image && url}
                   desc={data.desc}
                   title={data.title}
                   profile={data.expand?.profile}
