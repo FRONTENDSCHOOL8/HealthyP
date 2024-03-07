@@ -1,10 +1,12 @@
-import { Header } from '@/components';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '@/api/pocketbase';
 import { useEffect, useState } from 'react';
 import { RecordModel } from 'pocketbase';
-import { Star, Review } from '@/components';
+import { Star, Review, FnButton } from '@/components';
 import DOMPurify from 'dompurify';
+import arrowBig from '@/assets/icons/arrowBig.svg';
+import bookmark from '@/assets/icons/bookmark.svg';
+import bookmarkFill from '@/assets/icons/bookmarkFill.svg';
 
 interface IngredientData {
   name: string;
@@ -16,7 +18,9 @@ export function DetailPage() {
   const [recipeData, setRecipeData] = useState<RecordModel>();
   const [imageURL, setImageURL] = useState('');
   const [headerBg, setHeaderBg] = useState('');
-  const [bookmark, setBookmark] = useState(true);
+  const [iconState, setIconState] = useState(false);
+  const [userData, setUserData] = useState<RecordModel>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getRecipeData() {
@@ -28,24 +32,35 @@ export function DetailPage() {
       setImageURL(url);
       setRecipeData(record);
     }
-
-    const handleScroll = () => {
+    function handleScroll() {
       const scrollPosition = window.scrollY;
       const threshold = 100;
-
       if (scrollPosition > threshold) {
         setHeaderBg('bg-white');
       } else {
-        setHeaderBg('mix-blend-exclusion');
+        setHeaderBg('bg-none');
       }
-    };
-    window.addEventListener('scroll', handleScroll);
+    }
+    async function getUserData() {
+      const currentUser = localStorage.getItem('pocketbase_auth');
+      if (currentUser === null) return;
+      const userId = JSON.parse(currentUser).model.id;
+      const response = await db.collection('users').getOne(userId);
+      setUserData(response);
+      if (response.bookmark.includes(recipeId)) {
+        setIconState(true);
+      } else {
+        setIconState(false);
+      }
+    }
     getRecipeData();
+    getUserData();
+    window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      db.collection('users').unsubscribe();
     };
   }, [recipeId]);
-
   if (!recipeData) {
     return <div>Loading...</div>;
   }
@@ -53,31 +68,40 @@ export function DetailPage() {
     ALLOWED_TAGS: ['p', 'em', 'br'],
   });
 
+  // 북마크 클릭 핸들러
   async function triggerBookmark() {
-    const currentUser = localStorage.getItem('pocketbase_auth');
-    if (currentUser === null) return;
-    console.log({ ...JSON.parse(currentUser).model });
-    const userData = { ...JSON.parse(currentUser).model };
-
-    const { bookmark_test } = userData;
-
-    const bookmarkData = await db.collection('bookmarks').getOne(bookmark_test);
-    bookmarkData.recipe.push(recipeId);
-    const newData = { ...bookmarkData };
-    await db.collection('bookmarks').update(bookmark_test, newData);
+    setIconState(!iconState);
+    if (userData?.bookmark.includes(recipeId)) {
+      const newData = { ...userData };
+      newData.bookmark = newData.bookmark.filter(
+        (item: string) => item !== recipeId
+      );
+      await db.collection('users').update(userData.id, newData);
+    } else if (
+      !userData?.bookmark.includes(recipeId) &&
+      userData?.id !== undefined
+    ) {
+      const newData = { ...userData };
+      newData?.bookmark.push(recipeId);
+      await db.collection('users').update(userData.id, newData);
+      setIconState(true);
+    }
   }
 
   return (
-    <div className="z-[1] relative">
-      <div className="fixed w-full z-10">
-        <Header
-          option="prevWithBookMark"
-          bgColor={headerBg}
-          handleClick={triggerBookmark}
+    <div className="relative">
+      <header
+        className={`w-full ${headerBg} px-10pxr py-12pxr flex items-center justify-between z-10 fixed`}
+      >
+        <FnButton image={arrowBig} clickHandler={() => navigate(-1)} />
+        <FnButton
+          image={iconState ? bookmarkFill : bookmark}
+          clickHandler={triggerBookmark}
         />
-      </div>
+      </header>
       <img src={imageURL} alt="" className="w-full max-h-365pxr object-cover" />
       <div className="flex flex-col gap-20pxr py-20pxr bg-white">
+        {/* <img src={iconState? add : addFill} alt="" /> */}
         <div className="px-14pxr flex flex-col gap-8pxr">
           <h1 className="text-title-2-em">{recipeData?.title}</h1>
           <p dangerouslySetInnerHTML={{ __html: clearText }}></p>

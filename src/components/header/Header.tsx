@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import arrowBig from '@/assets/icons/arrowBig.svg';
 import close from '@/assets/icons/close.svg';
 import bookmark from '@/assets/icons/bookmark.svg';
+import bookmarkFill from '@/assets/icons/bookmarkFill.svg';
 import bell from '@/assets/icons/bell.svg';
 import { FnButton, DummyButton, SearchComponent } from '@/components';
 
@@ -36,7 +37,7 @@ interface HeaderProps {
 
 const defaultSizing = "w-full px-10pxr py-12pxr flex items-center justify-between sticky top-0";
 
-function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
+function useMapping({ title, option, bgColor, handleClick}: HeaderProps) {
   const navigate = useNavigate();
 
   const headerMappings = {
@@ -95,7 +96,7 @@ function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
     prevWithBookMark: (
       <header className={`${bgColor} ${defaultSizing}`}>
         <FnButton image={arrowBig} clickHandler={() => navigate(-1)} />
-        <FnButton image={bookmark} clickHandler={handleClick} />
+        <FnButton image={bookmark} clickHandler={handleClick}/>
       </header>
     ),
     onlyAlarm: (
