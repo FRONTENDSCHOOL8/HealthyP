@@ -31,7 +31,6 @@ function UserProfile({ profile }: profileProps) {
     id : profile.id,
     thumbnail : profile.avatar,
   })
-  console.log(url);
 
   return (
     <>
