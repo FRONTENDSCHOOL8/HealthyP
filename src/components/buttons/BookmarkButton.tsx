@@ -3,49 +3,48 @@ import { RecordModel } from "pocketbase";
 import { db } from "@/api/pocketbase";
 import { FnButton } from "..";
 
+import bookmark from '@/assets/icons/bookmark.svg';
+import bookmarkFill from '@/assets/icons/bookmarkFill.svg';
+
 interface BookmarkButtonProps {
   recipeId : string | undefined;
-  inactiveImage : string;
-  activeImage : string;
+  userData : RecordModel | undefined;
 }
 
-export default function BookmarkButton({recipeId, inactiveImage, activeImage} : BookmarkButtonProps) {
+export default function BookmarkButton({recipeId, userData} : BookmarkButtonProps) {
   const [iconState, setIconState] = useState(false);
-  const [userData, setUserData] = useState<RecordModel>();
+  
   
   useEffect(() => {
-    async function getUserData() {
-      const currentUser = localStorage.getItem("pocketbase_auth");
-      if(currentUser === null) return;
-      const userId = JSON.parse(currentUser).model.id;
-      const response = await db.collection("users").getOne(userId);
-      setUserData(response);
-      if(response.bookmark.includes(recipeId)) {
+    async function updateIconState() {
+      if(userData?.bookmark.includes(recipeId)) {
         setIconState(true);
       } else {
         setIconState(false);
       }
     }
-    getUserData();
-  }, [recipeId])
+    updateIconState();
+  }, [recipeId, userData?.bookmark])
 
   async function triggerBookmark() {
-    setIconState(!iconState);
     if (userData?.bookmark.includes(recipeId)) {
       const newData = {...userData};
       newData.bookmark = newData.bookmark.filter((item : string) => item !== recipeId);
       await db.collection('users').update(userData.id, newData); 
+      console.log('false');
+      setIconState(false);
     } else if (!userData?.bookmark.includes(recipeId) && userData?.id !== undefined){
       const newData = {...userData};
       newData?.bookmark.push(recipeId);
       await db.collection('users').update(userData.id, newData); 
+      console.log('true');
       setIconState(true);
     }
   }
 
   return (
     <>
-      <FnButton image={iconState ? activeImage : inactiveImage} clickHandler={triggerBookmark}/>
+      <FnButton image={iconState ? bookmarkFill : bookmark} clickHandler={triggerBookmark}/>
     </>
   )
 }

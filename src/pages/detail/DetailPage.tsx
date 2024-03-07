@@ -1,50 +1,16 @@
 
 import { useNavigate, useParams } from "react-router-dom"
-import { db } from "@/api/pocketbase";
-import { useEffect, useState } from "react";
-import { RecordModel } from "pocketbase";
 import {Star, Review, FnButton, BookmarkButton} from "@/components";
 import DOMPurify from "dompurify";
 import arrowBig from '@/assets/icons/arrowBig.svg';
-import bookmark from '@/assets/icons/bookmark.svg';
-import bookmarkFill from '@/assets/icons/bookmarkFill.svg';
 import { Ingredients, Seasoning, Nutrition } from "./components/DetailComponents";
+import { useDetailInfo } from "@/hooks/useDetailInfo";
 
 
 export function DetailPage() {
   const { recipeId } = useParams();
-  const [recipeData, setRecipeData] = useState<RecordModel>();
-  const [imageURL, setImageURL] = useState('');
-  const [headerBg, setHeaderBg] = useState('');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    async function getRecipeData() {
-      if (recipeId === undefined) return;
-      const record = await db.collection('recipes').getOne(recipeId, {
-        expand: 'rating',
-      });
-      const url = db.files.getUrl(record, record.image);
-      setImageURL(url);
-      setRecipeData(record);
-    }
-    function handleScroll() {
-      const scrollPosition = window.scrollY;
-      const threshold = 100;
-      if (scrollPosition > threshold) {
-        setHeaderBg('bg-white');
-      } else {
-        setHeaderBg('bg-none');
-      }
-    }
-    getRecipeData();
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      db.collection('users').unsubscribe();
-    };
-  }, [recipeId]);
+  const {recipeData, imageURL, headerBg, userData} = useDetailInfo(recipeId);
   if (!recipeData) {
     return <div>Loading...</div>;
   }
@@ -52,15 +18,11 @@ export function DetailPage() {
     ALLOWED_TAGS: ['p', 'em', 'br'],
   });
 
-
   return (
     <div className="relative">
-      <header
-        className={`w-full ${headerBg} px-10pxr py-12pxr flex items-center justify-between z-10 fixed`}
-      >
+      <header className={`w-full ${headerBg} px-10pxr py-12pxr flex items-center justify-between z-10 fixed`}>
         <FnButton image={arrowBig} clickHandler={() => navigate(-1)} />
-        <BookmarkButton inactiveImage={bookmark} activeImage={bookmarkFill} recipeId={recipeId}/>
-
+        <BookmarkButton recipeId={recipeId} userData={userData}/>
       </header>
       <img src={imageURL} alt="" className="w-full max-h-365pxr object-cover" />
       <div className="flex flex-col gap-20pxr py-20pxr bg-white">
