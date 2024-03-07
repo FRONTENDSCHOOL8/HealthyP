@@ -79,7 +79,7 @@ export function MainPage() {
           <h2>오늘의 레시피</h2>
           <span className="size-30pxr bg-arrow-small-icon rotate-[270deg] bg-center"></span>
         </Link>
-        <div className="w-full overflow-x-auto">
+        <div className="w-full overflow-x-auto no-scrollbar">
           <div className="flex gap-2 px-side w-max pb-2">
             {data &&
               data.map(({ id, title, expand }, idx) => {

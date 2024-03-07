@@ -18,7 +18,7 @@ function HeaderTitle({ title }: HeaderTitleProps) {
 }
 
 interface HeaderProps {
-  option :
+  option:
     | 'onlyArrow'
     | 'onlyClose'
     | 'titleWithBack'
@@ -26,17 +26,21 @@ interface HeaderProps {
     | 'searchWithBack'
     | 'onlySearch'
     | 'prevWithBookMark'
-    | 'onlyAlarm';
-  title? : string;
-  bgColor? : string;
+    | 'onlyAlarm'
+    | 'titlewithCloseAndFn';
+  title?: string;
+  bgColor?: string;
+  handleClick?: () => void;
 }
 
-function useMapping({ title, option, bgColor }: HeaderProps) {
+function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
   const navigate = useNavigate();
 
   const headerMappings = {
     onlyArrow: (
-      <header className={`w-full bg-white ${bgColor} px-10pxr py-12pxr sticky top-0`}>
+      <header
+        className={`w-full bg-white ${bgColor} px-10pxr py-12pxr sticky top-0`}
+      >
         <FnButton
           image={arrowBig}
           clickHandler={() => navigate(-1)}
@@ -45,8 +49,11 @@ function useMapping({ title, option, bgColor }: HeaderProps) {
       </header>
     ),
     onlyClose: (
-      <header className={`w-full ${bgColor} px-10pxr py-12pxr flex items-center justify-between sticky top-0`}>
-        <DummyButton />
+
+      <header
+        className={`w-full ${bgColor} px-10pxr py-12pxr flex items-center justify-between sticky top-0`}
+      >
+        <DummyButton size={'size-30pxr'} />
         <FnButton image={close} clickHandler={() => navigate(-1)} />
       </header>
     ),
@@ -87,6 +94,13 @@ function useMapping({ title, option, bgColor }: HeaderProps) {
         <FnButton image={bell} clickHandler={() => navigate(-1)} />
       </header>
     ),
+    titlewithCloseAndFn: (
+      <header className="w-full bg-white px-10pxr py-12pxr flex items-center justify-between sticky top-0">
+        <DummyButton size={30} />
+        <HeaderTitle title={title} />
+        <FnButton image={close} clickHandler={handleClick} />
+      </header>
+    ),
   };
 
   const headerComponent = headerMappings[option];
@@ -96,8 +110,18 @@ function useMapping({ title, option, bgColor }: HeaderProps) {
   }
 }
 
-export default function Header({ option, title, bgColor='bg-white' }: HeaderProps) {
-  const headerComponent = useMapping({ title, option, bgColor }) || <></>;
+export default function Header({
+  option,
+  title,
+  bgColor,
+  handleClick,
+}: HeaderProps) {
+  const headerComponent = useMapping({
+    title,
+    option,
+    bgColor,
+    handleClick,
+  }) || <></>;
 
   // Handle unexpected option values
   if (!headerComponent) {
