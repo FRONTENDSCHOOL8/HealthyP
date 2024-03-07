@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import arrowBig from '@/assets/icons/arrowBig.svg';
 import close from '@/assets/icons/close.svg';
 import bookmark from '@/assets/icons/bookmark.svg';
-import bookmarkFill from '@/assets/icons/bookmarkFill.svg';
 import bell from '@/assets/icons/bell.svg';
 import { FnButton, DummyButton, SearchComponent } from '@/components';
 
