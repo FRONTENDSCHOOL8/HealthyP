@@ -2,7 +2,6 @@ import { Button, Header } from '@/components';
 import { MemoizedEmailComponent as EmailComponet } from '../../components/input/EmailComponent';
 import { MemoizedPasswordComponent as PasswordComponet } from '../../components/input/PasswordComponent';
 import { MemoizedAutoLogin as AutoLogin } from './components/AutoLogin';
-import Finder from './components/Finder';
 import line from '@/assets/icons/line.svg';
 import outh2 from '@/assets/icons/outh2.svg';
 import { useAtom } from 'jotai';
@@ -16,6 +15,7 @@ import {
 import { db } from '@/api/pocketbase';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { Finder } from './components/Finder';
 
 export function Login() {
   const [emailValue] = useAtom(emailAtom);
@@ -87,8 +87,8 @@ export function Login() {
             ) => void
           }
         />
-        <Finder />
       </form>
+      <Finder />
       <div className="flex flex-col px-14pxr py-1 mt-104pxr justify-center">
         <div className="flex gap-2">
           <img src={line} alt="Line" className="w-full" />
