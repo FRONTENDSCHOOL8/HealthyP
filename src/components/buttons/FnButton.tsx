@@ -1,6 +1,28 @@
+import bell from '@/assets/icons/bell.svg';
+import close from '@/assets/icons/close.svg';
+import arrowBig from '@/assets/icons/arrowBig.svg';
+import arrowSmall from '@/assets/icons/arrowSmall.svg';
+import bookmark from '@/assets/icons/bookmark.svg';
+import bookmarkFill from '@/assets/icons/bookmarkFill.svg';
+
+const BUTTON_IMAGES = {
+  bell,
+  close,
+  arrowBig,
+  arrowSmall,
+  bookmark,
+  bookmarkFill,
+};
+
 interface FnButtonProps {
-  image: string;
-  clickHandler?: (React.MouseEventHandler<HTMLButtonElement>);
+  image:
+    | 'bell'
+    | 'close'
+    | 'arrowBig'
+    | 'bookmark'
+    | 'bookmarkFill'
+    | 'arrowSmall';
+  clickHandler?: React.MouseEventHandler<HTMLButtonElement>;
   altText?: string;
   size?: string;
 }
@@ -11,7 +33,6 @@ export default function FnButton({
   altText,
   size = 'size-30pxr',
 }: FnButtonProps) {
-
   return (
     <>
       <button
@@ -19,7 +40,7 @@ export default function FnButton({
         className={`${size} flex justify-center items-center`}
         onClick={clickHandler}
       >
-        <img src={image} alt="" className="w-full" />
+        <img src={BUTTON_IMAGES[image]} alt="" className="w-full" />
       </button>
     </>
   );
