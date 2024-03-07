@@ -29,7 +29,7 @@ function OneButtonModalComponent({
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <motion.dialog
           initial={{ opacity: 0, scale: 1 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1 }}
@@ -56,7 +56,7 @@ function OneButtonModalComponent({
               </button>
             </div>
           </div>
-        </motion.div>
+        </motion.dialog>
       )}
     </AnimatePresence>
   );

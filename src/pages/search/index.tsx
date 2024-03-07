@@ -1,3 +1,4 @@
+import { OneButtonModal } from '@/components/modal/OneButtonModal';
 import { Provider } from 'jotai';
 
 export default function SearchPage() {
@@ -9,8 +10,10 @@ export default function SearchPage() {
 }
 
 function SearchPageContent() {
-  // const [password] = useAtom(passwordAtom);
-  // const navigate = useNavigate();
-
-  return <>검색페이지</>;
+  const handleConfirmClick = () => {};
+  return (
+    <>
+      <OneButtonModal isOpen={true} confirmModal={handleConfirmClick} />
+    </>
+  );
 }
