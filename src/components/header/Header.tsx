@@ -38,8 +38,11 @@ function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
 
   const headerMappings = {
     onlyArrow: (
-      <header 
-        className={`w-full bg-white ${bgColor} px-10pxr py-12pxr sticky top-0`}>
+
+      <header
+        className={`w-full bg-white ${bgColor} px-10pxr py-12pxr sticky top-0`}
+      >
+
         <FnButton
           image={arrowBig}
           clickHandler={() => navigate(-1)}
@@ -48,8 +51,10 @@ function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
       </header>
     ),
     onlyClose: (
-      <header className={`w-full ${bgColor} px-10pxr py-12pxr flex items-center justify-between sticky top-0`}>
-        <DummyButton size={'size-30pxr'} />
+      <header
+        className={`w-full ${bgColor} px-10pxr py-12pxr flex items-center justify-between sticky top-0`}
+      >
+        <DummyButton size={'size-30pxr'} />mporary merge branch 2
         <FnButton image={close} clickHandler={() => navigate(-1)} />
       </header>
     ),
