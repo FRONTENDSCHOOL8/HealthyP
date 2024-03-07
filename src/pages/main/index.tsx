@@ -41,7 +41,7 @@ export function MainPage() {
   const urls = useRef<Array<string> | null>(null);
   const [{ data, loading, error }] = useAtom(
     getDataAtomFamily({
-      item: 'recipes_duplicate',
+      item: 'recipes',
       typeOfGetData: 'getFullList',
       options: { expand: 'rating' },
     })
