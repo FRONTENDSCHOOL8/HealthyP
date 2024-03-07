@@ -46,29 +46,30 @@ export function BookmarkPage() {
     );
 
   return (
-    <div className="flex flex-col h-svh gap-6pxr w-svw overflow-auto pb-140pxr bg-gray-200">
-      {data &&
-        data.map((data, idx) => {
-          if (data) {
-            return (
-              <LargeCard
-                key={(data as { id: string })?.id}
-                id={(data as { id: string })?.id}
-                title={(data as { title: string })?.title}
-                type="bookmark"
-                desc={(data as { desc: string })?.desc}
-                rating={(data as { expand: { rating: [] } }).expand?.rating}
-                url={urls.current[idx]}
-                profileImg={profilesUrl.current[idx]}
-                profile={
-                  (data as { expand: { profile: UsersResponse } }).expand
-                    ?.profile
-                }
-              />
-            );
-          }
-        })}
-      <p>bookmark</p>
+    <div className="w-full h-svh bg-gray-200 overflow-auto ">
+      <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">
+        {data &&
+          data.map((data, idx) => {
+            if (data) {
+              return (
+                <LargeCard
+                  key={(data as { id: string })?.id}
+                  id={(data as { id: string })?.id}
+                  title={(data as { title: string })?.title}
+                  type="bookmark"
+                  desc={(data as { desc: string })?.desc}
+                  rating={(data as { expand: { rating: [] } }).expand?.rating}
+                  url={urls.current[idx]}
+                  profileImg={profilesUrl.current[idx]}
+                  profile={
+                    (data as { expand: { profile: UsersResponse } }).expand
+                      ?.profile
+                  }
+                />
+              );
+            }
+          })}
+      </div>
     </div>
   );
 }

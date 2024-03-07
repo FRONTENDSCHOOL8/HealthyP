@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import bookmark from '@/assets/icons/bookmark.svg';
 import foodDefaultImg from '@/assets/images/flower3.jpg';
-
+import profileDefaultImg from '@/assets/images/medal_gold.png';
 interface profileProps {
   profile: UsersResponse;
   profileImg: string;
@@ -65,7 +65,7 @@ export default function LargeCard({
       <Link to={'#' + id}>
         <h3 className="text-title-3-em mt-19pxr">{title}</h3>
         <p
-          className="w-full py-4pxr text-sub text-gray_700 line-clamp-2 leading-normal"
+          className="w-full py-4pxr text-sub text-gray_700 line-clamp-2 min-h-52pxr leading-normal"
           dangerouslySetInnerHTML={{ __html: clearHTML }}
         />
       </Link>

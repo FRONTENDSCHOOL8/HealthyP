@@ -41,6 +41,10 @@ export default {
         gray_700: '#575758',
         tag_color: '#EEEEF0',
       },
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        card: 'repeat(auto-fill, minmax(320px, 400px))',
+      },
       backgroundImage: {
         'star-icon': "url('/src/assets/icons/star.svg')",
         'add-icon': "url('/src/assets/icons/add.svg')",
