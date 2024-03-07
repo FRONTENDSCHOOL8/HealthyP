@@ -2,6 +2,8 @@ import { db } from '@/api/pocketbase';
 import LargeCard from '@/components/cards/largeCard/LargeCard';
 import { ListResult, RecordModel } from 'pocketbase';
 import { useState, useEffect } from 'react';
+import foodDefaultImg from '@/assets/images/flower3.jpg';
+import getPbImage from '@/util/data/getPBImage';
 
 export function BookmarkPage() {
   const [data, setData] = useState<ListResult<RecordModel>>();
@@ -40,20 +42,20 @@ export function BookmarkPage() {
     }
   }, []);
 
-  const PB_URL = import.meta.env.VITE_PB_URL;
   return (
     <div className="w-full h-svh bg-gray-200 overflow-auto">
       <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">
         {data?.items &&
           data?.items.map((data, idx) => {
             if (data) {
+              const url = getPbImage('recipes', data.id, data.image);
               return (
                 <LargeCard
                   key={idx}
                   id={data.id}
                   userData={userData}
                   rating={data.expand?.rating}
-                  url={`${PB_URL}/api/files/recipes/${data.id}/${data.image}`}
+                  url={data.image ? url : foodDefaultImg}
                   desc={data.desc}
                   title={data.title}
                   profile={data.expand?.profile}

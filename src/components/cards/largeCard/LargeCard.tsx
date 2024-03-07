@@ -14,7 +14,7 @@ interface profileProps {
 export interface LargeCardProps extends profileProps {
   title: string;
   type?: 'bookmark' | 'myRecipe';
-  url?: string | null;
+  url?: string;
   keywords?: string;
   desc: string;
   rating: RatingsResponse[];
@@ -22,15 +22,8 @@ export interface LargeCardProps extends profileProps {
   userData: RecordModel | undefined;
 }
 
-// const PB_URL = import.meta.env.VITE_PB_URL;
-
 function UserProfile({ profile }: profileProps) {
-
-  const url = getPbImage({
-    collectionId : "_pb_users_auth_",
-    id : profile.id,
-    thumbnail : profile.avatar,
-  })
+  const url = getPbImage("_pb_users_auth_", profile.id, profile.avatar)
 
   return (
     <>
