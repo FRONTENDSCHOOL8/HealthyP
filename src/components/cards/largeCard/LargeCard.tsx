@@ -1,5 +1,5 @@
 import { RatingsResponse, UsersResponse } from '@/types';
-import { FnButton, Star, Review } from '@/components';
+import { FnButton, Star, Review, Keyword } from '@/components';
 import { Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import bookmark from '@/assets/icons/bookmark.svg';
@@ -24,7 +24,7 @@ function BookmarkHeader({ profile, profileImg }: profileProps) {
   return (
     <div className="flex justify-between min-h-54pxr items-center">
       <img
-        src={profileImg && profileDefaultImg}
+        src={profileImg || profileDefaultImg}
         alt=""
         className="size-30pxr bg-gray_400 rounded-[30px]"
       />
@@ -41,11 +41,12 @@ function BookmarkHeader({ profile, profileImg }: profileProps) {
 export default function LargeCard({
   title,
   url,
-  rating,
+  rating = [],
   desc,
   id,
   profile,
   profileImg,
+  keywords,
 }: LargeCardProps) {
   const clearHTML = DOMPurify.sanitize(desc, {
     // ALLOWED_ATTR: ['style', 'class', 'type', 'href', 'rel'],
@@ -62,6 +63,7 @@ export default function LargeCard({
         src={url || foodDefaultImg}
         alt=""
       />
+      <Keyword items={keywords} />
       <Link to={'#' + id}>
         <h3 className="text-title-3-em mt-19pxr">{title}</h3>
         <p
