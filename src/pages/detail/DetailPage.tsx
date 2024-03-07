@@ -30,9 +30,9 @@ export function DetailPage() {
           <h1 className="text-title-2-em">{recipeData?.title}</h1>
           <p dangerouslySetInnerHTML={{ __html: clearText }}></p>
         </div>
-        <div className="flex px-14pxr">
+        <div className="flex px-14pxr gap-5pxr">
           <Star rating={recipeData.expand?.rating} />
-          <Review rating={recipeData.expand?.rating} caseType={'number'} />
+          <Review rating={recipeData.expand?.rating} caseType={'literal'} />
         </div>
         <div>
           <Ingredients data={recipeData} />
