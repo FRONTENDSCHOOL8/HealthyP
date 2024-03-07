@@ -7,11 +7,11 @@ export default function Keyword({ items }: { items: string | undefined }) {
   const sliceItemsArray = itemsArray.slice(0, 5);
 
   return (
-    <ul className="gap-2 flex items-start self-stretch flex-wrap list-none">
+    <ul className="gap-1 flex items-start self-stretch flex-wrap list-none">
       {sliceItemsArray.map((item, index: Key) => (
         <li
           key={index}
-          className="shrink-0 bg-tag_color rounded-[7px] flex px-1 py-6pxr justify-center items-center text-cap-1"
+          className="shrink-0 bg-tag_color rounded-[7px] px-6pxr py-4pxr text-foot"
         >
           {item}
         </li>

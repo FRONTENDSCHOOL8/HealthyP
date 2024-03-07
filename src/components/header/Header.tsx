@@ -1,8 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import arrowBig from '@/assets/icons/arrowBig.svg';
-import close from '@/assets/icons/close.svg';
-import bookmark from '@/assets/icons/bookmark.svg';
-import bell from '@/assets/icons/bell.svg';
 import { FnButton, DummyButton, SearchComponent } from '@/components';
 
 interface HeaderTitleProps {
@@ -33,57 +29,50 @@ interface HeaderProps {
   handleClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
+const defaultSizing =
+  'w-full px-10pxr py-12pxr flex items-center justify-between sticky top-0';
 
-const defaultSizing = "w-full px-10pxr py-12pxr flex items-center justify-between sticky top-0";
-
-function useMapping({ title, option, bgColor, handleClick}: HeaderProps) {
+function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
   const navigate = useNavigate();
 
   const headerMappings = {
     onlyArrow: (
-      <header
-        className={`${bgColor} ${defaultSizing}`}
-      >
+      <header className={`${bgColor} ${defaultSizing}`}>
         <FnButton
-          image={arrowBig}
+          image={'arrowBig'}
           clickHandler={() => navigate(-1)}
           altText="뒤로가기"
         />
-        <DummyButton 
-          size={'30pxr'} 
-        />
+        <DummyButton size={'30pxr'} />
       </header>
     ),
     onlyClose: (
-      <header
-        className={`${bgColor} ${defaultSizing}`}
-      >
-        <DummyButton 
-          size={'size-30pxr'}
-        />
-        <FnButton 
-          image={close} 
+      <header className={`${bgColor} ${defaultSizing}`}>
+        <DummyButton size={'size-30pxr'} />
+        <FnButton
+          image={'close'}
           clickHandler={() => navigate('/')}
-          altText="닫기" />
+          altText="닫기"
+        />
       </header>
     ),
     titleWithBack: (
       <header className={`${bgColor} ${defaultSizing}`}>
-        <FnButton image={arrowBig} clickHandler={() => navigate(-1)} />
+        <FnButton image={'arrowBig'} clickHandler={() => navigate(-1)} />
         <HeaderTitle title={title} />
-        <DummyButton  />
+        <DummyButton />
       </header>
     ),
     titleWithClose: (
       <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton />
         <HeaderTitle title={title} />
-        <FnButton image={close} clickHandler={() => navigate('/')} />
+        <FnButton image={'close'} clickHandler={() => navigate('/')} />
       </header>
     ),
     searchWithBack: (
       <header className={`${bgColor} gap-12pxr ${defaultSizing}`}>
-        <FnButton image={arrowBig} clickHandler={() => navigate(-1)} />
+        <FnButton image={'arrowBig'} clickHandler={() => navigate(-1)} />
         <SearchComponent />
       </header>
     ),
@@ -94,21 +83,21 @@ function useMapping({ title, option, bgColor, handleClick}: HeaderProps) {
     ),
     prevWithBookMark: (
       <header className={`${bgColor} ${defaultSizing}`}>
-        <FnButton image={arrowBig} clickHandler={() => navigate(-1)} />
-        <FnButton image={bookmark} clickHandler={handleClick}/>
+        <FnButton image={'arrowBig'} clickHandler={() => navigate(-1)} />
+        <FnButton image={'bookmark'} clickHandler={handleClick} />
       </header>
     ),
     onlyAlarm: (
       <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton />
-        <FnButton image={bell} clickHandler={handleClick} />
+        <FnButton image={'bell'} clickHandler={handleClick} />
       </header>
     ),
     titlewithCloseAndFn: (
       <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton size={'size-30pxr'} />
         <HeaderTitle title={title} />
-        <FnButton image={close} clickHandler={handleClick} />
+        <FnButton image={'close'} clickHandler={handleClick} />
       </header>
     ),
   };

@@ -45,7 +45,7 @@ export function BookmarkPage() {
   }, []);
 
   return (
-    <div className="w-full h-svh bg-gray-200 overflow-auto">
+    <div className="w-full h-full bg-gray-200 overflow-auto">
       <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">
         {data?.items &&
           data?.items.map((data, idx) => {

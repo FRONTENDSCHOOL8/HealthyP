@@ -11,8 +11,8 @@ export default function Star({ rating }: { rating: RatingsResponse[] }) {
   };
 
   return (
-    <span className="flex text-foot-em gap-2pxr items-center">
-      <span className="bg-star-icon size-14pxr" aria-hidden></span>
+    <span className="flex text-sub-em gap-2pxr items-center pr-8pxr">
+      <span className="bg-star-icon size-16pxr bg-cover" aria-hidden></span>
       <p>{getStarCount()}</p>
     </span>
   );
