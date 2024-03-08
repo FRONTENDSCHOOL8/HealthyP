@@ -18,10 +18,10 @@ export function DetailPage() {
   });
 
   return (
-    <div className="relative">
+    <div className="relative ">
       <header className={`w-full ${headerBg} px-10pxr py-12pxr flex items-center justify-between z-10 fixed`}>
         <FnButton image={'arrowBig'} clickHandler={() => navigate(-1)} />
-        <BookmarkButton recipeId={recipeId} userData={userData}/>
+        <BookmarkButton recipeId={recipeId} userData={userData} />
       </header>
       <img src={imageURL} alt="" className="w-full max-h-365pxr object-cover" />
       <div className="flex flex-col gap-20pxr py-20pxr bg-white">

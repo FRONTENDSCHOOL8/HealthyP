@@ -66,7 +66,7 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
           {
             role: 'user',
             content:
-              `${ingredientData}, ${seasoningData} give me the nutritional information for these ingredients in a JSON format without any whitespaces.`,
+              `${ingredientData}, ${seasoningData} give me the nutritional information for these ingredients in a JSON format without any whitespaces. Make sure to add the unit for each data.`,
           },
         ],
         model: 'gpt-3.5-turbo-0125',
