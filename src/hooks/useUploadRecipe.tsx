@@ -1,7 +1,15 @@
 import { useAtom, useAtomValue } from "jotai"
 import { useState } from "react";
 import { db } from "@/api/pocketbase";
-import { title, ingredients, image, description, recipeSteps, seasoning } from "@/stores/stores";
+import { 
+  title, 
+  ingredients, 
+  image, 
+  description, 
+  recipeSteps, 
+  seasoning, 
+  category,
+  keywords } from "@/stores/stores";
 
 interface RecipeData {
   title: string;
@@ -30,6 +38,8 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
   const ingredientData = useAtomValue(ingredients);
   const seasoningData = useAtomValue(seasoning);
   const imageFile = useAtomValue(image);
+  const categoryData = useAtomValue(category)
+  const keywordsData = useAtomValue(keywords);
   const descriptionText = useAtomValue(description);
   const steps = useAtomValue(recipeSteps);
   const [isLoading, setIsLoading] = useState(false);
@@ -46,8 +56,8 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
         seasoning: seasoningData,
         steps: steps,
         views: 0,
-        category: "test",
-        keywords: "test",
+        category: categoryData,
+        keywords: keywordsData,
         desc: descriptionText,
         image: imageFile,
         rating: []
