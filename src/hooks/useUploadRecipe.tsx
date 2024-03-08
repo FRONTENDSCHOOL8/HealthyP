@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue } from "jotai"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { db } from "@/api/pocketbase";
 import { 
   title, 
@@ -29,12 +29,12 @@ interface RecipeData {
 
 interface UseUploadRecipeResult {
   uploadRecipe: () => void;
-  getNutritionData: () => void;
+  // getNutritionData: () => void;
   isLoading: boolean;
   error: string | null;
 }
 
-const promptContent = '너는 우리가 주는 정보들을 바탕으로 해당 식품의 영양정보를 알려주는 도우미야. 예를 들어, [{"name":"감자","amount":"3개"},{"name":"간장", "amount":"2스푼"}]라고 하면 감자 3개와 딸기 2개에 해당하는 영양정보를 총합해서 {"calories":"칼로리양", "carbs":"탄수화물", "protein":"단백질", "fat":"지발"} 형식으로 돌려줘. 이걸 JSON 형식으로 알려줘.'
+const promptContent = `You are a Nutritional Information Assistant, specialized in calculating and summarizing the nutritional content of various ingredients. A chef is looking to understand the total nutritional content of a particular dish made with specific ingredients in certain amounts. Here is how you will provide the nutritional information. Review the provided list of ingredients and their respective amounts. For instance, if given [{"name":"감자","amount":"3개"},{"name":"간장", "amount":"2스푼"},{"name":"물", "amount":"2컵"},{"name":"가지", "amount":"100g"}, {"name":"굴소스", "amount":"10ml"}], understand each ingredient's contribution. For each ingredient, calculate its nutritional content based on the specified amount. Consider standard nutritional values for calories, carbs, protein, and fat. Add up the nutritional values from all the ingredients to get the total nutritional content of the dish. Present the total nutritional content strictly in the JSON format as follows: {"calories":"total calories of all the ingredients", "carbs":"total carbohydrates of all the ingredients", "protein":"total protein of all the ingredients", "fat":"total fat of all the ingredients"}. Now, go ahead and proceed with your tasks to help me understand the nutritional content of my dish. All of the ingredient data given will be in the Korean Language but the key value for the JSON formats should be in English. Take a deep breath and let's work this out in a step by step way to be sure we have the right answer. Make sure to exclude any whitespaces and line breaks`
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
@@ -42,7 +42,6 @@ const openai = new OpenAI({
 
 export default function useUploadRecipe(): UseUploadRecipeResult {
   const [titleField,] = useAtom(title);
-  // const [seasoningData,] = useAtom(seasoning);
   const ingredientData = useAtomValue(ingredients);
   const seasoningData = useAtomValue(seasoning);
   const imageFile = useAtomValue(image);
@@ -54,30 +53,34 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  
-  async function getNutritionData() {
-    const completion = await openai.chat.completions.create({
-      n: 1,
-      messages: [
-        {
-          role: 'system',
-          content:
-            `${promptContent}`,
-        },
-        {
-          role: 'user',
-          content:
-            `${ingredientData}, ${seasoningData} 해당 정보에 대한 영양정보를 알려줘.`,
-        },
-      ],
-      model: 'gpt-3.5-turbo-0125',
-      response_format: { type: 'json_object' },
-    });
-    console.log(completion.choices[0].message.content);
-    const result = completion.choices[0].message.content;
-    setNutritionData(result);
-  }
+  useEffect(() => {
+    async function getNutritionData() {
+      const completion = await openai.chat.completions.create({
+        n: 1,
+        messages: [
+          {
+            role: 'system',
+            content:
+              `${promptContent}`,
+          },
+          {
+            role: 'user',
+            content:
+              `${ingredientData}, ${seasoningData} give me the nutritional information for these ingredients in a JSON format without any whitespaces.`,
+          },
+        ],
+        model: 'gpt-3.5-turbo-0125',
+        response_format: { type: 'json_object' },
+      });
+      console.log(completion.choices[0].message.content);
+      const result = completion.choices[0].message.content;
+      setNutritionData(result);
+    }
+    getNutritionData();
+  }, []);
+
   async function uploadRecipe() {
+    
     try {
       setIsLoading(true);
       const data: RecipeData = {
@@ -106,5 +109,5 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
     }
   }
 
-  return { uploadRecipe, getNutritionData, isLoading, error };
+  return { uploadRecipe, isLoading, error };
 }

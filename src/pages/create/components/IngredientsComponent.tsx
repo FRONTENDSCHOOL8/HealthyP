@@ -73,7 +73,7 @@ export function IngredientsComponent({titleText, atom, namePlaceholder, amountPl
                 <div className="h-29pxr w-1pxr bg-gray-300"></div>
                 <button className="w-1/6" onClick={(e) => {
                   e.preventDefault();
-                  const updateIngreds = JSON.parse(ingredientData).filter((i: IngredientData) => i.name !== item.name);
+                  const updateIngreds = JSON.parse(ingredientData).filter((i: IngredientData, itemIdx : string) => itemIdx !== index);
                   setIngredientData(JSON.stringify(updateIngreds));
                   // update ingreds within the database
                 }}>삭제</button>
