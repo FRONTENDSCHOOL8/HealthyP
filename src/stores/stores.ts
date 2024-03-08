@@ -23,3 +23,9 @@ export const temp_image = atom<File | null>(null);
 // 로그인 페이지
 export const isStore = atom(false); // 로컬저장소에 pocketbase_auth가 있는지 여부
 export const storeData = atom({}); // 로컬저장소의 pocketbase_auth 데이터
+
+// 마이페이지
+export const profileImage = atom<File | null>(null);
+export const userCollection = atom('');
+export const userCollectionId = atom('');
+export const modalAtom = atom<boolean>(false);

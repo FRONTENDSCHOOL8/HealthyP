@@ -1,42 +1,89 @@
-import { atom, useAtom } from 'jotai';
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+import useImagePreview from '@/hooks/useImagePreview';
+import useProfileData from '@/hooks/useProfileData';
+import { useAtom } from 'jotai';
+import {
+  modalAtom,
+  nicknameValidAtom,
+  userCollection,
+  userCollectionId,
+} from '@/stores/stores';
+import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
+import useUpdateProfile from '@/hooks/useUpdateProfile';
+import NicknameComponent from '@/pages/signup/components/NicknameComponent';
+import { generateRandomName } from '@/components/term/termData';
 
-const imageAtom = atom<File | null>(null); // Atom 생성
-type PreviewState = string | null;
+const ProfileComponent = () => {
+  const [collection] = useAtom(userCollection);
+  const [id] = useAtom(userCollectionId);
 
-const ProfileImageComponent = () => {
-  const [selectImage, setSelectImage] = useAtom(imageAtom);
-  const [previewUrl, setPreviewUrl] = useState<PreviewState>(null);
+  const [selectImage, setSelectImage] = useState<File | null>(null);
+  const previewUrl = useImagePreview(selectImage, collection, id);
+  const { userName, setUserName, imageUrl } = useProfileData();
 
-  // 이미지 상태가 변경될 때 마다 previewUrl 업데이트
-  useEffect(() => {
-    if (selectImage) {
-      const url = URL.createObjectURL(selectImage);
-      setPreviewUrl(url);
+  // 모달창 상태관리
+  const [isOpen, setIsOpen] = useAtom(modalAtom);
 
-      // ProfileImageComponent가 언마운트 되거나 이미지가 변경될 때
-      // 생성된 URL을 메모리에서 해제
-      return () => URL.revokeObjectURL(url);
-    }
-  }, [selectImage]);
+  // 닉네임 상태관리
+  const [nickname, setNickname] = useState('');
+  const [isNicknameValid] = useAtom(nicknameValidAtom);
+  // 랜덤 닉네임 생성
+  const randomName = generateRandomName();
 
-  const onSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onSelectImage = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setSelectImage(file);
-    }
+    if (!file) return;
+    setSelectImage(file);
+  };
+
+  const onClickNickName = () => {
+    setIsOpen(true);
+  };
+
+  // 모달창 취소 버튼 클릭 시
+  const handleClose = () => {
+    console.log('취소');
+    setIsOpen(false);
+  };
+
+  const handleNicknameChange = (newNickname: string) => {
+    setNickname(newNickname);
+  };
+
+  const updateProfile = useUpdateProfile(collection, id);
+
+  const setName = () => {
+    const realNickname = nickname || randomName;
+    // userName 상태 업데이트
+    setUserName(realNickname);
+    // userName의 상태 업데이트가 반영되지 않았을 경우를 대비해 realNickname으로 전달
+    updateProfile('name', realNickname);
+  };
+
+  // 모달의 확인 버튼 클릭 시 업데이트
+  const handleConfirm = () => {
+    setName();
+    setIsOpen(false);
   };
 
   return (
     <>
       <label htmlFor="dropzone-file">
         <div className="w-94pxr h-94pxr bg-gray_200 rounded-full relative">
-          {previewUrl && (
+          {previewUrl ? (
             <img
               src={previewUrl}
-              alt="Profile preview"
+              alt="Profile"
               className="w-94pxr h-94pxr bg-gray_200 rounded-full object-cover"
             />
+          ) : (
+            imageUrl && (
+              <img
+                src={imageUrl}
+                alt="Profile preview"
+                className="w-94pxr h-94pxr bg-gray_200 rounded-full object-cover"
+              />
+            )
           )}
           <div className="w-24pxr h-24pxr bg-[#B2B2B3] rounded-full flex justify-center items-center absolute bottom-1 right-1 shadow-default">
             <svg
@@ -61,15 +108,31 @@ const ProfileImageComponent = () => {
           onChange={onSelectImage}
         />
       </label>
+      <button className="text-title-3-em pt-8pxr" onClick={onClickNickName}>
+        {userName}
+      </button>
+      <TwoButtonModal
+        isOpen={isOpen}
+        headline="닉네임 변경"
+        closeModal={handleClose}
+        confirmModal={handleConfirm}
+        component={
+          <NicknameComponent
+            placeholder={randomName}
+            label={false}
+            onNicknameChange={handleNicknameChange}
+          />
+        }
+        isActive={isNicknameValid}
+      />
     </>
   );
 };
 
 const Profile = () => {
   return (
-    <div className="flex flex-col items-center gap-8pxr pt-18pxr">
-      <ProfileImageComponent />
-      <p className="text-title-3-em">박장군</p>
+    <div className="flex flex-col items-center pt-18pxr">
+      <ProfileComponent />
     </div>
   );
 };
