@@ -17,6 +17,7 @@ export const seasoning = atom('[]');
 export const recipeSteps = atom('[]');
 export const keywords = atom('');
 export const category = atom('건강식');
+export const nutrition = atom<string | null>('');
 export const title = atom('');
 export const image = atom<File | null>(null);
 export const description = atom('');
