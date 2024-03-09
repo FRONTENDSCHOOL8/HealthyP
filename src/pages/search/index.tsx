@@ -1,13 +1,13 @@
 import { Provider } from 'jotai';
+import { Outlet } from 'react-router-dom';
 
-export default function SearchPage() {
+export { Search } from './Search';
+export { Result } from './Result';
+
+export function SearchLayout() {
   return (
     <Provider>
-      <SearchPageContent />
+      <Outlet />
     </Provider>
   );
-}
-
-function SearchPageContent() {
-  return <>hi</>;
 }
