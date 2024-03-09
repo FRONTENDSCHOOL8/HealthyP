@@ -6,7 +6,7 @@ import {
   modalAtom,
   nicknameValidAtom,
   userCollection,
-  userCollectionId,
+  userRecordId,
 } from '@/stores/stores';
 import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
 import useUpdateProfile from '@/hooks/useUpdateProfile';
@@ -15,7 +15,7 @@ import { generateRandomName } from '@/components/term/termData';
 
 const ProfileComponent = () => {
   const [collection] = useAtom(userCollection);
-  const [id] = useAtom(userCollectionId);
+  const [id] = useAtom(userRecordId);
 
   const [selectImage, setSelectImage] = useState<File | null>(null);
   const previewUrl = useImagePreview(selectImage, collection, id);
@@ -27,6 +27,7 @@ const ProfileComponent = () => {
   // 닉네임 상태관리
   const [nickname, setNickname] = useState('');
   const [isNicknameValid] = useAtom(nicknameValidAtom);
+
   // 랜덤 닉네임 생성
   const randomName = generateRandomName();
 

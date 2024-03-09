@@ -28,6 +28,12 @@ export const temp_image = atom<File | null>(null);
 export const isStore = atom(false); // 로컬저장소에 pocketbase_auth가 있는지 여부
 export const storeData = atom({}); // 로컬저장소의 pocketbase_auth 데이터
 
+// 마이페이지
+export const profileImage = atom<File | null>(null);
+export const userCollection = atom('');
+export const userRecordId = atom('');
+export const modalAtom = atom<boolean>(false);
+
 // SearchComponent
 export const searchQuery = atom(''); // 검색어
 export const searchResult = atom<RecipesExpand[]>([]); // 입력 결과

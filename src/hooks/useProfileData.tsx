@@ -1,14 +1,14 @@
 import { db } from '@/api/pocketbase';
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
-import { userCollection, userCollectionId } from '@/stores/stores';
+import { userCollection, userRecordId } from '@/stores/stores';
 
 const useProfileData = () => {
   const [userName, setUserName] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
   const [collection, setCollection] = useAtom(userCollection);
-  const [id, setId] = useAtom(userCollectionId);
+  const [id, setId] = useAtom(userRecordId);
 
   useEffect(() => {
     async function fetchUserData() {
