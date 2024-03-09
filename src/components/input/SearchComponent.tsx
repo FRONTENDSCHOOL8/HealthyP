@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 
 interface SearchComponentProps {
   bgColor?: string;
-  changeHandler?: React.ChangeEventHandler<HTMLInputElement>;
-  value?: string;
 }
 
 export default function SearchComponent({ bgColor }: SearchComponentProps) {
@@ -27,6 +25,13 @@ export default function SearchComponent({ bgColor }: SearchComponentProps) {
     setQuery(debouncedQuery);
   }, [debouncedQuery]);
 
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      setQuery(debouncedQuery);
+    }
+  };
+
   return (
     <>
       <label htmlFor="search-input" className="sr-only">
@@ -39,6 +44,7 @@ export default function SearchComponent({ bgColor }: SearchComponentProps) {
         placeholder="재료, 해시태그, 요리로 검색해주세요"
         onChange={handleChange}
         value={query}
+        onKeyUp={handleKeyUp}
       />
     </>
   );

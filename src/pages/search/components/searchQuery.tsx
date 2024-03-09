@@ -7,7 +7,7 @@ import { db } from '@/api/pocketbase';
 import { RecipesExpand } from '@/types';
 
 // 쿼리 구독을 위한 함수
-async function fetchRecipes() {
+async function fetchRecipes(): Promise<RecipesExpand[]> {
   const response = await db.collection('recipes').getFullList<RecipesExpand>({ expand: 'rating' });
   return response;
 }
@@ -23,16 +23,28 @@ function SearchQueryComponent() {
     data: allRecipes,
     isError,
     isLoading,
-  } = useQuery({ queryKey: ['recipes'], queryFn: fetchRecipes, staleTime: 1000 * 30 });
+  } = useQuery<RecipesExpand[]>({ queryKey: ['recipes'], queryFn: fetchRecipes, staleTime: 1000 * 30 });
 
   // 검색 결과를 필터링합니다.
-  const filteredQuery = allRecipes?.filter((recipe) => {
-    return recipe.title.includes(query) || recipe.keywords.includes(query);
-  });
+  const filteredQuery =
+    allRecipes?.filter((recipe) => {
+      return recipe.title.includes(query) || recipe.keywords.includes(query);
+    }) ?? [];
 
   // 선택한 레시피를 상태에 설정합니다.
-  const handleSelectRecipe = (recipe) => {
-    setSelectedRecipe(recipe);
+  const handleSelectRecipe = (selected: RecipesExpand) => {
+    const selectedTitle = selected.title.replace(/\s+/g, '');
+    const selectedCategory = selected.category.replace(/\s+/g, '');
+    console.log(selectedTitle, selectedCategory);
+
+    const filteredData: RecipesExpand[] | undefined = allRecipes?.filter(
+      (item) =>
+        item.title.replace(/\s+/g, '').includes(selectedTitle) &&
+        item.category.replace(/\s+/g, '').includes(selectedCategory)
+    );
+    setSelectedRecipe(filteredData);
+    sessionStorage.setItem('selectedRecipe', JSON.stringify(filteredData));
+
     navigate('/search/result');
   };
 
