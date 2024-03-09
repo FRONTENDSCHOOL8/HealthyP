@@ -32,8 +32,8 @@ export default {
         warning: '#FF0D0D',
         alert: '#FF5D47',
         gray_100: '#FAFAFB',
-        gray_150: '#F0F0F1',
-        gray_200: '#D9D9DA',
+        gray_150: '#F0F0F3',
+        gray_200: '#D9D9DC',
         gray_300: '#FAFAFB',
         gray_350: '#B2B2B3',
         gray_400: '#3C3C4359',
@@ -74,12 +74,9 @@ export default {
         ...pxToRemFunc(0, 1000),
       },
       boxShadow: {
-        default:
-          '0px 3px 8px 0px rgba(0, 0, 0, 0.12), 0px 1px 3px 0px rgba(0, 0, 0, 0.04)',
-        small:
-          '0px 2px 7px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.04)',
-        revert:
-          '0px -3px 8px 0px rgba(0, 0, 0, 0.12), 0px -1px 3px 0px rgba(0, 0, 0, 0.04)',
+        default: '0px 3px 8px 0px rgba(0, 0, 0, 0.12), 0px 1px 3px 0px rgba(0, 0, 0, 0.04)',
+        small: '0px 2px 7px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.04)',
+        revert: '0px -3px 8px 0px rgba(0, 0, 0, 0.12), 0px -1px 3px 0px rgba(0, 0, 0, 0.04)',
       },
       fontSize: {
         'title-1-em': [

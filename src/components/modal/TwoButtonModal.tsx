@@ -7,13 +7,39 @@ interface TwoButtonModalProps {
   headline: string;
   closeModal: () => void;
   confirmModal: () => void;
+  component?: React.ReactNode;
+  isActive?: boolean;
 }
+
+const buttonBasic = 'px-38pxr py-12pxr rounded-[7px]';
+
+const buttonVariant = {
+  active: {
+    scale: 1,
+    background: '#91BD14',
+    color: '#ffffff',
+    transition: { duration: 0.5 },
+  },
+  inactive: {
+    scale: 1,
+    background: '#D9D9DA',
+    color: '#3C3C4359',
+    transition: { duration: 0.5 },
+  },
+  default: {
+    scale: 1,
+    background: '#91BD14',
+    color: '#ffffff',
+  },
+};
 
 function TwoButtonModalComponent({
   isOpen,
   headline,
   closeModal,
   confirmModal,
+  component,
+  isActive = true,
 }: TwoButtonModalProps) {
   return (
     <AnimatePresence>
@@ -33,23 +59,40 @@ function TwoButtonModalComponent({
                   role="group"
                   className="flex flex-col text-foot text-gray_700 justify-center items-center"
                 >
-                  <span>확인을 누르시면 저장되지 않고</span>
-                  <span>이전페이지로 이동합니다.</span>
+                  {component ? (
+                    <>
+                      <div className="pt-20pxr">{component}</div>
+                    </>
+                  ) : (
+                    <>
+                      <span>확인을 누르시면 저장되지 않고</span>
+                      <span>이전페이지로 이동합니다.</span>
+                    </>
+                  )}
                 </div>
               </div>
               <div className="flex gap-2 text-body-em">
                 <button
                   onClick={closeModal}
-                  className="px-38pxr py-12pxr bg-gray_150 text-gray_700 rounded-[7px]"
+                  className={`${buttonBasic} bg-gray_150 text-gray_700`}
                 >
                   취소
                 </button>
-                <button
-                  onClick={confirmModal}
-                  className="px-38pxr py-12pxr bg-primary text-white rounded-[7px]"
-                >
-                  확인
-                </button>
+                <AnimatePresence>
+                  <motion.div
+                    className="rounded-[7px]"
+                    animate={isActive ? 'active' : 'inactive'}
+                    variants={buttonVariant}
+                  >
+                    <button
+                      disabled={!isActive}
+                      onClick={confirmModal}
+                      className={buttonBasic}
+                    >
+                      확인
+                    </button>
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
           </motion.div>
