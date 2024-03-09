@@ -131,8 +131,9 @@ function StepContainer() {
 
 export function CreateTwo() {
   const { uploadRecipe } = useUploadRecipe();
-
   const navigate = useNavigate();
+
+
   const goToComplete = () => {
     return '../complete';
   };
@@ -151,6 +152,7 @@ export function CreateTwo() {
           text={['이전', '완료']}
           route={[() => '/create', () => '../complete']}
           onClickTwo={() => {
+            
             uploadRecipe();
             navigate(path);
           }}

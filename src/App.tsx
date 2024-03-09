@@ -2,14 +2,16 @@ import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import './styles/style.css';
 import './styles/index.css';
-import SearchPage from './pages/search/';
 import MissingPage from './pages/MissingPage';
 import FullPageInfoLayout from './pages/FullPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from './RootLayout';
 import ProtectedRoute from './pages/ProtectedRoute';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import {
+  Search,
+  Result,
   CreateLayout,
   CreateOne,
   CreateTwo,
@@ -31,6 +33,7 @@ import {
   UserLayout,
   SignupComplete,
   DetailPage,
+  SearchLayout,
 } from './pages/';
 import { isStore } from './stores/stores';
 
@@ -47,7 +50,17 @@ const router = createBrowserRouter([
       },
       {
         path: 'search',
-        element: <SearchPage />,
+        element: <SearchLayout />,
+        children: [
+          {
+            index: true,
+            element: <Search />,
+          },
+          {
+            path: 'result',
+            element: <Result />,
+          },
+        ],
       },
       {
         path: 'bookmark',
@@ -162,6 +175,8 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 export default function App() {
   const [, setIsAuth] = useAtom(isStore);
   const [loading, setLoading] = useState(true);
@@ -179,8 +194,10 @@ export default function App() {
   }
 
   return (
-    <div className="w-full max-w-1300pxr h-svh mx-auto bg-white">
-      <RouterProvider router={router} />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="w-full max-w-1300pxr h-svh mx-auto bg-white">
+        <RouterProvider router={router} />
+      </div>
+    </QueryClientProvider>
   );
 }
