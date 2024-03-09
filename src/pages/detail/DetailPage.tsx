@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDetailInfo } from '@/hooks/useDetailInfo';
-import { AccordionList, AccordionTest } from './components/DetailComponents';
+import { AccordionList } from './components/DetailComponents';
 import { Star, Review, FnButton, BookmarkButton, Keyword } from '@/components';
 
 function DetailPage() {
@@ -31,13 +31,13 @@ function DetailPage() {
         <BookmarkButton recipeId={recipeId} userData={userData} />
       </motion.header>
       <img className="fixed top-0 w-full max-w-1300pxr max-h-365pxr object-cover object-center" src={imageURL} alt="" />
-      <div className="absolute top-[32vh] shadow-revert w-full flex flex-col pt-24pxr min-h-svh pb-82pxr bg-white">
+      <div className="absolute top-[32vh] shadow-revert w-full flex flex-col pt-18pxr min-h-svh pb-82pxr bg-white">
         <div className="px-14pxr">
           <Keyword items={recipeData.keywords} />
-          <h1 className="text-title-2-em mt-24pxr mb-4pxr">{recipeData?.title}</h1>
+          <h1 className="text-title-2-em mt-20pxr mb-9pxr">{recipeData?.title}</h1>
           <p className="text-sub text-gray_700" dangerouslySetInnerHTML={{ __html: clearText }}></p>
         </div>
-        <div className="flex px-14pxr gap-5pxr">
+        <div className="flex px-14pxr pb-70pxr pt-30pxr">
           <Star rating={recipeData.expand?.rating} />
           <Review rating={recipeData.expand?.rating} caseType={'literal'} />
         </div>
@@ -46,10 +46,6 @@ function DetailPage() {
           <AccordionList data={recipeData} title="재료" type="ingredients" first />
           <AccordionList data={recipeData} title="양념" type="seasoning" />
           <AccordionList data={recipeData} title="영양정보" type="seasoning" />
-          <p className="text-title-2-em text-red-500">여기부터 버튼</p>
-          <AccordionTest data={recipeData} title="재료" type="ingredients" first />
-          <AccordionTest data={recipeData} title="양념" type="seasoning" />
-          <AccordionTest data={recipeData} title="영양정보" type="seasoning" />
         </div>
       </div>
       {/* 시작하기 버튼 */}
