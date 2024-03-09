@@ -34,6 +34,8 @@ import {
   SignupComplete,
   DetailPage,
   SearchLayout,
+  DetailLayout,
+  StepsPage
 } from './pages/';
 import { isStore } from './stores/stores';
 
@@ -124,7 +126,17 @@ const router = createBrowserRouter([
   },
   {
     path: '/detail/:recipeId',
-    element: <DetailPage />,
+    element: <DetailLayout />,
+    children: [
+      {
+        index: true,
+        element: <DetailPage />
+      },
+      {
+        path: 'steps',
+        element: <StepsPage /> 
+      }
+    ]
   },
   // 로그인 페이지
   {
