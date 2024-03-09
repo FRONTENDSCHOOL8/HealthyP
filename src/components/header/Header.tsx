@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { FnButton, DummyButton, SearchComponent } from '@/components';
+import { FakeSearch } from '@/pages/search/components/fakeSearch';
 
 interface HeaderTitleProps {
   title?: string;
@@ -23,7 +24,8 @@ interface HeaderProps {
     | 'onlySearch'
     | 'prevWithBookMark'
     | 'onlyAlarm'
-    | 'titlewithCloseAndFn';
+    | 'titlewithCloseAndFn'
+    | 'searchWithFakeAndBack';
   title?: string;
   bgColor?: string;
   handleClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -74,6 +76,12 @@ function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
       <header className={`${bgColor} gap-12pxr ${defaultSizing}`}>
         <FnButton image={'arrowBig'} clickHandler={() => navigate(-1)} />
         <SearchComponent />
+      </header>
+    ),
+    searchWithFakeAndBack: (
+      <header className={`${bgColor} ${defaultSizing}`}>
+        <FnButton image={'arrowBig'} clickHandler={() => navigate(-1)} />
+        <FakeSearch />
       </header>
     ),
     onlySearch: (
