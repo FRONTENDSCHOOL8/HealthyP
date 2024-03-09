@@ -324,6 +324,7 @@ export interface RecipesExpand extends RecipesResponse {
     rating: RatingsResponse[];
   };
 }
+
 export interface RecipesCreate extends BaseCollectionCreate {
   title?: string;
   views?: number;
