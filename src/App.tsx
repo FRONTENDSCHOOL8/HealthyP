@@ -144,7 +144,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: '/create',
+        path: 'create',
         element: <CreateReview />,
       },
     ],
