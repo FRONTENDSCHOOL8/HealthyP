@@ -1,6 +1,6 @@
 import { Header } from '@/components';
 import { searchQuery } from '@/stores/stores';
-import { Provider, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { memo } from 'react';
 import { MostView } from './components/mostView';
 import { RecentSearch } from './components/recentSearch';
