@@ -1,5 +1,6 @@
 import { RecipesExpand } from '@/types';
 import { atom } from 'jotai';
+import { ListResult, RecordModel } from 'pocketbase';
 
 // 유효성
 export const nicknameValidAtom = atom(true); // 닉네임 유효성
@@ -32,7 +33,10 @@ export const storeData = atom({}); // 로컬저장소의 pocketbase_auth 데이�
 export const profileImage = atom<File | null>(null);
 export const userCollection = atom('');
 export const userRecordId = atom('');
+export const userNameAtom = atom('');
+export const imageUrlAtom = atom('');
 export const modalAtom = atom<boolean>(false);
+export const recipesAtom = atom<ListResult<RecordModel> | undefined>(undefined);
 
 // SearchComponent
 export const searchQuery = atom(''); // 검색어

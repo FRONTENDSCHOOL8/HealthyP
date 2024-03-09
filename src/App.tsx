@@ -73,7 +73,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            // path: 'recent',
+            path: 'recent',
             element: <RecentRecipes />,
           },
           {
@@ -142,6 +142,7 @@ const router = createBrowserRouter([
         <ReviewPage />
       </ProtectedRoute>
     ),
+    children: [
     children: [
       {
         path: 'create',

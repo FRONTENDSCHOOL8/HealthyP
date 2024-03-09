@@ -1,10 +1,13 @@
-
-
+import { Header } from '@/components';
+import Profile from './components/Profile';
+import Tab from './components/Tab';
 
 export function MyComments() {
   return (
     <>
-      <p>My comments</p>
+      <Header option="onlyAlarm" />
+      <Profile />
+      <Tab />
     </>
-  )
+  );
 }
