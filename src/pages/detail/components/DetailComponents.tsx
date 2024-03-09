@@ -1,7 +1,7 @@
 // import { motion } from 'framer-motion';
 import { AnimatePresence, motion } from 'framer-motion';
 import { RecordModel } from 'pocketbase';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 interface DataInterface {
   name: string;

@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDetailInfo } from '@/hooks/useDetailInfo';
 import { AccordionList } from './components/DetailComponents';
-import { Star, Review, FnButton, BookmarkButton, Keyword } from '@/components';
+import { Star, Review, FnButton, BookmarkButton, Keyword, Footer, FooterButton } from '@/components';
+
 
 export function DetailPage() {
   const navigate = useNavigate();
@@ -45,9 +46,15 @@ export function DetailPage() {
         <div>
           <AccordionList data={recipeData} title="재료" type="ingredients" first />
           <AccordionList data={recipeData} title="양념" type="seasoning" />
-          <AccordionList data={recipeData} title="영양정보" type="seasoning" />
+          <AccordionList data={recipeData} title="영양정보" type="nutrition" />
         </div>
       </div>
+      <Footer>
+        <FooterButton 
+          buttonCase='large' 
+          text={['시작하기']} 
+          route={[() => 'steps']} />
+      </Footer>
       {/* 시작하기 버튼 */}
     </div>
   );

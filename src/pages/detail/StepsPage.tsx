@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { db } from "@/api/pocketbase";
 import { RecordModel } from "pocketbase";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Navigation, Pagination} from 'swiper/modules';
 import SwiperNavButton from "./components/SwiperNavButton";
 import { AnimatePresence, motion } from 'framer-motion';
-import './swiper.css';
+import { Footer, FnButton } from "@/components";
 interface StepsInterface {
   id: string;
   description: string;
@@ -19,6 +19,8 @@ export function StepsPage() {
   const [swiperIndex, setSwiperIndex] = useState(0);
   const [stepsData, setStepsData] = useState<RecordModel>();
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  
 
   useEffect(() => {
     async function getRecipeSteps() {
@@ -47,12 +49,15 @@ export function StepsPage() {
     <AnimatePresence>
       <motion.main 
         initial={{ y: 1000 }}
-        animate={{ y:0 }}
-        exit={{ y: 1000, opacity: 0 }}
+        animate={{ y: 0 }}
+        exit={{ opacity: 0 }}
         transition={{ duration: .4 }}
-        className="flex flex-col gap-22pxr h-full w-full relative px-16pxr py-10 rounded-t-2xl"
+        className="flex flex-col gap-22pxr h-full w-full relative pb-16pxr pt-20pxr rounded-t-2xl"
       >
-        <h1 className="text-title-1-em pb-18pxr">{`Step ${swiperIndex + 1} / ${stepsData?.length}`}</h1>
+        <header className="flex justify-between px-16pxr">
+          <h1 className="text-title-1-em pb-18pxr">{`Step ${swiperIndex + 1} / ${stepsData?.length}`}</h1>
+          <FnButton image='close' clickHandler={() => {navigate(-1)}} altText="닫기"/>
+        </header>
         <Swiper
           modules={[Navigation, Pagination, Keyboard]}
           pagination={
@@ -62,7 +67,7 @@ export function StepsPage() {
           slidesPerView={1}
           onActiveIndexChange={(e) => setSwiperIndex(e.realIndex)}
           onSlideChange={() => {}}
-          className="w-full h-full"
+          className="w-full h-full mb-80pxr"
           style={{
             // @ts-expect-error 스타일 적용시 에러 메세지가 뜨지만 스타일 잘 작용됨, Swiper API와 타입스크립트 호환성 문제 예상
             "--swiper-pagination-color" : "#91BD14",
@@ -73,25 +78,30 @@ export function StepsPage() {
           >
           {stepsData?.map((item : StepsInterface) => {
             return (
-              <SwiperSlide key={item.id} className="w-full overflow-scroll gap-22pxr flex flex-col justify-center items-center">
+              <SwiperSlide 
+                key={item.id} 
+                className="w-full overflow-y-auto gap-18pxr flex flex-col px-16pxr justify-center items-center"
+                >
                 <div className="flex flex-col gap-22pxr h-full items-center">
                   <img
                     src={item.image}
                     alt={item.description}
                     className="object-cover w-full h-216pxr rounded-xl"
                   />
-                  <p className="w-full">국회의원의 수는 법률로 정하되, 200인 이상으로 한다. 제2항의 재판관중 3인은 국회에서 선출하는 자를, 3인은 대법원장이 지명하는 자를 임명한다. </p>
-                  {/* <p className="w-full">{item.description}</p> */}
-                  <div className="w-full text-[#E86100]">
-                    <p>Tips</p>
-                    <p>새로운 회계연도가 개시될 때까지 예산안이 의결되지 못한 때에는 정부는 국회에서 예산안이 의결될 때까지 다음의 목적을 위한 경비는 전년도 예산에 준하여 집행할 수 있다.</p>
-                    {/* <p>{item.tips === "" ? 'tips' : item.tips}</p> */} 
-                  </div>
+                  <p className="w-full text-gray_700 text-sub">{item.description}</p>
+                  {item.tips ? 
+                    <div className="w-full text-tip_color text-foot">
+                      <p>Tips</p>
+                      <p>{item.tips}</p> 
+                    </div> 
+                    : null}
                 </div>
               </SwiperSlide>
             );
           })}
-          <SwiperNavButton />
+          <Footer>
+            <SwiperNavButton />
+          </Footer>
         </Swiper>
       </motion.main>
     </AnimatePresence>
