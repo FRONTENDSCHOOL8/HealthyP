@@ -1,10 +1,10 @@
 import { useAtom } from 'jotai';
 import { memo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import { searchQuery, chooseQuery } from '@/stores/stores';
+import { searchQuery, chooseQuery, isClick } from '@/stores/stores';
 import { db } from '@/api/pocketbase';
 import { RecipesExpand } from '@/types';
+import { Result } from '..';
 
 // 쿼리 구독을 위한 함수
 async function fetchRecipes(): Promise<RecipesExpand[]> {
@@ -14,9 +14,9 @@ async function fetchRecipes(): Promise<RecipesExpand[]> {
 
 // 캐싱된 데이터를 사용하여 검색 결과를 보여주는 컴포넌트
 function SearchQueryComponent() {
+  const [isButtonClick, setIsButtonClick] = useAtom(isClick);
   const [query] = useAtom(searchQuery);
   const [, setSelectedRecipe] = useAtom(chooseQuery);
-  const navigate = useNavigate();
 
   // 쿼리를 사용하여 데이터를 가져옵니다.
   const {
@@ -35,24 +35,25 @@ function SearchQueryComponent() {
   const handleSelectRecipe = (selected: RecipesExpand) => {
     const selectedTitle = selected.title.replace(/\s+/g, '');
     const selectedCategory = selected.category.replace(/\s+/g, '');
-    console.log(selectedTitle, selectedCategory);
 
     const filteredData: RecipesExpand[] | undefined = allRecipes?.filter(
       (item) =>
-        item.title.replace(/\s+/g, '').includes(selectedTitle) &&
+        item.title.replace(/\s+/g, '').includes(selectedTitle) ||
         item.category.replace(/\s+/g, '').includes(selectedCategory)
     );
     setSelectedRecipe(filteredData);
     sessionStorage.setItem('selectedRecipe', JSON.stringify(filteredData));
 
-    navigate('/search/result');
+    setIsButtonClick(true);
   };
 
   if (isLoading) return <div>검색중입니다...</div>;
   if (isError) return <div>에러 발생!</div>;
 
-  return (
-    <ul className="py-18pxr px-14pxr text-sub">
+  return isButtonClick ? (
+    <Result />
+  ) : (
+    <ul className="py-18pxr text-sub">
       {filteredQuery?.map((item) => (
         <li key={item.id} className="flex flex-col py-10pxr border-b border-gray_150">
           <button type="button" className="w-full text-left" onClick={() => handleSelectRecipe(item)}>

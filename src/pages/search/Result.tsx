@@ -1,4 +1,4 @@
-import { Header, RecipeCard } from '@/components';
+import { RecipeCard } from '@/components';
 import { chooseQuery } from '@/stores/stores';
 import getPbImage from '@/util/data/getPBImage';
 import { useAtom } from 'jotai';
@@ -20,7 +20,6 @@ export default function ResultComponent() {
 
   return (
     <>
-      <Header option="searchWithBack" />
       <div className="grid grid-cols-2 gap-4">
         {/* sessionData가 있을 경우 세션 데이터로 렌더링 */}
         {sessionData
