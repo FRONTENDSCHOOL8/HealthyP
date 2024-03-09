@@ -8,8 +8,7 @@ function MostViewComponent() {
 
   useEffect(() => {
     const fetchMostView = async () => {
-      const getMostView = async () =>
-        await db.collection('recipes').getList(1, 5, { sort: '-views' });
+      const getMostView = async () => await db.collection('recipes').getList(1, 5, { sort: '-views' });
       const mostViewData: ListResult<RecordModel> = await getMostView();
       setMostView(mostViewData);
     };
@@ -27,9 +26,7 @@ function MostViewComponent() {
               if (data) {
                 return (
                   <Link key={idx} to={`/detail/${data.id}`}>
-                    <li className="px-12pxr py-8pxr border border-gray_200 rounded-[20px] text-sub">
-                      {data.title}
-                    </li>
+                    <li className="px-12pxr py-8pxr border border-gray_200 rounded-[20px] text-sub">{data.title}</li>
                   </Link>
                 );
               }

@@ -11,7 +11,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import {
   Search,
-  Result,
   CreateLayout,
   CreateOne,
   CreateTwo,
@@ -33,13 +32,13 @@ import {
   UserLayout,
   SignupComplete,
   DetailPage,
-  SearchLayout,
   DetailLayout,
   StepsPage,
   ReviewPage,
   CreateReview
 } from './pages/';
 import { isStore } from './stores/stores';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const router = createBrowserRouter([
   // 루트 페이지 (메인)
@@ -54,17 +53,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'search',
-        element: <SearchLayout />,
-        children: [
-          {
-            index: true,
-            element: <Search />,
-          },
-          {
-            path: 'result',
-            element: <Result />,
-          },
-        ],
+        element: <Search />,
       },
       {
         path: 'bookmark',
@@ -137,7 +126,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DetailPage />
+        element: <DetailPage />,
       },
       {
         path: 'steps',
@@ -232,6 +221,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <div className="w-full max-w-1300pxr h-svh mx-auto bg-white">
         <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
       </div>
     </QueryClientProvider>
   );
