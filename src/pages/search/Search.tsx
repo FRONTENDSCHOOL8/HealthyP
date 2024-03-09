@@ -26,7 +26,7 @@ function SearchPageContent() {
   return (
     <>
       <Header option="searchWithBack" />
-      <div className="py-18pxr flex flex-col gap-47pxr px-14pxr mb-80pxr">{renderInit()}</div>
+      <div className="py-18pxr flex flex-col gap-47pxr px-14pxr pb-140pxr">{renderInit()}</div>
     </>
   );
 }
