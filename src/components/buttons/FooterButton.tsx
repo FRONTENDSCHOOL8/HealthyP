@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 type ButtonProps = {
   buttonCase: 'large' | 'medium' | 'small';
   text: string[];
-  route: (() => string)[];
+  route?: (() => string)[];
   isActive?: boolean;
   onClickOne?: (idx: number | React.FormEvent<HTMLFormElement>) => void;
   onClickTwo?: (idx: number | React.FormEvent<HTMLFormElement>) => void;
@@ -71,14 +71,14 @@ const ButtonContent = ({
 
   if (
     (buttonCase === 'medium' || buttonCase === 'small') &&
-    (text.length !== 2 || route.length !== 2)
+    (text.length !== 2 || route?.length !== 2)
   ) {
     throw new Error(
       `${buttonCase} 케이스일 때 text와 route 배열의 길이가 정확히 2여야 합니다.`
     );
   }
 
-  if (buttonCase === 'large' && (text.length !== 1 || route.length !== 1)) {
+  if (buttonCase === 'large' && (text.length !== 1 || route?.length !== 1)) {
     throw new Error(
       `${buttonCase} 케이스일 때 text와 route 배열의 길이가 정확히 1이어야 합니다.`
     );
@@ -94,6 +94,7 @@ const ButtonContent = ({
       await onClickTwo(idx);
     } else {
       // 아무 onClick 핸들러도 제공되지 않았다면 기존 로직(경로 이동) 수행
+      if (route === undefined) return;
       const path = route[idx]();
       navigate(path);
     }

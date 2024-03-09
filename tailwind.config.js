@@ -40,6 +40,7 @@ export default {
         gray_500: '#3C3C43B3',
         gray_700: '#575758',
         tag_color: '#EEEEF0',
+        tip_color: '#E86100',
       },
       gridTemplateColumns: {
         // Simple 16 column grid
@@ -135,7 +136,7 @@ export default {
             lineHeight: '1.375rem',
           },
         ],
-        body: [
+        'body': [
           '1.0625rem',
           {
             fontWeight: 400,
@@ -151,7 +152,7 @@ export default {
             lineHeight: '1.25rem',
           },
         ],
-        sub: [
+        'sub': [
           '0.9375rem',
           {
             fontWeight: 400,
@@ -167,7 +168,7 @@ export default {
             lineHeight: '1.125rem',
           },
         ],
-        foot: [
+        'foot': [
           '0.8125rem',
           {
             fontWeight: 400,
