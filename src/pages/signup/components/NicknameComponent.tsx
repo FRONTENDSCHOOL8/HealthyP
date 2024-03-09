@@ -6,6 +6,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface NicknameComponentProps {
   placeholder: string;
+  label?: boolean;
+  onNicknameChange?: (value: string) => void;
 }
 
 const labelFocusWithin = 'text-black';
@@ -13,6 +15,8 @@ const labelFocusWithout = 'text-gray-500';
 
 export default function NicknameComponent({
   placeholder,
+  label = true,
+  onNicknameChange,
 }: NicknameComponentProps) {
   const [isNicknameFocused, setIsNicknameFocused] = useState(false);
   const [nicknameValue, setNicknameValue] = useAtom(nicknameAtom);
@@ -26,7 +30,7 @@ export default function NicknameComponent({
 
   const checkNickname = async (nickname: string) => {
     const data = await db.collection('users').getFullList();
-    const isAvailable = !data.some((user) => user.username === nickname);
+    const isAvailable = !data.some((user) => user.name === nickname);
     setIsNicknameAvailable(isAvailable);
   };
 
@@ -45,16 +49,23 @@ export default function NicknameComponent({
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNicknameValue(e.target.value);
+
+    // 입력값이 변경될 때 프로필 수정 컴포넌트에 해당 값 전달
+    if (onNicknameChange) {
+      onNicknameChange(e.target.value);
+    }
   };
 
   return (
     <div>
-      <label
-        htmlFor="nickname-input"
-        className={`mb-8pxr ml-2pxr text-foot-em ${isNicknameFocused ? labelFocusWithin : labelFocusWithout}`}
-      >
-        닉네임
-      </label>
+      {label && (
+        <label
+          htmlFor="nickname-input"
+          className={`mb-8pxr ml-2pxr text-foot-em ${isNicknameFocused ? labelFocusWithin : labelFocusWithout}`}
+        >
+          닉네임
+        </label>
+      )}
       <input
         id="nickname-input"
         type="text"

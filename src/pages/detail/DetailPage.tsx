@@ -1,44 +1,60 @@
+import DOMPurify from 'dompurify';
 
-import { useNavigate, useParams } from "react-router-dom"
-import {Star, Review, FnButton, BookmarkButton} from "@/components";
-import DOMPurify from "dompurify";
-import { Ingredients, Seasoning, Nutrition } from "./components/DetailComponents";
-import { useDetailInfo } from "@/hooks/useDetailInfo";
+import { useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDetailInfo } from '@/hooks/useDetailInfo';
+import { AccordionList, AccordionTest } from './components/DetailComponents';
+import { Star, Review, FnButton, BookmarkButton, Keyword } from '@/components';
 
-
-export function DetailPage() {
-  const { recipeId } = useParams();
+function DetailPage() {
   const navigate = useNavigate();
-  const {recipeData, imageURL, headerBg, userData} = useDetailInfo(recipeId);
+  const { recipeId } = useParams();
+  const { recipeData, imageURL, userData } = useDetailInfo(recipeId);
+
+  const clearText = useMemo(
+    () =>
+      DOMPurify.sanitize(recipeData?.desc, {
+        ALLOWED_TAGS: ['p', 'em', 'br'],
+      }),
+    [recipeData?.desc]
+  );
+
   if (!recipeData) {
     return <div>Loading...</div>;
   }
-  const clearText = DOMPurify.sanitize(recipeData?.desc, {
-    ALLOWED_TAGS: ['p', 'em', 'br'],
-  });
 
   return (
-    <div className="relative ">
-      <header className={`w-full ${headerBg} px-10pxr py-12pxr flex items-center justify-between z-10 fixed`}>
+    <div className="relative h-full">
+      <motion.header className="w-full max-w-1300pxr px-10pxr py-12pxr flex items-center justify-between z-10 fixed">
         <FnButton image={'arrowBig'} clickHandler={() => navigate(-1)} />
         <BookmarkButton recipeId={recipeId} userData={userData} />
-      </header>
-      <img src={imageURL} alt="" className="w-full max-h-365pxr object-cover" />
-      <div className="flex flex-col gap-20pxr py-20pxr bg-white">
-        <div className="px-14pxr flex flex-col gap-8pxr">
-          <h1 className="text-title-2-em">{recipeData?.title}</h1>
-          <p dangerouslySetInnerHTML={{ __html: clearText }}></p>
+      </motion.header>
+      <img className="fixed top-0 w-full max-w-1300pxr max-h-365pxr object-cover object-center" src={imageURL} alt="" />
+      <div className="absolute top-[32vh] shadow-revert w-full flex flex-col pt-24pxr min-h-svh pb-82pxr bg-white">
+        <div className="px-14pxr">
+          <Keyword items={recipeData.keywords} />
+          <h1 className="text-title-2-em mt-24pxr mb-4pxr">{recipeData?.title}</h1>
+          <p className="text-sub text-gray_700" dangerouslySetInnerHTML={{ __html: clearText }}></p>
         </div>
         <div className="flex px-14pxr gap-5pxr">
           <Star rating={recipeData.expand?.rating} />
           <Review rating={recipeData.expand?.rating} caseType={'literal'} />
         </div>
+        {/* 재료, 양념, 영양정보 아코디언 박스 */}
         <div>
-          <Ingredients data={recipeData} />
-          <Seasoning data={recipeData} />
-          <Nutrition data={recipeData} />
+          <AccordionList data={recipeData} title="재료" type="ingredients" first />
+          <AccordionList data={recipeData} title="양념" type="seasoning" />
+          <AccordionList data={recipeData} title="영양정보" type="seasoning" />
+          <p className="text-title-2-em text-red-500">여기부터 버튼</p>
+          <AccordionTest data={recipeData} title="재료" type="ingredients" first />
+          <AccordionTest data={recipeData} title="양념" type="seasoning" />
+          <AccordionTest data={recipeData} title="영양정보" type="seasoning" />
         </div>
       </div>
+      {/* 시작하기 버튼 */}
     </div>
   );
 }
+
+export default DetailPage;
