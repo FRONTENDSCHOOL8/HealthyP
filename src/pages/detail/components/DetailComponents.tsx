@@ -1,115 +1,84 @@
+// import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { RecordModel } from 'pocketbase';
+import { useRef, useState } from 'react';
 
 interface DataInterface {
   name: string;
   amount: string;
 }
 
-interface DetailComponentInterface {
+interface AccordionListProps {
   data: RecordModel;
+  type: string;
   title?: string;
+  first?: boolean;
 }
 
-const summaryStyle =
-  'text-body px-14pxr py-12pxr list-none flex justify-between';
-const arrowIconStyle = 'bg-arrow-small-icon flex size-6 bg-contain';
+interface AccordionItemsProps {
+  data: RecordModel;
+  type: string;
+  isOpen: boolean;
+}
 
-export function ArcodianCompo({ data, title }: DetailComponentInterface) {
+function AccordionItems({ isOpen, data, type }: AccordionItemsProps) {
   return (
-    <details className="w-full border-b border-t appearance-none">
-      <summary className={summaryStyle}>
+    <AnimatePresence initial={false}>
+      {isOpen && (
+        <motion.ul
+          initial={{ height: 0, opacity: 0.3 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          exit={{ height: 0, opacity: 0.3 }}
+          transition={{ duration: 0.2 }}
+          className="overflow-hidden px-14pxr bg-gray_100"
+        >
+          {JSON.parse(data?.[type]).map((item: DataInterface, index: number) => {
+            return (
+              <li key={index} className={`flex justify-between w-full py-11pxr text-sub border-b px-3pxr`}>
+                <p>{item.name}</p>
+                <p>{item.amount}</p>
+              </li>
+            );
+          })}
+          <li className="h-48pxr"></li>
+        </motion.ul>
+      )}
+    </AnimatePresence>
+  );
+}
+
+// 이게 원래 detail 태그로 구현한 거시기
+export function AccordionList({ data, type, title = '재료', first }: AccordionListProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <details
+      className={`w-full border-b appearance-none group ${first ? 'border-t' : ''}`}
+      onToggle={() => setIsOpen(!isOpen)}
+      open={isOpen}
+    >
+      <summary className="text-body pl-14pxr pr-10pxr py-12pxr list-none flex justify-between">
         {title}
-        <span className={arrowIconStyle}></span>
+        <span className="bg-arrow-small-icon flex size-6 bg-contain transition-all group-open:rotate-180"></span>
       </summary>
-
-      <ul className="pt-12pxr pb-48pxr px-14pxr bg-gray_100 border-t">
-        {JSON.parse(data?.ingredients).map(
-          (item: DataInterface, index: number) => {
-            return (
-              <li
-                key={index}
-                className="flex justify-between w-full py-11pxr text-sub border-b px-4pxr"
-              >
-                <p>{item.name}</p>
-                <p>{item.amount}</p>
-              </li>
-            );
-          }
-        )}
-      </ul>
+      <AccordionItems data={data} type={type} isOpen={isOpen} />
     </details>
   );
 }
 
-export function Ingredients({ data }: DetailComponentInterface) {
+// 이건 애니메이션 안돼서 그냥 button으로 만들어버린거
+export function AccordionTest({ data, type, title = '재료', first = false }: AccordionListProps) {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <details className="w-full border-b border-t appearance-none">
-      <summary className={summaryStyle}>
-        재료{' '}
-        <span className="bg-arrow-small-icon flex size-6 bg-contain"></span>
-      </summary>
-
-      <ul className="pt-12pxr pb-48pxr px-14pxr bg-gray_100 border-t">
-        {JSON.parse(data?.ingredients).map(
-          (item: DataInterface, index: number) => {
-            return (
-              <li
-                key={index}
-                className="flex justify-between w-full py-11pxr text-sub border-b px-4pxr"
-              >
-                <p>{item.name}</p>
-                <p>{item.amount}</p>
-              </li>
-            );
-          }
-        )}
-      </ul>
-    </details>
-  );
-}
-
-export function Seasoning({ data }: DetailComponentInterface) {
-  return (
-    <details className="w-full border-b ">
-      <summary className={summaryStyle}>양념</summary>
-      <ul className="py-12pxr px-14pxr bg-gray-100 ">
-        {JSON.parse(data?.seasoning).map(
-          (item: DataInterface, index: number) => {
-            return (
-              <li
-                key={index}
-                className="flex justify-between w-full py-11pxr text-sub border-b"
-              >
-                <p>{item.name}</p>
-                <p>{item.amount}</p>
-              </li>
-            );
-          }
-        )}
-      </ul>
-    </details>
-  );
-}
-
-export function Nutrition({ data }: DetailComponentInterface) {
-  return (
-    <details className="w-full border-b">
-      <summary className={summaryStyle}>양념</summary>
-      <ul className="py-12pxr px-14pxr bg-gray-100">
-        {JSON.parse(data?.seasoning).map(
-          (item: DataInterface, index: number) => {
-            return (
-              <li
-                key={index}
-                className="flex justify-between w-full py-11pxr text-sub border-b-2"
-              >
-                <p>{item.name}</p>
-                <p>{item.amount}</p>
-              </li>
-            );
-          }
-        )}
-      </ul>
-    </details>
+    <div role="listbox" className={`w-full border-b appearance-none group ${first ? 'border-t' : ''}`} open={isOpen}>
+      <button
+        className={`w-full text-body pl-14pxr pr-10pxr py-12pxr list-none flex justify-between`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {title}
+        <span className="bg-arrow-small-icon flex size-6 bg-contain transition-all group-open:rotate-180"></span>
+      </button>
+      <AccordionItems data={data} type={type} isOpen={isOpen} />
+    </div>
   );
 }
