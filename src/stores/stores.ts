@@ -1,3 +1,4 @@
+import { RecipesExpand } from '@/types';
 import { atom } from 'jotai';
 
 // 유효성
@@ -15,6 +16,9 @@ export const nicknameAtom = atom(''); // 닉네임 입력값
 export const ingredients = atom('[]');
 export const seasoning = atom('[]');
 export const recipeSteps = atom('[]');
+export const keywords = atom('');
+export const category = atom('건강식');
+export const nutrition = atom<string | null>('');
 export const title = atom('');
 export const image = atom<File | null>(null);
 export const description = atom('');
@@ -23,3 +27,8 @@ export const temp_image = atom<File | null>(null);
 // 로그인 페이지
 export const isStore = atom(false); // 로컬저장소에 pocketbase_auth가 있는지 여부
 export const storeData = atom({}); // 로컬저장소의 pocketbase_auth 데이터
+
+// SearchComponent
+export const searchQuery = atom(''); // 검색어
+export const searchResult = atom<RecipesExpand[]>([]); // 입력 결과
+export const chooseQuery = atom<RecipesExpand[]>([]); // 선택 결과

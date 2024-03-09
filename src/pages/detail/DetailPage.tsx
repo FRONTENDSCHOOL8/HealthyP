@@ -37,7 +37,7 @@ function DetailPage() {
           <h1 className="text-title-2-em mt-24pxr mb-4pxr">{recipeData?.title}</h1>
           <p className="text-sub text-gray_700" dangerouslySetInnerHTML={{ __html: clearText }}></p>
         </div>
-        <div className="flex px-14pxr mt-32pxr mb-72pxr">
+        <div className="flex px-14pxr gap-5pxr">
           <Star rating={recipeData.expand?.rating} />
           <Review rating={recipeData.expand?.rating} caseType={'literal'} />
         </div>

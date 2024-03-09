@@ -5,6 +5,8 @@ import { useAtom, PrimitiveAtom } from "jotai";
 interface IngredientsProps {
   titleText: string;
   atom : PrimitiveAtom<string>;
+  namePlaceholder: string;
+  amountPlaceholder: string;
 }
 
 interface IngredientData {
@@ -12,7 +14,9 @@ interface IngredientData {
   amount: string;
 }
 
-export function IngredientsComponent({titleText, atom} : IngredientsProps) {
+const inputCommonClass = "h-48pxr py-0 px-10pxr bg-gray_150 rounded-md focus:outline-primary"
+
+export function IngredientsComponent({titleText, atom, namePlaceholder, amountPlaceholder} : IngredientsProps) {
   const [ingredName, setIngredName] = useState('');
   const [ingredAmount, setIngredAmount] = useState('');
   const [ingredientData, setIngredientData] = useAtom(atom);
@@ -26,8 +30,8 @@ export function IngredientsComponent({titleText, atom} : IngredientsProps) {
         <input 
           id="ingredient-name" 
           type="text" 
-          className="w-3/6 h-48pxr py-0 px-10pxr bg-gray_150 rounded-md" 
-          placeholder="감자" 
+          className={`w-3/6 ${inputCommonClass}`} 
+          placeholder={namePlaceholder} 
           onChange={(e) => {
             e.preventDefault();
             if(e.target.value === "") return;
@@ -37,8 +41,8 @@ export function IngredientsComponent({titleText, atom} : IngredientsProps) {
         <input 
           id="ingredient-amount" 
           type="text" 
-          className="w-2/6 h-48pxr py-0 px-10pxr bg-gray_150 rounded-md" 
-          placeholder="100g, 3개" 
+          className={`w-2/6 ${inputCommonClass}`}
+          placeholder={amountPlaceholder}  
           onChange={(e) => {
             e.preventDefault();
             if(e.target.value === "") return;
@@ -69,7 +73,7 @@ export function IngredientsComponent({titleText, atom} : IngredientsProps) {
                 <div className="h-29pxr w-1pxr bg-gray-300"></div>
                 <button className="w-1/6" onClick={(e) => {
                   e.preventDefault();
-                  const updateIngreds = JSON.parse(ingredientData).filter((i: IngredientData) => i.name !== item.name);
+                  const updateIngreds = JSON.parse(ingredientData).filter((i: IngredientData, itemIdx : string) => itemIdx !== index);
                   setIngredientData(JSON.stringify(updateIngreds));
                   // update ingreds within the database
                 }}>삭제</button>
