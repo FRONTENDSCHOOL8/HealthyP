@@ -124,9 +124,14 @@ const router = createBrowserRouter([
       },
     ],
   },
+  // 상세 페이지 요리 단계 페이지
   {
     path: '/detail/:recipeId',
-    element: <DetailLayout />,
+    element: (
+      <ProtectedRoute>
+        <DetailLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
