@@ -36,7 +36,7 @@ const ROUTER_STATE: RouteItem[] = [
   },
   {
     text: '마이페이지',
-    route: '/user',
+    route: '/user/recent',
     icon: 'bg-person-icon',
     iconFill: 'bg-person-fill-icon',
   },

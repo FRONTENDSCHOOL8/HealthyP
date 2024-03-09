@@ -35,7 +35,7 @@ import {
   DetailPage,
   SearchLayout,
   DetailLayout,
-  StepsPage
+  StepsPage,
 } from './pages/';
 import { isStore } from './stores/stores';
 
@@ -82,7 +82,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            // path: 'recent',
+            path: 'recent',
             element: <RecentRecipes />,
           },
           {
@@ -130,13 +130,13 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DetailPage />
+        element: <DetailPage />,
       },
       {
         path: 'steps',
-        element: <StepsPage /> 
-      }
-    ]
+        element: <StepsPage />,
+      },
+    ],
   },
   // 로그인 페이지
   {
