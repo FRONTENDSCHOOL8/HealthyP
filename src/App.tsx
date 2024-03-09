@@ -35,7 +35,8 @@ import {
   DetailPage,
   SearchLayout,
   DetailLayout,
-  StepsPage
+  StepsPage,
+  ReviewPage
 } from './pages/';
 import { isStore } from './stores/stores';
 
@@ -142,6 +143,15 @@ const router = createBrowserRouter([
         element: <StepsPage /> 
       }
     ]
+  },
+  // 리뷰 페이지
+  {
+    path: '/reviews/:recipeId',
+    element: (
+      <ProtectedRoute>
+        <ReviewPage />
+      </ProtectedRoute>
+    ),
   },
   // 로그인 페이지
   {

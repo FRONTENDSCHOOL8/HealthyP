@@ -15,4 +15,5 @@ export { default as GlobalNavigationBar } from '@/components/navigation/GlobalNa
 
 // cards
 export { default as LargeCard } from '@/components/cards/largeCard/LargeCard';
+export { default as UserProfile } from '@/components/cards/largeCard/UserProfile'
 export { default as RecipeCard } from '@/components/cards/recipeCard/RecipeCard';
