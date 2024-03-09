@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { searchQuery, chooseQuery, isClick } from '@/stores/stores';
 import { db } from '@/api/pocketbase';
 import { RecipesExpand } from '@/types';
-import { Result } from '..';
+import Result from '../Result';
 
 // 쿼리 구독을 위한 함수
 async function fetchRecipes(): Promise<RecipesExpand[]> {

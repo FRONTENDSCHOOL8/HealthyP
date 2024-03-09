@@ -11,7 +11,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import {
   Search,
-  Result,
   CreateLayout,
   CreateOne,
   CreateTwo,
@@ -33,9 +32,8 @@ import {
   UserLayout,
   SignupComplete,
   DetailPage,
-  SearchLayout,
   DetailLayout,
-  StepsPage
+  StepsPage,
 } from './pages/';
 import { isStore } from './stores/stores';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -53,17 +51,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'search',
-        element: <SearchLayout />,
-        children: [
-          {
-            index: true,
-            element: <Search />,
-          },
-          {
-            path: 'result',
-            element: <Result />,
-          },
-        ],
+        element: <Search />,
       },
       {
         path: 'bookmark',
@@ -131,13 +119,13 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DetailPage />
+        element: <DetailPage />,
       },
       {
         path: 'steps',
-        element: <StepsPage /> 
-      }
-    ]
+        element: <StepsPage />,
+      },
+    ],
   },
   // 로그인 페이지
   {
