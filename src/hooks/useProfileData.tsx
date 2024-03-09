@@ -1,11 +1,16 @@
 import { db } from '@/api/pocketbase';
+import {
+  imageUrlAtom,
+  userCollection,
+  userNameAtom,
+  userRecordId,
+} from '@/stores/stores';
 import { useAtom } from 'jotai';
-import { useEffect, useState } from 'react';
-import { userCollection, userRecordId } from '@/stores/stores';
+import { useEffect } from 'react';
 
 const useProfileData = () => {
-  const [userName, setUserName] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [userName, setUserName] = useAtom(userNameAtom);
+  const [imageUrl, setImageUrl] = useAtom(imageUrlAtom);
 
   const [collection, setCollection] = useAtom(userCollection);
   const [id, setId] = useAtom(userRecordId);
@@ -25,12 +30,12 @@ const useProfileData = () => {
         setImageUrl(db.files.getUrl(record, record.avatar));
         setUserName(record.name);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        // console.error('Error fetching user data:', error);
       }
     }
 
     fetchUserData();
-  }, [setCollection, setId]);
+  }, []);
 
   return { collection, id, userName, setUserName, imageUrl };
 };
