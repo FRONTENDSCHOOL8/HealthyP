@@ -11,7 +11,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import {
   Search,
-  Result,
   CreateLayout,
   CreateOne,
   CreateTwo,
@@ -33,11 +32,13 @@ import {
   UserLayout,
   SignupComplete,
   DetailPage,
-  SearchLayout,
   DetailLayout,
   StepsPage,
+  ReviewPage,
+  CreateReview,
 } from './pages/';
 import { isStore } from './stores/stores';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const router = createBrowserRouter([
   // 루트 페이지 (메인)
@@ -52,17 +53,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'search',
-        element: <SearchLayout />,
-        children: [
-          {
-            index: true,
-            element: <Search />,
-          },
-          {
-            path: 'result',
-            element: <Result />,
-          },
-        ],
+        element: <Search />,
       },
       {
         path: 'bookmark',
@@ -124,9 +115,14 @@ const router = createBrowserRouter([
       },
     ],
   },
+  // 상세 페이지 요리 단계 페이지
   {
     path: '/detail/:recipeId',
-    element: <DetailLayout />,
+    element: (
+      <ProtectedRoute>
+        <DetailLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -135,6 +131,36 @@ const router = createBrowserRouter([
       {
         path: 'steps',
         element: <StepsPage />,
+      },
+    ],
+  },
+  // 리뷰 페이지
+  {
+    path: '/reviews/:recipeId',
+    element: (
+      <ProtectedRoute>
+        <ReviewPage />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: '/create',
+        element: <CreateReview />,
+      },
+    ],
+  },
+  // 리뷰 페이지
+  {
+    path: '/reviews/:recipeId',
+    element: (
+      <ProtectedRoute>
+        <ReviewPage />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: '/create',
+        element: <CreateReview />,
       },
     ],
   },
@@ -209,6 +235,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <div className="w-full max-w-1300pxr h-svh mx-auto bg-white">
         <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
       </div>
     </QueryClientProvider>
   );

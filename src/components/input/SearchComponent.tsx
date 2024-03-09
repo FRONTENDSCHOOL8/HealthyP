@@ -1,16 +1,19 @@
-import { searchQuery } from '@/stores/stores';
+import { isClick, searchQuery } from '@/stores/stores';
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 
 interface SearchComponentProps {
   bgColor?: string;
-  changeHandler?: React.ChangeEventHandler<HTMLInputElement>;
-  value?: string;
 }
 
 export default function SearchComponent({ bgColor }: SearchComponentProps) {
   const [query, setQuery] = useAtom(searchQuery);
   const [debouncedQuery, setDebouncedQuery] = useState(query);
+  const [, setIsclick] = useAtom(isClick);
+
+  const handleInputFocus = () => {
+    setIsclick(false);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -39,6 +42,7 @@ export default function SearchComponent({ bgColor }: SearchComponentProps) {
         placeholder="재료, 해시태그, 요리로 검색해주세요"
         onChange={handleChange}
         value={query}
+        onFocus={handleInputFocus}
       />
     </>
   );

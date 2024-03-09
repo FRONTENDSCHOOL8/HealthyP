@@ -51,14 +51,7 @@ type GNBButtonProps = {
   setPage: Dispatch<SetStateAction<string>>;
 };
 
-function GNBButton({
-  route,
-  icon,
-  iconFill,
-  text,
-  currentPage,
-  setPage,
-}: GNBButtonProps) {
+function GNBButton({ route, icon, iconFill, text, currentPage, setPage }: GNBButtonProps) {
   const renderIcon = () => {
     if (currentPage === route) return iconFill;
     return icon;
@@ -80,22 +73,13 @@ function GNBButton({
 }
 
 export default function GlobalNavigationBar() {
-  const [currentPage, setCurrentPage] = useState<string>(
-    window.location.pathname
-  );
+  const [currentPage, setCurrentPage] = useState<string>(window.location.pathname);
 
   return (
-    <nav className="absolute bottom-0 w-full h-80pxr px-side pb-24pxr bg-white">
+    <nav className="fixed bottom-0 w-full h-80pxr px-side pb-24pxr bg-white">
       <ul className="flex flex-row list-none w-full h-full">
         {ROUTER_STATE.map((item, idx) => {
-          return (
-            <GNBButton
-              key={idx}
-              currentPage={currentPage}
-              setPage={setCurrentPage}
-              {...item}
-            />
-          );
+          return <GNBButton key={idx} currentPage={currentPage} setPage={setCurrentPage} {...item} />;
         })}
       </ul>
     </nav>
