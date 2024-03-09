@@ -36,7 +36,8 @@ import {
   SearchLayout,
   DetailLayout,
   StepsPage,
-  ReviewPage
+  ReviewPage,
+  CreateReview
 } from './pages/';
 import { isStore } from './stores/stores';
 
@@ -152,6 +153,13 @@ const router = createBrowserRouter([
         <ReviewPage />
       </ProtectedRoute>
     ),
+    children: 
+    [
+      {
+        path: '/create',
+        element: <CreateReview />
+      }
+    ]
   },
   // 로그인 페이지
   {

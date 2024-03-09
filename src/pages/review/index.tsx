@@ -1,4 +1,5 @@
 
 
 
-export {ReviewPage} from './ReviewPage';
+export { ReviewPage } from './ReviewPage';
+export { CreateReview } from './CreateReview';
