@@ -38,7 +38,6 @@ import {
   StepsPage
 } from './pages/';
 import { isStore } from './stores/stores';
-import { Steps } from 'openai/resources/beta/threads/runs/steps.mjs';
 
 const router = createBrowserRouter([
   // 루트 페이지 (메인)

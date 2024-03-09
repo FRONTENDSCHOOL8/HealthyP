@@ -7,7 +7,7 @@ import { useDetailInfo } from '@/hooks/useDetailInfo';
 import { AccordionList, AccordionTest } from './components/DetailComponents';
 import { Star, Review, FnButton, BookmarkButton, Keyword } from '@/components';
 
-function DetailPage() {
+export function DetailPage() {
   const navigate = useNavigate();
   const { recipeId } = useParams();
   const { recipeData, imageURL, userData } = useDetailInfo(recipeId);
@@ -57,4 +57,4 @@ function DetailPage() {
   );
 }
 
-export default DetailPage;
+

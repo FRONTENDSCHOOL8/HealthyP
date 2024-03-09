@@ -70,13 +70,13 @@ export function AccordionList({ data, type, title = '재료', first }: Accordion
 export function AccordionTest({ data, type, title = '재료', first = false }: AccordionListProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div role="listbox" className={`w-full border-b appearance-none group ${first ? 'border-t' : ''}`} open={isOpen}>
+    <div role="listbox" className={`w-full border-b appearance-none group ${first ? 'border-t' : ''}`}>
       <button
         className={`w-full text-body pl-14pxr pr-10pxr py-12pxr list-none flex justify-between`}
         onClick={() => setIsOpen(!isOpen)}
       >
         {title}
-        <span className="bg-arrow-small-icon flex size-6 bg-contain transition-all group-open:rotate-180"></span>
+        <span className={`bg-arrow-small-icon flex size-6 bg-contain ${isOpen ? 'rotate-180 transition-all' : 'transition-all'}`}></span>
       </button>
       <AccordionItems data={data} type={type} isOpen={isOpen} />
     </div>
