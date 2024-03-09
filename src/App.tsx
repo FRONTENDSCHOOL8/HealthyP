@@ -34,8 +34,11 @@ import {
   SignupComplete,
   DetailPage,
   SearchLayout,
+  DetailLayout,
+  StepsPage
 } from './pages/';
 import { isStore } from './stores/stores';
+import { Steps } from 'openai/resources/beta/threads/runs/steps.mjs';
 
 const router = createBrowserRouter([
   // 루트 페이지 (메인)
@@ -124,7 +127,17 @@ const router = createBrowserRouter([
   },
   {
     path: '/detail/:recipeId',
-    element: <DetailPage />,
+    element: <DetailLayout />,
+    children: [
+      {
+        index: true,
+        element: <DetailPage />
+      },
+      {
+        path: 'steps',
+        element: <StepsPage /> 
+      }
+    ]
   },
   // 로그인 페이지
   {
