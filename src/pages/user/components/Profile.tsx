@@ -109,9 +109,13 @@ const ProfileComponent = () => {
           onChange={onSelectImage}
         />
       </label>
-      <button className="text-title-3-em pt-8pxr" onClick={onClickNickName}>
-        {userName}
-      </button>
+      {userName ? (
+        <button className="text-title-3-em pt-8pxr" onClick={onClickNickName}>
+          {userName}
+        </button>
+      ) : (
+        <span className="text-title-3-em pt-8pxr h-33pxr"></span>
+      )}
       <TwoButtonModal
         isOpen={isOpen}
         headline="닉네임 변경"

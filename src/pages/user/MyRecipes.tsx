@@ -1,10 +1,67 @@
+import { db } from '@/api/pocketbase';
+import { Header, LargeCard } from '@/components';
+import { recipesAtom, userRecordId } from '@/stores/stores';
+import getPbImage from '@/util/data/getPBImage';
+import { useAtom } from 'jotai';
+import { RecordModel } from 'pocketbase';
+import { memo, useEffect } from 'react';
+import Profile from './components/Profile';
+import Tab from './components/Tab';
 
-import { useAtomValue } from "jotai"
-import { ingredients } from "@/stores/stores"
+function MyRecipesComponent() {
+  const [id] = useAtom(userRecordId);
+  const [recipes, setRecipes] = useAtom(recipesAtom);
 
-export function MyRecipes() {
-  const ingredientData = useAtomValue(ingredients);
+  useEffect(() => {
+    if (id) {
+      const fetchData = async () => {
+        const getRecipeData = async () =>
+          await db.collection('recipes').getList(1, 10, {
+            filter: `profile = "${id}"`,
+          });
 
+        const recipeData = await getRecipeData();
 
-  return <></>;
+        setRecipes(recipeData);
+      };
+
+      fetchData();
+    }
+  }, [id]);
+
+  return (
+    <>
+      <Header option="onlyAlarm" />
+      <Profile />
+      <Tab />
+      {recipes ? (
+        <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full bg-gray-200">
+          {recipes &&
+            recipes?.items &&
+            recipes?.items.map((data: RecordModel, idx: number) => {
+              if (data) {
+                const url = getPbImage('recipes', data.id, data.image);
+                return (
+                  <LargeCard
+                    key={idx}
+                    id={data.id}
+                    userData={data}
+                    rating={data.expand?.rating}
+                    url={data.image && url}
+                    desc={data.desc}
+                    title={data.title}
+                    profile={data.expand?.profile}
+                    keywords={data.keywords}
+                  />
+                );
+              }
+            })}
+        </div>
+      ) : (
+        <div>Loading...</div>
+      )}
+    </>
+  );
 }
+
+export const MyRecipes = memo(MyRecipesComponent);

@@ -35,7 +35,7 @@ import {
   DetailLayout,
   StepsPage,
   ReviewPage,
-  CreateReview
+  CreateReview,
 } from './pages/';
 import { isStore } from './stores/stores';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            // path: 'recent',
+            path: 'recent',
             element: <RecentRecipes />,
           },
           {
@@ -130,9 +130,9 @@ const router = createBrowserRouter([
       },
       {
         path: 'steps',
-        element: <StepsPage /> 
-      }
-    ]
+        element: <StepsPage />,
+      },
+    ],
   },
   // 리뷰 페이지
   {
@@ -142,13 +142,27 @@ const router = createBrowserRouter([
         <ReviewPage />
       </ProtectedRoute>
     ),
-    children: 
-    [
+    children: [
+      {
+        path: '/create',
+        element: <CreateReview />,
+      },
+    ],
+  },
+  // 리뷰 페이지
+  {
+    path: '/reviews/:recipeId',
+    element: (
+      <ProtectedRoute>
+        <ReviewPage />
+      </ProtectedRoute>
+    ),
+    children: [
       {
         path: 'create',
-        element: <CreateReview />
-      }
-    ]
+        element: <CreateReview />,
+      },
+    ],
   },
   // 로그인 페이지
   {
