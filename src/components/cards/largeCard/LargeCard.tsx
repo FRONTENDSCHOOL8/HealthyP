@@ -2,7 +2,7 @@ import DOMPurify from 'dompurify';
 import { Link } from 'react-router-dom';
 import { RecordModel } from 'pocketbase';
 import { RatingsResponse, UsersResponse } from '@/types';
-import { Star, Review, Keyword, BookmarkButton } from '@/components';
+import { Star, Review, BookmarkButton } from '@/components';
 
 // 기본 이미지 파일
 import getPbImage from '@/util/data/getPBImage';
@@ -24,7 +24,7 @@ export interface LargeCardProps extends profileProps {
   userData: RecordModel | undefined;
 }
 
-function UserProfile({ profile }: profileProps) {
+export function UserProfile({ profile }: profileProps) {
   if (profile === undefined) return;
   const url = getPbImage('_pb_users_auth_', profile.id, profile.avatar);
 

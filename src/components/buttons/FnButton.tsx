@@ -26,7 +26,6 @@ interface FnButtonProps {
   altText?: string;
   size?: string;
 }
-
 export default function FnButton({
   image,
   clickHandler,
