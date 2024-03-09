@@ -11,10 +11,7 @@ export function BookmarkPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const getRecipeData = async () =>
-        await db
-          .collection('recipes')
-          .getList(1, 10, { expand: 'rating, profile' });
+      const getRecipeData = async () => await db.collection('recipes').getList(1, 10, { expand: 'rating, profile' });
 
       // getRecipeData 함수의 결과를 기다립니다.
       const recipeData: ListResult<RecordModel> = await getRecipeData();
@@ -27,9 +24,7 @@ export function BookmarkPage() {
       const currentUser = localStorage.getItem('pocketbase_auth');
       if (currentUser === null) return;
       const userId = JSON.parse(currentUser).model.id;
-      const response = await db
-        .collection('users')
-        .getOne(userId, { requestKey: null });
+      const response = await db.collection('users').getOne(userId, { requestKey: null });
       if (response === undefined) return;
       setUserData(response);
     }
@@ -51,7 +46,6 @@ export function BookmarkPage() {
           data?.items.map((data, idx) => {
             if (data) {
               const url = getPbImage('recipes', data.id, data.image);
-              console.log(data.image || url);
               return (
                 <LargeCard
                   key={idx}
@@ -62,6 +56,7 @@ export function BookmarkPage() {
                   desc={data.desc}
                   title={data.title}
                   profile={data.expand?.profile}
+                  keywords={data.keywords}
                 />
               );
             }
