@@ -1,6 +1,6 @@
 import getPbImage from '@/util/data/getPBImage';
 import { RecordModel } from 'pocketbase';
-import { ReviewStars } from './ReviewStars';
+// import { ReviewStars } from './ReviewStars';
 import { PurifiedText } from './PurifiedText';
 import { ReviewStars2 } from './ReviewStars2';
 
@@ -17,9 +17,9 @@ export function ReviewCard({ profile, reviewText, rating }: ReviewCardProps) {
       <div className="flex flex-col gap-6pxr">
         <div className="flex items-center gap-8pxr height-fit">
           <h3 className="text-foot-em flex gap-4pxr items-center">{profile.name}</h3>
-          {/* <ReviewStars ratingNumber={rating} height="" width="80px"/> */}
           <div className="flex gap-4pxr">
-            <ReviewStars2 ratingNumber={rating} height="8px" width="8px" />
+            {/* <ReviewStars ratingNumber={rating} height={8} width={8} /> */}
+            <ReviewStars2 ratingNumber={rating} height={8} width={8} />
           </div>
         </div>
         <PurifiedText textContent={reviewText} />

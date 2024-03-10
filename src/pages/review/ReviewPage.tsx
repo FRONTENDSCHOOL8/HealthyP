@@ -40,7 +40,7 @@ export function ReviewPage() {
         </header>
         <div className="flex flex-col gap-20pxr justify-center items-center pt-40pxr w-full">
           <Link to="create" className="flex gap-8pxr">
-            {/* <ReviewStars ratingNumber={0} height='' width=''/> */}
+            {/* <ReviewStars ratingNumber={0}  */}
             <ReviewStars2 ratingNumber={0} />
           </Link>
           <p className="text-sub">요리해 보셨다면, 후기를 남겨보세요!</p>
