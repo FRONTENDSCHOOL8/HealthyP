@@ -35,27 +35,29 @@ export function MyRecipes() {
       <Profile />
       <Tab />
       {recipes ? (
-        <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full bg-gray-200">
-          {recipes &&
-            recipes?.items &&
-            recipes?.items.map((data: RecordModel, idx: number) => {
-              if (data) {
-                const url = getPbImage('recipes', data.id, data.image);
-                return (
-                  <LargeCard
-                    key={idx}
-                    id={data.id}
-                    userData={data}
-                    rating={data.expand?.rating}
-                    url={data.image && url}
-                    desc={data.desc}
-                    title={data.title}
-                    profile={data.expand?.profile}
-                    keywords={data.keywords}
-                  />
-                );
-              }
-            })}
+        <div className="pb-140pxr">
+          <div className="grid gap-6pxr grid-cols-card justify-center w-full bg-gray-200">
+            {recipes &&
+              recipes?.items &&
+              recipes?.items.map((data: RecordModel, idx: number) => {
+                if (data) {
+                  const url = getPbImage('recipes', data.id, data.image);
+                  return (
+                    <LargeCard
+                      key={idx}
+                      id={data.id}
+                      userData={data}
+                      rating={data.expand?.rating}
+                      url={data.image && url}
+                      desc={data.desc}
+                      title={data.title}
+                      profile={data.expand?.profile}
+                      keywords={data.keywords}
+                    />
+                  );
+                }
+              })}
+          </div>
         </div>
       ) : (
         <div>Loading...</div>
