@@ -5,13 +5,7 @@ import { MemoizedAutoLogin as AutoLogin } from './components/AutoLogin';
 import line from '@/assets/icons/line.svg';
 import outh2 from '@/assets/icons/outh2.svg';
 import { useAtom } from 'jotai';
-import {
-  emailAtom,
-  isStore,
-  nicknameAtom,
-  passwordAtom,
-  storeData,
-} from '@/stores/stores';
+import { emailAtom, isStore, nicknameAtom, passwordAtom, storeData } from '@/stores/stores';
 import { db } from '@/api/pocketbase';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -65,14 +59,10 @@ export function Login() {
           <PasswordComponet />
         </div>
         <AutoLogin />
-        <div
-          className={`text-warning text-cap-1 flex flex-col pt-2pxr pb-17pxr ${isFail ? 'block' : 'hidden'}`}
-        >
+        <div className={`text-warning text-cap-1 flex flex-col pt-2pxr pb-17pxr ${isFail ? 'block' : 'hidden'}`}>
           {isFail && (
             <>
-              <span>
-                아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.
-              </span>
+              <span>아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.</span>
               <span>입력하신 내용을 다시 확인해주세요.</span>
             </>
           )}
@@ -81,20 +71,14 @@ export function Login() {
           buttonCase="large"
           text={['로그인']}
           route={[goToMain]}
-          onClickOne={
-            handleClick as (
-              idx: number | React.FormEvent<HTMLFormElement>
-            ) => void
-          }
+          onClickOne={handleClick as (idx: number | React.FormEvent<HTMLFormElement>) => void}
         />
       </form>
       <Finder />
       <div className="flex flex-col px-14pxr py-1 mt-104pxr justify-center">
         <div className="flex gap-2">
           <img src={line} alt="Line" className="w-full" />
-          <span className="whitespace-nowrap text-cap-1 text-gray-500">
-            SNS 간편 로그인
-          </span>
+          <span className="whitespace-nowrap text-cap-1 text-gray-500">SNS 간편 로그인</span>
           <img src={line} alt="Line" className="w-full" />
         </div>
         <img src={outh2} alt="Auth2" className="mt-30pxr" />

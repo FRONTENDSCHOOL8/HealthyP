@@ -24,8 +24,8 @@ export const title = atom('');
 export const image = atom<File | null>(null);
 export const description = atom('');
 export const temp_image = atom<File | null>(null);
-export const time = atom<number>(0); // 조리 시간
-export const difficulty = atom<string>('쉬움'); // 난이도 선택
+export const time = atom(0); // 조리 시간
+export const difficulty = atom('쉬움'); // 난이도 선택
 
 // 로그인 페이지
 export const isStore = atom(false); // 로컬저장소에 pocketbase_auth가 있는지 여부
