@@ -59,7 +59,7 @@ export function DetailPage() {
             <>
               <AccordionList data={recipeData} title="재료" type="ingredients" first />
               <AccordionList data={recipeData} title="양념" type="seasoning" />
-              <AccordionList data={recipeData} title="영양정보" type="seasoning" />
+              <AccordionList data={recipeData} title="영양정보" type="nutrition" />
             </>
           ) : (
             <>

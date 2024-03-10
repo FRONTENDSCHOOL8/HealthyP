@@ -44,14 +44,25 @@ function AccordionItems({ isOpen, data, type }: AccordionItemsProps) {
           transition={{ duration: 0.2 }}
           className="overflow-hidden px-14pxr bg-gray_100 shadow-inner border-t border-gray_200"
         >
-          {JSON.parse(data?.[type]).map((item: DataInterface, index: number) => {
-            return (
-              <li key={index} className={`flex justify-between w-full py-11pxr text-sub border-b px-3pxr `}>
-                <p>{item.name}</p>
-                <p>{item.amount}</p>
-              </li>
-            );
-          })}
+          {type === 'ingredients' || type === 'seasoning'
+            ? JSON.parse(data?.[type]).map((item: DataInterface, index: number) => (
+                <li key={index} className={`flex justify-between w-full py-11pxr text-sub border-b px-3pxr `}>
+                  <p>{item.name}</p>
+                  <p>{item.amount}</p>
+                </li>
+              ))
+            : (
+                <>
+                  {Object.entries<string>(JSON.parse(data.nutrition)).map(([key, value]) => (
+                    <li key={key} className={`flex justify-between w-full py-11pxr text-sub border-b px-3pxr `}>
+                      <p>{key}</p>
+                      <p>{value}</p>
+                    </li>
+                  ))}
+                </>
+              )
+          }
+
           <li className="h-48pxr"></li>
         </motion.ul>
       )}
@@ -104,7 +115,7 @@ export const AccordionList = memo(function AccordionList({
           className={`bg-arrow-small-icon flex size-6 bg-contain  transition-transform ${isOpen ? 'rotate-180' : ''}`}
         ></span>
       </button>
-      <AccordionItems data={data} type={type} isOpen={isOpen} />
+      <AccordionItems data={data} type={type} isOpen={isOpen}/>
     </div>
   );
 });
