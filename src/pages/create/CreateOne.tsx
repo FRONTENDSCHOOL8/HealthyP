@@ -30,10 +30,11 @@ export function CreateOne() {
         <CategoryDropdown />
         <KeywordComponent inputTitle="키워드" placeholder="키워드는 쉼표(,) 로 구별해주세요" />
         <TextAreaComponent
-          inputTitle="레시피 설명"
+          inputTitle="레시피 소개"
           maxCharCount={200}
           requiredText=" (필수)"
           setData={setDescription}
+          placeholderText="이 레시피를 소개하는 글을 작성해주세요"
         />
         <IngredientsComponent 
           titleText="재료" 
