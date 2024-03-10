@@ -26,7 +26,7 @@ import {
   CreateComplete,
   Login,
   Welcome,
-  MyComments,
+  MyReviews,
   MyRecipes,
   RecentRecipes,
   UserLayout,
@@ -81,8 +81,8 @@ const router = createBrowserRouter([
             element: <MyRecipes />,
           },
           {
-            path: 'mycomments',
-            element: <MyComments />,
+            path: 'myreviews',
+            element: <MyReviews />,
           },
         ],
       },
@@ -144,7 +144,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: '/create',
+        path: 'create',
         element: <CreateReview />,
       },
     ],
