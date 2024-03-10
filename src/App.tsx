@@ -119,9 +119,9 @@ const router = createBrowserRouter([
   {
     path: '/detail/:recipeId',
     element: (
-      <ProtectedRoute>
-        <DetailLayout />
-      </ProtectedRoute>
+      // <ProtectedRoute>
+      <DetailLayout />
+      // </ProtectedRoute>
     ),
     children: [
       {
