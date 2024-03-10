@@ -48,10 +48,10 @@ export function DetailPage() {
           <h1 className="text-title-2-em mt-20pxr mb-9pxr">{recipeData?.title}</h1>
           <p className="text-sub text-gray_700" dangerouslySetInnerHTML={{ __html: clearText }}></p>
         </div>
-        <div className="flex px-14pxr pb-70pxr pt-30pxr">
+        <Link to={`/reviews/${recipeId}`} className="flex px-14pxr pb-70pxr pt-30pxr">
           <Star rating={recipeData.expand?.rating} />
           <Review rating={recipeData.expand?.rating} caseType={'literal'} />
-        </div>
+        </Link>
 
         {/* 재료, 양념, 영양정보 아코디언 박스 */}
         <div>

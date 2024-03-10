@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
-import image from "@/assets/images/flower3.jpg";
 import { ReviewStars } from "./components/ReviewStars";
 import { useEffect, useState } from "react";
 import { TextAreaComponent } from "../create/components";
