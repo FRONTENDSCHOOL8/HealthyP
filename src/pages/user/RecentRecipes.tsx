@@ -1,6 +1,6 @@
 import { db } from '@/api/pocketbase';
 import { Header, Review, Star } from '@/components';
-import { ratingDataAtom, recentRecipesAtom } from '@/stores/stores';
+import { defaultRecipesAtom, ratingDataAtom, recentRecipesAtom } from '@/stores/stores';
 import getPbImage from '@/util/data/getPBImage';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
 import { useAtom } from 'jotai';
@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
 import { RatingsResponse } from '@/types';
+import DOMPurify from 'dompurify';
 
 // Animation Properties
 const DELETE_BTN_WIDTH = 70;
@@ -27,6 +28,7 @@ interface Recipe {
 }
 
 const RecipeContainer = () => {
+  const [recipes, setRecipes] = useAtom(defaultRecipesAtom);
   const [recentRecipes, setRecentRecipes] = useAtom(recentRecipesAtom);
   const [ratingData, setRatingData] = useAtom(ratingDataAtom);
 
@@ -49,10 +51,23 @@ const RecipeContainer = () => {
         }
       }
 
-      setRecentRecipes(recentViewRecipes);
+      setRecipes(recentViewRecipes);
     };
 
     fetchData();
+  }, [setRecipes]);
+
+  useEffect(() => {
+    const dompurify = (data: string) => {
+      return DOMPurify.sanitize(data, {
+        ALLOWED_TAGS: ['br', 'em'],
+      });
+    };
+    const dompurifyRecentRecipes = recipes.reduce<RecordModel[]>((acc: RecordModel[], recipe: RecordModel) => {
+      return [...acc, { ...recipe, desc: dompurify(recipe.desc) }];
+    }, [] as RecordModel[]);
+
+    setRecentRecipes(dompurifyRecentRecipes);
   }, [setRecentRecipes]);
 
   useEffect(() => {
