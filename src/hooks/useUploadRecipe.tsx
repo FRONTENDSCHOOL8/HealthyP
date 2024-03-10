@@ -12,7 +12,7 @@ import {
   keywords,
   nutrition,
   time,
-  // difficulty,
+  difficulty,
 } from '@/stores/stores';
 
 import OpenAI from 'openai';
@@ -59,18 +59,18 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const timeData = useAtomValue(time);
-  // const difficultyData = useAtomValue(difficulty);
-  // const [userId, setUserId] = useState('');
+  const difficultyData = useAtomValue(difficulty);
+  const [userId, setUserId] = useState('');
 
-  // useEffect(() => {
-  //   const getPocketbaseAuthRaw = localStorage.getItem('pocketbase_auth');
-  //   if (getPocketbaseAuthRaw) {
-  //     const pocketbaseAuth = JSON.parse(getPocketbaseAuthRaw);
-  //     const authUserId = pocketbaseAuth.model.id;
+  useEffect(() => {
+    const getPocketbaseAuthRaw = localStorage.getItem('pocketbase_auth');
+    if (getPocketbaseAuthRaw) {
+      const pocketbaseAuth = JSON.parse(getPocketbaseAuthRaw);
+      const authUserId = pocketbaseAuth.model.id;
 
-  //     setUserId(authUserId);
-  //   }
-  // }, []);
+      setUserId(authUserId);
+    }
+  }, []);
 
   useEffect(() => {
     async function getNutritionData() {
@@ -112,8 +112,8 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
         nutrition: nutritionData,
         rating: [],
         time: timeData,
-        // difficulty: difficultyData,
-        // profile: userId,
+        difficulty: difficultyData,
+        profile: userId,
       };
       const record = await db.collection('recipes').create(data);
 
