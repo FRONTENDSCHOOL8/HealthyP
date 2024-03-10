@@ -1,6 +1,6 @@
 import { Header } from '@/components';
 import { searchQuery } from '@/stores/stores';
-import { Provider, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { memo } from 'react';
 import { MostView } from './components/mostView';
 import { RecentSearch } from './components/recentSearch';
@@ -24,10 +24,10 @@ function SearchPageContent() {
     return <SearchQuery />;
   };
   return (
-    <>
+    <div className="flex flex-col h-svh">
       <Header option="searchWithBack" />
-      <div className="py-18pxr flex flex-col gap-47pxr px-14pxr mb-80pxr">{renderInit()}</div>
-    </>
+      <div className="basis-[1fr] overflow-auto px-14pxr pb-120pxr">{renderInit()}</div>
+    </div>
   );
 }
 
