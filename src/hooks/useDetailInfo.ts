@@ -16,6 +16,7 @@ export function useDetailInfo(recipeId: string | undefined) {
         expand: 'rating',
       });
       const url = db.files.getUrl(record, record.image);
+      await db.collection('recipes').update(recipeId, {'views' : (record.views + 1)});
       setImageURL(url);
       setRecipeData(record);
     }
