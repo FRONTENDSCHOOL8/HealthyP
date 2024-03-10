@@ -11,14 +11,11 @@ import {
 } from './components/';
 import { useSetAtom } from 'jotai';
 import { Form } from 'react-router-dom';
-import { useState } from 'react';
-import { OneButtonModal } from '@/components/modal/OneButtonModal';
 import { ingredients, image, seasoning, description } from '@/stores/stores';
 
 export function CreateOne() {
   const setImageFile = useSetAtom(image);
   const setDescription = useSetAtom(description);
-  const [alert, setAlert] = useState(true);
 
   return (
     <>
@@ -50,7 +47,6 @@ export function CreateOne() {
       <Footer>
         <FooterButton buttonCase="large" text={['다음']} route={[() => 'two']} />
       </Footer>
-      <OneButtonModal isOpen={alert} confirmModal={() => {setAlert(false)}}/> 
     </>
   );
 }
