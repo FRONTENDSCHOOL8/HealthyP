@@ -10,7 +10,6 @@ function SearchPageContent() {
   const [query] = useAtom(searchQuery);
 
   const searchQueryLength = query.length;
-  console.log(query);
 
   const renderInit = () => {
     if (searchQueryLength === 0) {
@@ -26,8 +25,10 @@ function SearchPageContent() {
   return (
     <div className="flex flex-col h-svh">
       <Header option="searchWithBack" />
+
       <div className="basis-[1fr] overflow-auto px-14pxr pb-120pxr">{renderInit()}</div>
     </div>
+
   );
 }
 
