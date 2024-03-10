@@ -1,5 +1,6 @@
+import { db } from '@/api/pocketbase';
 import { Header, Review, Star } from '@/components';
-import { recentRecipesAtom } from '@/stores/stores';
+import { ratingDataAtom, recentRecipesAtom } from '@/stores/stores';
 import getPbImage from '@/util/data/getPBImage';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
 import { useAtom } from 'jotai';
@@ -8,7 +9,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
-import { db } from '@/api/pocketbase';
+import { RatingsResponse } from '@/types';
 
 // Animation Properties
 const DELETE_BTN_WIDTH = 70;
@@ -27,12 +28,11 @@ interface Recipe {
 
 const RecipeContainer = () => {
   const [recentRecipes, setRecentRecipes] = useAtom(recentRecipesAtom);
+  const [ratingData, setRatingData] = useAtom(ratingDataAtom);
 
   useEffect(() => {
     const recentViewRaw = sessionStorage.getItem('recentRecipe');
-    const recentViewArray: { id: string }[] = recentViewRaw
-      ? JSON.parse(recentViewRaw)
-      : [];
+    const recentViewArray: { id: string }[] = recentViewRaw ? JSON.parse(recentViewRaw) : [];
 
     const fetchData = async () => {
       const recentViewRecipes: RecordModel[] = [];
@@ -43,23 +43,45 @@ const RecipeContainer = () => {
         });
 
         // find 메소드를 사용하여 조건에 맞는 첫 번째 레시피 객체를 찾아 recentViewRecipes 배열에 추가
-        const recipe: RecordModel | undefined = recentView.find(
-          (recipeItem: Recipe) => recipeItem.id
-        );
+        const recipe: RecordModel | undefined = recentView.find((recipeItem: Recipe) => recipeItem.id);
         if (recipe) {
           recentViewRecipes.push(recipe);
         }
       }
+
       setRecentRecipes(recentViewRecipes);
     };
 
     fetchData();
   }, [setRecentRecipes]);
 
-  const handleDragEnd = async (
-    info: PanInfo,
-    recipeId: string | RecordModel
-  ) => {
+  useEffect(() => {
+    const ratingsArray = recentRecipes.map((recipe) => recipe.rating);
+
+    const fetchData = async () => {
+      const ratingRecipes: RatingsResponse[][] = [];
+      let ratingItems: RatingsResponse[] = [];
+
+      for (const [, item] of ratingsArray.entries()) {
+        for (const i of item) {
+          const rating = await db.collection('ratings').getFullList({
+            filter: `id = "${i}"`,
+          });
+          const ratingItem = rating.find((i) => i.id) as RatingsResponse;
+          if (ratingItem) {
+            ratingItems.push(ratingItem);
+          }
+        }
+        ratingRecipes.push(ratingItems);
+        ratingItems = [];
+      }
+
+      setRatingData(ratingRecipes);
+    };
+    fetchData();
+  }, [recentRecipes, setRatingData]);
+
+  const handleDragEnd = async (info: PanInfo, recipeId: string | RecordModel) => {
     const dragDistance = info.point.x;
 
     if (dragDistance < -DELETE_BTN_WIDTH) {
@@ -69,13 +91,8 @@ const RecipeContainer = () => {
         setRecentRecipes(newRecipes);
 
         // sessionStorage 업데이트
-        const updatedRecentView = recentRecipes.filter(
-          (item: RecordModel) => item.id !== recipeId
-        );
-        sessionStorage.setItem(
-          'recentRecipe',
-          JSON.stringify(updatedRecentView)
-        );
+        const updatedRecentView = recentRecipes.filter((item: RecordModel) => item.id !== recipeId);
+        sessionStorage.setItem('recentRecipe', JSON.stringify(updatedRecentView));
         setRecentRecipes(updatedRecentView);
       }
     }
@@ -83,12 +100,13 @@ const RecipeContainer = () => {
 
   return (
     <>
-      {recentRecipes ? (
+      {ratingData.length > 0 ? (
         <div className="w-full grow bg-white relative p-14pxr flex flex-col gap-8pxr pb-140pxr ">
           <ul className="flex flex-col gap-10pxr">
             <AnimatePresence>
-              {recentRecipes &&
-                recentRecipes.map((item: RecordModel) => {
+              {ratingData &&
+                recentRecipes &&
+                recentRecipes.map((item: RecordModel, idx: number) => {
                   if (item) {
                     return (
                       <motion.li
@@ -113,24 +131,21 @@ const RecipeContainer = () => {
                           </div>
                           <div className="flex flex-col items-start justify-between gap-12pxr h-100pxr">
                             <div className="flex flex-col gap-4pxr">
-                              <h2 className="text-sub-em w-212pxr line-clamp-1">
-                                {item.title}
-                              </h2>
-                              <p className="text-cap-1 w-212pxr line-clamp-2">
-                                {item.desc}
-                              </p>
+                              <h2 className="text-sub-em w-212pxr line-clamp-1">{item.title}</h2>
+                              <p className="text-cap-1 w-212pxr line-clamp-2">{item.desc}</p>
                             </div>
                             <div className="flex px-2pxr gap-4pxr items-center">
-                              <Link
-                                to={'/'}
-                                className="fit-content flex gap-4pxr"
-                              >
-                                <Star rating={item.rating} />
-                                <Review
-                                  rating={item.rating}
-                                  caseType={'literal'}
-                                />
-                              </Link>
+                              {ratingData &&
+                                ratingData.map((item, ratingIdx: number) => {
+                                  if (idx === ratingIdx) {
+                                    return (
+                                      <Link key={ratingIdx} to={'/'} className="fit-content flex gap-4pxr">
+                                        <Star rating={item} />
+                                        <Review rating={item} caseType={'literal'} />
+                                      </Link>
+                                    );
+                                  }
+                                })}
                             </div>
                           </div>
                         </motion.div>
