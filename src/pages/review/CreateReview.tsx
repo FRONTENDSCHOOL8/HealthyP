@@ -8,6 +8,9 @@ import { getCurrentUserData } from "@/util";
 import { RecordModel } from "pocketbase";
 import getPbImage from "@/util/data/getPBImage";
 import { PurifiedText } from "./components/PurifiedText";
+import { getRangeArray } from "@/util";
+
+
 
 export function CreateReview() {
   const {recipeId} = useParams();
@@ -17,6 +20,7 @@ export function CreateReview() {
   const [reviewText, setReviewText] = useState('');
   const currentUserId = getCurrentUserData().id;
   const [imageURL, setImageURL] = useState(''); 
+  const rangeOfStars = getRangeArray(1,6);
 
   useEffect(() => {
     async function getRecipeData() {
@@ -68,14 +72,16 @@ export function CreateReview() {
           <div className="w-full py-36pxr flex flex-col items-center border-t border-b border-gray-200 gap-14pxr">
             <h2 className="text-body-em">레시피는 어떠셨나요?</h2>
             <div className="w-fit relative">
-              <ReviewStars ratingNumber={stars} height='25px' width='168px'/>
-              <div className="w-full h-full flex absolute top-0 left-0">
-                <button className="w-1/5 h-full" onClick={() => {setStars(1)}}></button>
-                <button className="w-1/5 h-full" onClick={() => {setStars(2)}}></button>
-                <button className="w-1/5 h-full" onClick={() => {setStars(3)}}></button>
-                <button className="w-1/5 h-full" onClick={() => {setStars(4)}}></button>
-                <button className="w-1/5 h-full" onClick={() => {setStars(5)}}></button>
-              </div>
+              <ReviewStars ratingNumber={stars} height="25px" width="168px"/>
+              <ul className="w-full h-full flex absolute top-0 left-0">
+                {
+                  rangeOfStars.map((item, idx) => (
+                    <li className="w-1/5 h-full" key={idx}>
+                      <button className="w-full h-full" onClick={() => {setStars(item)}}></button>
+                    </li>
+                  )) 
+                }
+              </ul>
             </div>
           </div>
           <div className="w-full py-36pxr flex flex-col items-center gap-14pxr">
