@@ -5,7 +5,9 @@ import {
   IngredientsComponent,
   TitleComponent,
   KeywordComponent,
-  CategoryDropdown
+  CategoryDropdown,
+  DifficultyComponent,
+  TimeComponent,
 } from './components/';
 import { useSetAtom } from 'jotai';
 import { Form } from 'react-router-dom';
@@ -18,15 +20,13 @@ export function CreateOne() {
   return (
     <>
       <Header option="titleWithClose" title="레시피 등록하기" />
-      <Form
-        action="two"
-        className="px-20pxr py-20pxr flex flex-col gap-42pxr pb-120pxr bg-white"
-      >
-        <FileInputComponent
-          inputTitle={'레시피 이미지'}
-          setFile={setImageFile}
-        />
+      <Form action="two" className="px-20pxr py-20pxr flex flex-col gap-42pxr pb-120pxr bg-white">
+        <FileInputComponent inputTitle={'레시피 이미지'} setFile={setImageFile} />
         <TitleComponent inputTitle="레시피 제목" placeholder="레시피 제목" />
+        <div className="flex justify-between whitespace-nowrap gap-1">
+          <TimeComponent />
+          <DifficultyComponent />
+        </div>
         <CategoryDropdown />
         <KeywordComponent inputTitle="키워드" placeholder="키워드는 쉼표(,) 로 구별해주세요" />
         <TextAreaComponent
@@ -36,23 +36,16 @@ export function CreateOne() {
           setData={setDescription}
           placeholderText="이 레시피를 소개하는 글을 작성해주세요"
         />
-        <IngredientsComponent 
-          titleText="재료" 
+        <IngredientsComponent
+          titleText="재료"
           atom={ingredients}
-          namePlaceholder='감자'
-          amountPlaceholder='100g, 1개' />
-        <IngredientsComponent 
-          titleText="양념" 
-          atom={seasoning}
-          namePlaceholder='간장'
-          amountPlaceholder='2스푼' />
+          namePlaceholder="감자"
+          amountPlaceholder="100g, 1개"
+        />
+        <IngredientsComponent titleText="양념" atom={seasoning} namePlaceholder="간장" amountPlaceholder="2스푼" />
       </Form>
       <Footer>
-        <FooterButton
-          buttonCase="large"
-          text={['다음']}
-          route={[() => 'two']}
-        />
+        <FooterButton buttonCase="large" text={['다음']} route={[() => 'two']} />
       </Footer>
     </>
   );
