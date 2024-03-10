@@ -136,7 +136,7 @@ const RecipeContainer = () => {
     <>
       {ratingData ? (
         <div className="w-full grow bg-white relative p-14pxr flex flex-col gap-8pxr pb-140pxr ">
-          <ul className="flex flex-col gap-10pxr">
+          <ul className="flex flex-col gap-10pxr divide-y-[1px] divide-gray_200">
             <AnimatePresence>
               {ratingData &&
                 recentRecipes &&
@@ -147,14 +147,14 @@ const RecipeContainer = () => {
                         key={item.id}
                         exit={MESSAGE_DELETE_ANIMATION}
                         transition={MESSAGE_DELETE_TRANSITION}
-                        className="relative "
+                        className="relative divide-x-[1px] divide-gray_150"
                       >
                         <motion.div
                           drag="x"
                           dragConstraints={{ left: 0, right: 0 }}
                           onDragEnd={(_, info) => handleDragEnd(info, item.id)}
                           key={item.id}
-                          className="flex flex-row items-center h-full gap-12pxr py-14pxr z-10 relative bg-white"
+                          className="flex flex-row items-center h-full gap-10pxr pt-14pxr pb-6pxr z-10 relative bg-white"
                         >
                           <Link
                             to={`/detail/${item.id}`}
@@ -197,7 +197,7 @@ const RecipeContainer = () => {
                             </div>
                           </div>
                         </motion.div>
-                        <div className="absolute bg-red rounded-xl right-2pxr top-1/2 transform -translate-y-1/2 h-[calc(100%-2px)] w-70pxr flex justify-center items-center">
+                        <div className="absolute bg-red rounded-xl right-2pxr top-1/2 transform -translate-y-1/2 h-[calc(80%-2px)] mt-1.5 w-60pxr flex justify-center items-center text-body text-gray_500">
                           삭제
                         </div>
                       </motion.li>
