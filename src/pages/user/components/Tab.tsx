@@ -40,7 +40,7 @@ const Tab = () => {
   const tabs = [
     { label: '최근 본 레시피', path: '/user/recent' },
     { label: '나의 레시피', path: '/user/myrecipes' },
-    { label: '내 댓글', path: '/user/mycomments' },
+    { label: '내 리뷰', path: '/user/myreviews' },
   ];
 
   return (
