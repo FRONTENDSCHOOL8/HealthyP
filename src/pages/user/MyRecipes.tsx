@@ -4,7 +4,7 @@ import { recipesAtom, userRecordId } from '@/stores/stores';
 import getPbImage from '@/util/data/getPBImage';
 import { useAtom } from 'jotai';
 import { RecordModel } from 'pocketbase';
-import { memo, useEffect } from 'react';
+import { useEffect } from 'react';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
 
@@ -64,4 +64,4 @@ function MyRecipesComponent() {
   );
 }
 
-export const MyRecipes = memo(MyRecipesComponent);
+export default MyRecipesComponent;
