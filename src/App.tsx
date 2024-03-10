@@ -118,11 +118,7 @@ const router = createBrowserRouter([
   // 상세 페이지 요리 단계 페이지
   {
     path: '/detail/:recipeId',
-    element: (
-      // <ProtectedRoute>
-      <DetailLayout />
-      // </ProtectedRoute>
-    ),
+    element: <DetailLayout />,
     children: [
       {
         index: true,
@@ -137,15 +133,15 @@ const router = createBrowserRouter([
   // 리뷰 페이지
   {
     path: '/reviews/:recipeId',
-    element: (
-      <ProtectedRoute>
-        <ReviewPage />
-      </ProtectedRoute>
-    ),
+    element: <ReviewPage />,
     children: [
       {
         path: 'create',
-        element: <CreateReview />,
+        element: (
+          <ProtectedRoute>
+            <CreateReview />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
