@@ -25,15 +25,17 @@ export function CreateReview() {
             <img src={imageURL} alt="레시피 사진" className="w-60pxr h-60pxr object-contain rounded-xl" />
             <div className="flex flex-col gap-4pxr">
               <h2 className="text-sub-em">{recipeData?.title}</h2>
-              <p className="text-foot line-clamp-1">
+              <div className="text-foot line-clamp-1">
                 <PurifiedText textContent={recipeData?.desc} />
-              </p>
+              </div>
             </div>
           </div>
           <div className="w-full py-36pxr flex flex-col items-center border-t border-b border-gray-200 gap-14pxr">
             <h2 className="text-body-em">레시피는 어떠셨나요?</h2>
             <div className="w-fit relative">
-              <ReviewStars ratingNumber={stars} height="25px" width="168px"/>
+              <div className="flex gap-2pxr">
+                <ReviewStars ratingNumber={stars} />
+              </div>
               <ul className="w-full h-full flex absolute top-0 left-0">
                 {
                   rangeOfStars.map((item:number, idx:number) => (

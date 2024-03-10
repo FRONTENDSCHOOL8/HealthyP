@@ -27,7 +27,7 @@ export function TitleComponent({inputTitle, placeholder} : InputComponent) {
         <input
           id="nickname-input"
           type="text"
-          className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md text-sub"
+          className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md text-sub focus:outline-primary"
           placeholder={placeholder}
           onChange={titleInputHandler}
         />
@@ -57,7 +57,7 @@ export function KeywordComponent({inputTitle, placeholder} : InputComponent) {
         <input
           id="nickname-input"
           type="text"
-          className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md text-sub"
+          className="w-full h-48pxr py-0 px-10pxr bg-gray_150 focus:outline-primary rounded-md text-sub"
           placeholder={placeholder}
           onChange={titleInputHandler}
         />

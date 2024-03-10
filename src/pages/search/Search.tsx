@@ -23,10 +23,12 @@ function SearchPageContent() {
     return <SearchQuery />;
   };
   return (
-    <>
+    <div className="flex flex-col h-svh">
       <Header option="searchWithBack" />
-      <div className="py-18pxr flex flex-col gap-47pxr px-14pxr pb-140pxr">{renderInit()}</div>
-    </>
+
+      <div className="basis-[1fr] overflow-auto px-14pxr pb-120pxr">{renderInit()}</div>
+    </div>
+
   );
 }
 
