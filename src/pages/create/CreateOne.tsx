@@ -6,8 +6,8 @@ import {
   TitleComponent,
   KeywordComponent,
   CategoryDropdown,
-  DifficultyComponent,
   TimeComponent,
+  DifficultyComponent,
 } from './components/';
 import { useSetAtom } from 'jotai';
 import { Form } from 'react-router-dom';
@@ -23,10 +23,10 @@ export function CreateOne() {
       <Form action="two" className="px-20pxr py-20pxr flex flex-col gap-42pxr pb-120pxr bg-white">
         <FileInputComponent inputTitle={'레시피 이미지'} setFile={setImageFile} />
         <TitleComponent inputTitle="레시피 제목" placeholder="레시피 제목" />
-        <div className="flex justify-between whitespace-nowrap gap-1">
-          <TimeComponent />
-          <DifficultyComponent />
-        </div>
+
+        <TimeComponent />
+        <DifficultyComponent />
+
         <CategoryDropdown />
         <KeywordComponent inputTitle="키워드" placeholder="키워드는 쉼표(,) 로 구별해주세요" />
         <TextAreaComponent
