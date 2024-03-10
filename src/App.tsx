@@ -143,7 +143,6 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-    children: [
       {
         path: 'create',
         element: <CreateReview />,

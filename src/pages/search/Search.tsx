@@ -10,7 +10,6 @@ function SearchPageContent() {
   const [query] = useAtom(searchQuery);
 
   const searchQueryLength = query.length;
-  console.log(query);
 
   const renderInit = () => {
     if (searchQueryLength === 0) {
