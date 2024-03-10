@@ -20,14 +20,20 @@ export default function ResultComponent() {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-4">
+      <select name="정렬방법" className="w-115pxr self-end">
+        <option value="최신순">최신순</option>
+        <option value="인기순">인기순</option>
+        <option value="리뷰 많은 순">리뷰 많은 순</option>
+      </select>
+
+      <div className="grid gap-4 grid-cols-2 justify-center w-full">
         {/* sessionData가 있을 경우 세션 데이터로 렌더링 */}
         {sessionData
           ? sessionData.map(({ title, id, expand, image }, idx) => {
               const url = getPbImage('recipes', id, image);
               return (
                 <div key={idx} className=" rounded-[5px]">
-                  <RecipeCard title={title} url={url || foodDefaultImg} rating={expand?.rating} id={id} />
+                  <RecipeCard title={title} url={url || foodDefaultImg} rating={expand.rating} id={id} />
                 </div>
               );
             })
@@ -36,7 +42,7 @@ export default function ResultComponent() {
               const url = getPbImage('recipes', id, image);
               return (
                 <div key={idx} className=" rounded-[5px]">
-                  <RecipeCard title={title} url={url || foodDefaultImg} rating={expand?.rating} id={id} />
+                  <RecipeCard title={title} url={url || foodDefaultImg} rating={expand.rating} id={id} />
                 </div>
               );
             })}

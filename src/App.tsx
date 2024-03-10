@@ -10,7 +10,6 @@ import ProtectedRoute from './pages/ProtectedRoute';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import {
-  Search,
   CreateLayout,
   CreateOne,
   CreateTwo,
@@ -36,6 +35,7 @@ import {
   StepsPage,
   ReviewPage,
   CreateReview,
+  SearchLayout,
 } from './pages/';
 import { isStore } from './stores/stores';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'search',
-        element: <Search />,
+        element: <SearchLayout />,
       },
       {
         path: 'bookmark',
