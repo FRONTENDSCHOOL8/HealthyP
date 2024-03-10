@@ -26,7 +26,7 @@ export function ReviewPage() {
     async function getRecipeData() {
       if (recipeId === undefined) return;
       const record = await db.collection('recipes').getOne(recipeId, {
-        expand: 'rating.creator'
+        expand: 'rating.creator',
       });
       setReviews(record.expand?.rating);
     }

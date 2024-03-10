@@ -7,7 +7,8 @@ import { TextAreaComponent } from "../create/components";
 import { db } from "@/api/pocketbase";
 import { getCurrentUserData } from "@/util";
 import { RecordModel } from "pocketbase";
-
+import getPbImage from "@/util/data/getPBImage";
+import { PurifiedText } from "./components/PurifiedText";
 
 export function CreateReview() {
   const {recipeId} = useParams();
@@ -16,12 +17,14 @@ export function CreateReview() {
   const [recipeData, setRecipeData] = useState<RecordModel>();
   const [reviewText, setReviewText] = useState('');
   const currentUserId = getCurrentUserData().id;
+  const [imageURL, setImageURL] = useState(''); 
 
   useEffect(() => {
     async function getRecipeData() {
       if(recipeId === undefined) return;
       const record = await db.collection('recipes').getOne(recipeId);
       setRecipeData(record);
+      setImageURL(getPbImage('recipes', recipeId, record.image));
     }
 
     getRecipeData();
@@ -55,10 +58,12 @@ export function CreateReview() {
             <hr className="h-3pxr w-67pxr bg-gray-200 border-0 rounded-full"></hr>
           </button>
           <div className="flex gap-17pxr w-full py-14pxr">
-            <img src={image} alt="레시피 사진" className="w-60pxr h-60pxr object-cover rounded-xl" />
+            <img src={imageURL} alt="레시피 사진" className="w-60pxr h-60pxr object-contain rounded-xl" />
             <div className="flex flex-col gap-4pxr">
-              <h2 className="text-sub-em">청양 알감자 조림</h2>
-              <p className="text-foot">청양 알감자 조림</p>
+              <h2 className="text-sub-em">{recipeData?.title}</h2>
+              <p className="text-foot line-clamp-1">
+                <PurifiedText textContent={recipeData?.desc} />
+              </p>
             </div>
           </div>
           <div className="w-full py-36pxr flex flex-col items-center border-t border-b border-gray-200 gap-14pxr">
