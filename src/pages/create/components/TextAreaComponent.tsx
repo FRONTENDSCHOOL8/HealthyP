@@ -2,13 +2,14 @@ import { Dispatch, SetStateAction } from "react";
 import { useState, useEffect } from "react";
 
 interface TextAreaProps {
-  inputTitle : string;
+  inputTitle? : string;
   maxCharCount : number;
   requiredText? : string;
   setData : Dispatch<SetStateAction<string>>;
+  placeholderText : string;
 }
 
-export function TextAreaComponent({ inputTitle, requiredText, maxCharCount, setData  }: TextAreaProps) {
+export function TextAreaComponent({ inputTitle, requiredText, maxCharCount, setData, placeholderText }: TextAreaProps) {
   const [text, setText] = useState('');
   const [charCount, setCharCount] = useState(0);
 
@@ -18,7 +19,6 @@ export function TextAreaComponent({ inputTitle, requiredText, maxCharCount, setD
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
-
     if (newText.length <= maxCharCount) {
       setText(newText);
       setData(newText)
@@ -26,15 +26,15 @@ export function TextAreaComponent({ inputTitle, requiredText, maxCharCount, setD
   };
 
   return (
-    <div>
+    <div className="w-full">
       <label htmlFor="text-area" className="text-sub-em flex flex-col gap-10pxr">
-        <p>
+        {inputTitle? <p>
           {inputTitle}
           <span className="text-sub">{requiredText}</span>
-        </p>
+        </p> : <></>}
         <textarea
           id="text-area"
-          placeholder="요리 설명을 작성해주세요"
+          placeholder={placeholderText}
           className="w-full h-120pxr py-8pxr px-10pxr bg-gray_150 rounded-md text-sub focus:outline-primary"
           value={text}
           onChange={handleTextChange}

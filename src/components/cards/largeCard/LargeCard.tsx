@@ -110,7 +110,7 @@ export default function LargeCard({
         />
       </Link>
       <div className="flex px-2pxr pt-20pxr pb-36pxr gap-4pxr items-center">
-        <Link to={'/'} className="fit-content flex gap-4pxr">
+        <Link to={`/reviews/${id}`} className="fit-content flex gap-4pxr">
           <Star rating={rating} />
           <Review rating={rating} caseType={'literal'} />
         </Link>

@@ -29,7 +29,8 @@ interface HeaderProps {
   handleClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const defaultSizing = 'w-full px-10pxr py-12pxr flex items-center justify-between sticky top-0';
+const defaultSizing =
+  'w-full px-10pxr py-12pxr flex items-center justify-between sticky top-0 z-20';
 
 function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
   const navigate = useNavigate();
@@ -37,14 +38,22 @@ function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
   const headerMappings = {
     onlyArrow: (
       <header className={`${bgColor} ${defaultSizing}`}>
-        <FnButton image={'arrowBig'} clickHandler={() => navigate(-1)} altText="뒤로가기" />
+        <FnButton
+          image={'arrowBig'}
+          clickHandler={() => navigate(-1)}
+          altText="뒤로가기"
+        />
         <DummyButton size={'30pxr'} />
       </header>
     ),
     onlyClose: (
       <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton size={'size-30pxr'} />
-        <FnButton image={'close'} clickHandler={() => navigate('/')} altText="닫기" />
+        <FnButton
+          image={'close'}
+          clickHandler={() => navigate('/')}
+          altText="닫기"
+        />
       </header>
     ),
     titleWithBack: (
@@ -100,7 +109,12 @@ function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
   }
 }
 
-export default function Header({ option, title, bgColor = 'bg-white', handleClick }: HeaderProps) {
+export default function Header({
+  option,
+  title,
+  bgColor = 'bg-white',
+  handleClick,
+}: HeaderProps) {
   const headerComponent = useMapping({
     title,
     option,

@@ -25,7 +25,7 @@ import {
   CreateComplete,
   Login,
   Welcome,
-  MyComments,
+  MyReviews,
   MyRecipes,
   RecentRecipes,
   UserLayout,
@@ -81,8 +81,8 @@ const router = createBrowserRouter([
             element: <MyRecipes />,
           },
           {
-            path: 'mycomments',
-            element: <MyComments />,
+            path: 'myreviews',
+            element: <MyReviews />,
           },
         ],
       },
@@ -131,6 +131,21 @@ const router = createBrowserRouter([
       {
         path: 'steps',
         element: <StepsPage />,
+      },
+    ],
+  },
+  // 리뷰 페이지
+  {
+    path: '/reviews/:recipeId',
+    element: (
+      <ProtectedRoute>
+        <ReviewPage />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: 'create',
+        element: <CreateReview />,
       },
     ],
   },

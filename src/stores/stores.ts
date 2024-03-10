@@ -37,6 +37,7 @@ export const userNameAtom = atom('');
 export const imageUrlAtom = atom('');
 export const modalAtom = atom<boolean>(false);
 export const recipesAtom = atom<ListResult<RecordModel> | undefined>(undefined);
+export const recentRecipesAtom = atom<RecordModel[]>([]);
 
 // SearchComponent
 export const searchQuery = atom(''); // 검색어

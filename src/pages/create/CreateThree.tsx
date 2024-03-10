@@ -28,11 +28,13 @@ export function CreateThree() {
           requiredText=" (필수)"
           maxCharCount={400}
           setData={setDescription}
+          placeholderText="요리 설명을 작성해주세요"
         />
         <TextAreaComponent
           inputTitle="팁"
           maxCharCount={400}
           setData={setTips}
+          placeholderText="요리할 때 주의사항이나 팁을 입력해주세요"
         />
       </div>
       <Footer>
