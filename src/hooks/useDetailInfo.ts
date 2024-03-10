@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RecordModel } from 'pocketbase';
 import { db } from '@/api/pocketbase';
+import { getCurrentUserData } from '@/util';
 
 export function useDetailInfo(recipeId: string | undefined) {
   const [recipeData, setRecipeData] = useState<RecordModel>();
@@ -15,6 +16,7 @@ export function useDetailInfo(recipeId: string | undefined) {
         expand: 'rating',
       });
       const url = db.files.getUrl(record, record.image);
+      await db.collection('recipes').update(recipeId, {'views' : (record.views + 1)});
       setImageURL(url);
       setRecipeData(record);
     }
@@ -28,9 +30,7 @@ export function useDetailInfo(recipeId: string | undefined) {
       }
     }
     async function getUserData() {
-      const currentUser = localStorage.getItem('pocketbase_auth');
-      if (currentUser === null) return;
-      const userId = JSON.parse(currentUser).model.id;
+      const userId = getCurrentUserData().id;
       const response = await db
         .collection('users')
         .getOne(userId, { requestKey: null });
