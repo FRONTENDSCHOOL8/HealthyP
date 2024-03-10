@@ -133,15 +133,15 @@ const router = createBrowserRouter([
   // 리뷰 페이지
   {
     path: '/reviews/:recipeId',
-    element: (
-      <ProtectedRoute>
-        <ReviewPage />
-      </ProtectedRoute>
-    ),
+    element: <ReviewPage />,
     children: [
       {
         path: 'create',
-        element: <CreateReview />,
+        element: (
+          <ProtectedRoute>
+            <CreateReview />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
