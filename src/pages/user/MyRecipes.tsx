@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
 
-export function MyRecipesComponent() {
+export function MyRecipes() {
   const [id] = useAtom(userRecordId);
   const [recipes, setRecipes] = useAtom(recipesAtom);
 
@@ -63,5 +63,3 @@ export function MyRecipesComponent() {
     </>
   );
 }
-
-// export MyRecipesComponent;
