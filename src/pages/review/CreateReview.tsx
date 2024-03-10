@@ -2,18 +2,30 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import image from "@/assets/images/flower3.jpg";
 import { ReviewStars } from "./components/ReviewStars";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextAreaComponent } from "../create/components";
 import { db } from "@/api/pocketbase";
 import { getCurrentUserData } from "@/util";
+import { RecordModel } from "pocketbase";
 
 
 export function CreateReview() {
   const {recipeId} = useParams();
   const navigate = useNavigate();
   const [stars, setStars] = useState(0);
+  const [recipeData, setRecipeData] = useState<RecordModel>();
   const [reviewText, setReviewText] = useState('');
   const currentUserId = getCurrentUserData().id;
+
+  useEffect(() => {
+    async function getRecipeData() {
+      if(recipeId === undefined) return;
+      const record = await db.collection('recipes').getOne(recipeId);
+      setRecipeData(record);
+    }
+
+    getRecipeData();
+  }, [recipeId])
 
   async function UploadReview() {
     const reviewData = {
@@ -23,8 +35,10 @@ export function CreateReview() {
     }
     const record = await db.collection('ratings').create(reviewData)
 
-    
-    // record.id
+    if(recipeId === undefined || recipeData === undefined) return;
+    const updatedRatings = { "rating": [...recipeData.rating, record.id] }
+    await db.collection('recipes').update(recipeId, updatedRatings);
+    navigate(`/detail/${recipeId}`);
   }
 
   return (
@@ -68,12 +82,14 @@ export function CreateReview() {
             <button 
               type="button" 
               aria-label="이전" 
-              className="w-1/3 bg-gray_150 py-12pxr text-gray_700 rounded-[7px] cursor">이전
+              className="w-1/3 bg-gray_150 py-12pxr text-gray_700 rounded-[7px] cursor"
+              onClick={() => {navigate(-1)}}>이전
             </button>
             <button 
               type="button" 
               aria-label="이전" 
-              className="w-2/3 bg-primary py-12pxr text-white rounded-[7px] cursor">완료
+              className="w-2/3 bg-primary py-12pxr text-white rounded-[7px] cursor"
+              onClick={UploadReview}>완료
             </button>
           </footer>
         </motion.div>
