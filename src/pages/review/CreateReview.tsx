@@ -1,51 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useNavigate, useParams } from "react-router-dom";
 import { ReviewStars } from "./components/ReviewStars";
-import { useEffect, useState } from "react";
 import { TextAreaComponent } from "../create/components";
-import { db } from "@/api/pocketbase";
-import { getCurrentUserData } from "@/util";
-import { RecordModel } from "pocketbase";
-import getPbImage from "@/util/data/getPBImage";
 import { PurifiedText } from "./components/PurifiedText";
-import { getRangeArray } from "@/util";
-
+import useCreateReview from "@/hooks/useCreateReview";
 
 
 export function CreateReview() {
-  const {recipeId} = useParams();
-  const navigate = useNavigate();
-  const [stars, setStars] = useState(0);
-  const [recipeData, setRecipeData] = useState<RecordModel>();
-  const [reviewText, setReviewText] = useState('');
-  const currentUserId = getCurrentUserData().id;
-  const [imageURL, setImageURL] = useState(''); 
-  const rangeOfStars = getRangeArray(1,6);
-
-  useEffect(() => {
-    async function getRecipeData() {
-      if(recipeId === undefined) return;
-      const record = await db.collection('recipes').getOne(recipeId);
-      setRecipeData(record);
-      setImageURL(getPbImage('recipes', recipeId, record.image));
-    }
-
-    getRecipeData();
-  }, [recipeId])
-
-  async function UploadReview() {
-    const reviewData = {
-      "creator": currentUserId,
-      "review_stars": stars,
-      "review_text": reviewText
-    }
-    const record = await db.collection('ratings').create(reviewData)
-
-    if(recipeId === undefined || recipeData === undefined) return;
-    const updatedRatings = { "rating": [...recipeData.rating, record.id] }
-    await db.collection('recipes').update(recipeId, updatedRatings);
-    navigate(`/detail/${recipeId}`);
-  }
+  const { UploadReview, setStars, setReviewText, navigate, imageURL, rangeOfStars, recipeData, stars } = useCreateReview();
 
   return (
     <AnimatePresence>
@@ -75,7 +36,7 @@ export function CreateReview() {
               <ReviewStars ratingNumber={stars} height="25px" width="168px"/>
               <ul className="w-full h-full flex absolute top-0 left-0">
                 {
-                  rangeOfStars.map((item, idx) => (
+                  rangeOfStars.map((item:number, idx:number) => (
                     <li className="w-1/5 h-full" key={idx}>
                       <button className="w-full h-full" onClick={() => {setStars(item)}}></button>
                     </li>
