@@ -6,7 +6,7 @@ import { FnButton } from '@/components';
 import { ReviewCard } from './components/ReviewCard';
 import { Outlet } from 'react-router-dom';
 // import { ReviewStars } from './components/ReviewStars';
-import { ReviewStars2 } from './components/ReviewStars2';
+import { ReviewStars } from './components/ReviewStars';
 
 interface RatingsInterface {
   id: string;
@@ -40,8 +40,7 @@ export function ReviewPage() {
         </header>
         <div className="flex flex-col gap-20pxr justify-center items-center pt-40pxr w-full">
           <Link to="create" className="flex gap-8pxr">
-            {/* <ReviewStars ratingNumber={0}  */}
-            <ReviewStars2 ratingNumber={0} />
+            <ReviewStars ratingNumber={0} />
           </Link>
           <p className="text-sub">요리해 보셨다면, 후기를 남겨보세요!</p>
           <ul className="border-b w-full">
