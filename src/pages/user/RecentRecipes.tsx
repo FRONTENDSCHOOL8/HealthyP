@@ -5,7 +5,7 @@ import getPbImage from '@/util/data/getPBImage';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
 import { useAtom } from 'jotai';
 import { RecordModel } from 'pocketbase';
-import { useEffect } from 'react';
+import { MouseEventHandler, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
@@ -59,7 +59,7 @@ const RecipeContainer = () => {
     const ratingsArray = recentRecipes.map((recipe) => recipe.rating);
 
     const fetchData = async () => {
-      const ratingRecipes: RatingsResponse[][] = [];
+      const ratingRecipes: RatingsResponse[][] | undefined = [];
       let ratingItems: RatingsResponse[] = [];
 
       for (const [, item] of ratingsArray.entries()) {
@@ -72,6 +72,7 @@ const RecipeContainer = () => {
             ratingItems.push(ratingItem);
           }
         }
+
         ratingRecipes.push(ratingItems);
         ratingItems = [];
       }
@@ -98,9 +99,42 @@ const RecipeContainer = () => {
     }
   };
 
+  const handleClick = (title: string, id: string): MouseEventHandler<HTMLAnchorElement> | undefined => {
+    const newRecipe = { title, id };
+
+    // sessionStorage에서 recentRecipe 목록을 가져옴
+    const recentRecipesRaw = sessionStorage.getItem('recentRecipe');
+    const recentRecipes = recentRecipesRaw ? JSON.parse(recentRecipesRaw) : [];
+
+    // recentRecipes가 배열이 아닌 경우를 처리(예상치 못한 값이 있는 경우)
+    if (!Array.isArray(recentRecipes)) {
+      sessionStorage.setItem('recentRecipe', JSON.stringify([newRecipe]));
+      return;
+    }
+
+    // 이미 리스트에 같은 레시피가 있는지 확인
+    const existingIndex = recentRecipes.findIndex((r) => r.id === newRecipe.id);
+
+    // 레시피가 이미 존재한다면 기존의 것을 제거
+    if (existingIndex !== -1) {
+      recentRecipes.splice(existingIndex, 1);
+    }
+
+    // 새로운 레시피를 추가
+    recentRecipes.push(newRecipe);
+
+    // 레시피 목록이 5개를 넘으면, 가장 오래된 레시피를 제거
+    while (recentRecipes.length > 5) {
+      recentRecipes.shift();
+    }
+
+    // 업데이트된 레시피 목록을 sessionStorage에 저장
+    sessionStorage.setItem('recentRecipe', JSON.stringify(recentRecipes));
+  };
+
   return (
     <>
-      {ratingData.length > 0 ? (
+      {ratingData ? (
         <div className="w-full grow bg-white relative p-14pxr flex flex-col gap-8pxr pb-140pxr ">
           <ul className="flex flex-col gap-10pxr">
             <AnimatePresence>
@@ -122,26 +156,40 @@ const RecipeContainer = () => {
                           key={item.id}
                           className="flex flex-row items-center h-full gap-12pxr py-14pxr z-10 relative bg-white"
                         >
-                          <div className="w-100pxr h-100pxr rounded-[12px]">
-                            <img
-                              src={getPbImage('recipes', item.id, item.image)}
-                              alt=""
-                              className="w-full h-full rounded-lg object-cover"
-                            />
-                          </div>
-                          <div className="flex flex-col items-start justify-between gap-12pxr h-100pxr">
-                            <div className="flex flex-col gap-4pxr">
-                              <h2 className="text-sub-em w-212pxr line-clamp-1">{item.title}</h2>
-                              <p className="text-cap-1 w-212pxr line-clamp-2">{item.desc}</p>
+                          <Link
+                            to={`/detail/${item.id}`}
+                            onClick={handleClick(item.title, item.id)}
+                            className="basis-1/3"
+                          >
+                            <div className="aspect-square rounded-[12px]">
+                              <img
+                                src={getPbImage('recipes', item.id, item.image)}
+                                alt=""
+                                className="w-full h-full rounded-lg object-cover min-w-100pxr min-h-100pxr"
+                              />
                             </div>
-                            <div className="flex px-2pxr gap-4pxr items-center">
+                          </Link>
+                          <div className="basis-2/3 flex flex-col gap-12pxr h-full w-full justify-between min-h-100pxr">
+                            <Link
+                              to={`/detail/${item.id}`}
+                              onClick={handleClick(item.title, item.id)}
+                              className="flex flex-col gap-4pxr"
+                            >
+                              <h2 className="text-sub-em line-clamp-1">{item.title}</h2>
+                              <p className="text-cap-1 line-clamp-2">{item.desc}</p>
+                            </Link>
+                            <div className="flex flex-row px-2pxr gap-4pxr items-center">
                               {ratingData &&
-                                ratingData.map((item, ratingIdx: number) => {
+                                ratingData.map((i, ratingIdx: number) => {
                                   if (idx === ratingIdx) {
                                     return (
-                                      <Link key={ratingIdx} to={'/'} className="fit-content flex gap-4pxr">
-                                        <Star rating={item} />
-                                        <Review rating={item} caseType={'literal'} />
+                                      <Link
+                                        key={ratingIdx}
+                                        to={`/reviews/${item.id}`}
+                                        className="fit-content flex gap-4pxr"
+                                      >
+                                        <Star rating={i} />
+                                        <Review rating={i} caseType={'literal'} />
                                       </Link>
                                     );
                                   }

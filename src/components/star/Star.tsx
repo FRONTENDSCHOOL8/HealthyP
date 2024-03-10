@@ -1,9 +1,13 @@
 import { RatingsResponse } from '@/types';
 
-export default function Star({ rating }: { rating: RatingsResponse[] }) {
+export default function Star({ rating }: { rating: RatingsResponse[] | undefined }) {
   // data가 불러온 레시피들 리스트 중 하나만 가져오게
 
   const getStarCount = () => {
+    if (rating?.length === 0) {
+      rating = undefined;
+    }
+
     if (rating) {
       const total = rating.reduce((acc, cur) => acc + cur.review_stars, 0);
       return (total / rating.length / 2).toFixed(1) + '점';
