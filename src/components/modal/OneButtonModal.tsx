@@ -5,6 +5,9 @@ import FocusLock from 'react-focus-lock';
 interface TwoButtonModalProps {
   isOpen: boolean;
   confirmModal: () => void;
+  titleText? : string;
+  firstLineText? : string;
+  secondLineText? : string;
 }
 
 /**
@@ -21,11 +24,17 @@ interface TwoButtonModalProps {
  *   };
  * @param isOpen  모달 오픈 여부
  * @param confirmModal  확인 버튼 클릭시 실행할 함수. button의 onClick에 할당.
+ * @param titleText  상단에 표시되는 텍스트 내용.
+ * @param firstLineText  모달 body 첫번째 줄에 표시될 텍스트.
+ * @param secondLineText  모달 body 두번째 줄에 표시될 텍스트.
  * @returns
  */
 function OneButtonModalComponent({
   isOpen = true,
   confirmModal,
+  titleText = '서비스 준비중 입니다.',
+  firstLineText = '빠른 시일 내에 업데이트 하겠습니다!',
+  secondLineText = '이용에 불편을 드려 죄송합니다.'
 }: TwoButtonModalProps) {
   return (
     <AnimatePresence>
@@ -40,13 +49,13 @@ function OneButtonModalComponent({
           >
             <div className="flex flex-col justify-center items-center bg-white p-24pxr rounded-[20px] gap-6">
               <div className="items-center flex flex-col gap-10pxr">
-                <h1 className="text-body-em">🥹 서비스 준비중 입니다.</h1>
+                <h1 className="text-body-em">{titleText}</h1>
                 <div
                   role="group"
                   className="flex flex-col text-foot text-gray_700 justify-center items-center"
                 >
-                  <span>빠른 시일 내에 업데이트 하겠습니다!</span>
-                  <span>이용에 불편을 드려 죄송합니다.</span>
+                  <span>{firstLineText}</span>
+                  <span>{secondLineText}</span>
                 </div>
               </div>
               <div className="flex gap-2 text-body-em">
