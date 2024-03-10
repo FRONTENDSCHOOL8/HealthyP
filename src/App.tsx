@@ -27,7 +27,7 @@ import {
   Login,
   Welcome,
   MyReviews,
-  MyRecipes,
+  MyRecipesComponent,
   RecentRecipes,
   UserLayout,
   SignupComplete,
@@ -78,7 +78,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'myrecipes',
-            element: <MyRecipes />,
+            element: <MyRecipesComponent />,
           },
           {
             path: 'myreviews',

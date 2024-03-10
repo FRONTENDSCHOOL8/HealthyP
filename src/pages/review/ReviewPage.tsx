@@ -92,12 +92,12 @@ export function ReviewPage() {
         <header className="w-full flex justify-end py-12pxr">
           <FnButton image='close' clickHandler={() => navigate(-1)}/>
         </header>
-        <div className="flex flex-col gap-20pxr justify-center items-center pt-40pxr">
+        <div className="flex flex-col gap-20pxr justify-center items-center pt-40pxr w-full">
           <button type='button' className="w-200pxr h-25pxr">
             <ReviewStars ratingNumber={0} height='' width=''/>
           </button>
           <p className="text-sub">요리해 보셨다면, 후기를 남겨보세요!</p>
-          <ul className="border-b">
+          <ul className="border-b w-full">
             {
               reviews?.map((item : RatingsInterface) => {
                 return (
