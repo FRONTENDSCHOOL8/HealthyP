@@ -25,15 +25,16 @@ export default function TextArea({
     setCharCount(text.length);
   }, [text]);
 
-  const handleTextChange = useCallback(() => {
+  const handleTextChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const newText = e.target.value;
       if (newText.length <= maxCharCount) {
         setText(newText);
         setData(newText);
       }
-    };
-  }, [maxCharCount, setData]);
+    },
+    [maxCharCount, setData]
+  );
 
   return (
     <div className="w-full">

@@ -10,13 +10,14 @@ interface KeywordInputProps extends HTMLAttributes<HTMLInputElement> {
 export default function KeywordInput({ inputTitle, placeholder }: KeywordInputProps) {
   const setKeywords = useSetAtom(keywords);
 
-  const titleInputHandler = useCallback(() => {
+  const titleInputHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
       if (e.target.value === '') return;
       setKeywords(e.target.value);
-    };
-  }, [setKeywords]);
+    },
+    [setKeywords]
+  );
 
   return (
     <>

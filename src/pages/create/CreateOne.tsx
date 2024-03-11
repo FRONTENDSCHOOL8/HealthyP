@@ -24,7 +24,7 @@ export function CreateOne() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleFileInput: ChangeEventHandler<HTMLInputElement> | undefined = useCallback(() => {
+  const handleFileInput: ChangeEventHandler<HTMLInputElement> | undefined = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const selectedFile = e.target.files?.[0];
       if (!selectedFile) {
@@ -40,8 +40,9 @@ export function CreateOne() {
         setPreview('');
         setSizeAlert(true);
       }
-    };
-  }, [setImageFile]);
+    },
+    [setImageFile]
+  );
 
   const handleHeaderClick = () => {
     setIsOpen(true);
@@ -58,13 +59,14 @@ export function CreateOne() {
     <>
       <Header option="titlewithCloseAndFn" title="레시피 등록하기" handleClick={handleHeaderClick} />
       <Form action="two" className="px-14pxr py-20pxr flex flex-col gap-42pxr pb-120pxr bg-white">
-        <FileInput inputTitle={'레시피 이미지'} handleInput={handleFileInput} preview={preview} />
+        <FileInput inputTitle={'레시피 이미지'} handleInput={handleFileInput} preview={preview} required />
         <Title inputTitle="레시피 제목" placeholder="레시피 제목" />
         <TextArea
           inputTitle="레시피 소개"
           maxCharCount={200}
           setData={setDescription}
           placeholderText="이 레시피를 소개하는 글을 작성해주세요"
+          required
         />
         <Time />
         <SelectBox
