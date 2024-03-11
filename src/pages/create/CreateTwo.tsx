@@ -16,8 +16,7 @@ function TipContainer() {
           <h2 className="text-foot-em">Tip</h2>
         </div>
         <p className="text-cap-1">
-          레시피를 상세하게 적어주세요. 단계별로 명확한 내용을 적어주면 보다
-          친절한 레시피를 제공할 수 있습니다.
+          레시피를 상세하게 적어주세요. 단계별로 명확한 내용을 적어주면 보다 친절한 레시피를 제공할 수 있습니다.
         </p>
       </div>
     </div>
@@ -60,24 +59,22 @@ function StepContainer() {
   const [steps, setSteps] = useAtom(recipeSteps);
   const stepImages = useAtomValue(step_images);
 
-  const images = [...stepImages]
-  const imageUrls = images.map(item => {
-    return (URL.createObjectURL(item))
-  })
+  const images = [...stepImages];
+  const imageUrls = images.map((item) => {
+    return URL.createObjectURL(item);
+  });
 
   function handleDragEnd(info: PanInfo, stepId: string) {
     const dragDistance = info.point.x;
 
     if (dragDistance < -DELETE_BTN_WIDTH) {
-      const stepData = JSON.parse(steps).filter(
-        (item: stepType) => item.id !== stepId
-      );
+      const stepData = JSON.parse(steps).filter((item: stepType) => item.id !== stepId);
       setSteps(JSON.stringify(stepData));
     }
   }
 
   return (
-    <div className="w-full grow bg-gray_150 relative p-14pxr flex flex-col gap-8pxr">
+    <div className="w-full grow bg-gray_150 relative pt-14pxr px-14pxr flex flex-col gap-8pxr pb-120pxr">
       <AddButton />
       <ul className="flex flex-col gap-10pxr">
         <AnimatePresence>
@@ -97,24 +94,13 @@ function StepContainer() {
                   className="flex items-center h-full gap-10pxr px-10pxr py-8pxr z-10 relative bg-white rounded-xl"
                 >
                   <div className="w-64pxr h-64pxr rounded-lg">
-                    <img
-                      src={imageUrls[index]}
-                      alt=""
-                      className="w-full h-full rounded-lg object-cover"
-                    />
+                    <img src={imageUrls[index]} alt="" className="w-full h-full rounded-lg object-cover" />
                   </div>
                   <div className="w-full h-full">
                     <h2 className="text-foot-em flex justify-between">
-                      Step {index + 1}.{' '}
-                      {item.tips !== '' ? (
-                        <span className="text-gray-400">tips</span>
-                      ) : (
-                        <></>
-                      )}
+                      Step {index + 1}. {item.tips !== '' ? <span className="text-gray-400">tips</span> : <></>}
                     </h2>
-                    <p className="text-cap-1-em line-clamp-2">
-                      {item.description}
-                    </p>
+                    <p className="text-cap-1-em line-clamp-2">{item.description}</p>
                   </div>
                   {/* <button className="border-l-2 w-50pxr h-full px-10pxr">
                   <img src={move} alt="정렬" className="w-full" />
@@ -139,7 +125,6 @@ export function CreateTwo() {
   const { uploadRecipe } = useUploadRecipe();
   const navigate = useNavigate();
 
-
   const goToComplete = () => {
     return '../complete';
   };
@@ -158,7 +143,6 @@ export function CreateTwo() {
           text={['이전', '완료']}
           route={[() => '/create', () => '../complete']}
           onClickTwo={() => {
-            
             uploadRecipe();
             navigate(path);
           }}
