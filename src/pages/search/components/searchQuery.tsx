@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai';
+import { SetStateAction, useAtom } from 'jotai';
 import { memo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { searchQuery, chooseQuery, isClick } from '@/stores/stores';
@@ -7,7 +7,7 @@ import { RecipesRatingExpand } from '@/types';
 import Result from './Result';
 
 // 쿼리 구독을 위한 함수
-async function fetchRecipes(): Promise<RecipesRatingExpand[]> {
+async function fetchRecipes() {
   const response = await db.collection('recipes').getFullList<RecipesRatingExpand>({ expand: 'rating' });
   return response;
 }
@@ -41,7 +41,9 @@ function SearchQueryComponent() {
         item.title.replace(/\s+/g, '').includes(selectedTitle) ||
         item.category.replace(/\s+/g, '').includes(selectedCategory)
     );
-    setSelectedRecipe(filteredData);
+    if (filteredData) {
+      setSelectedRecipe(filteredData);
+    }
     sessionStorage.setItem('selectedRecipe', JSON.stringify(filteredData));
 
     setIsButtonClick(true);

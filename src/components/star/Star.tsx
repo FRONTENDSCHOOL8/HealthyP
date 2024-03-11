@@ -1,6 +1,10 @@
 import { RatingsResponse } from '@/types';
 
-export default function Star({ rating }: { rating: RatingsResponse[] | undefined }) {
+interface ReviewProps {
+  rating: RatingsResponse[] | undefined;
+}
+
+export default function Star({ rating }: ReviewProps) {
   // data가 불러온 레시피들 리스트 중 하나만 가져오게
 
   const getStarCount = () => {

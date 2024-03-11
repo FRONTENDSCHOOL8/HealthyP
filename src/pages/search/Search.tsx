@@ -15,8 +15,10 @@ function SearchPageContent() {
     if (searchQueryLength === 0) {
       return (
         <>
-          <MostView />
-          <RecentSearch />
+          <div className="flex flex-col gap-47pxr">
+            <MostView />
+            <RecentSearch />
+          </div>
         </>
       );
     }
@@ -28,7 +30,6 @@ function SearchPageContent() {
 
       <div className="basis-[1fr] overflow-auto px-14pxr pb-120pxr">{renderInit()}</div>
     </div>
-
   );
 }
 
