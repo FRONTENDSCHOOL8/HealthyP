@@ -1,30 +1,12 @@
-import { SetStateAction } from 'jotai';
-import { useState } from 'react';
+import { ChangeEventHandler, HTMLAttributes } from 'react';
 
-type SetAtom<Args extends any[], Result> = (...args: Args) => Result;
-
-interface FileInputComponentProps {
+interface FileInputProps extends HTMLAttributes<HTMLInputElement> {
   inputTitle: string;
-  setFile: SetAtom<[SetStateAction<File | null>], void | SetStateAction<[SetStateAction<File | null>]>>;
+  preview: string;
+  handleInput: ChangeEventHandler<HTMLInputElement> | undefined;
 }
 
-export function FileInputComponent({ inputTitle, setFile }: FileInputComponentProps) {
-  const [preview, setPreview] = useState<string | undefined>('');
-
-  const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (!selectedFile) {
-      setPreview(undefined);
-      return;
-    }
-
-    if (selectedFile) {
-      const objectUrl = URL.createObjectURL(selectedFile);
-      setPreview(objectUrl);
-      setFile(selectedFile);
-    }
-  };
-
+export function FileInput({ inputTitle, preview, handleInput }: FileInputProps) {
   return (
     <>
       <label htmlFor="dropzone-file" className="text-sub-em flex flex-col gap-10pxr">
@@ -52,7 +34,7 @@ export function FileInputComponent({ inputTitle, setFile }: FileInputComponentPr
             className={`object-cover h-full w-full ${preview ? 'block' : 'hidden'}`}
           />
         </div>
-        <input id="dropzone-file" type="file" className="hidden" onChange={onSelectFile} />
+        <input id="dropzone-file" type="file" className="hidden" onChange={handleInput} />
       </label>
     </>
   );
