@@ -1,30 +1,14 @@
-import { SetStateAction } from "jotai";
-import { useState } from "react";
 
-type SetAtom<Args extends any[], Result> = (...args: Args) => Result;
+// type SetAtom<Args extends any[], Result> = (...args: Args) => Result;
 
 interface FileInputComponentProps {
   inputTitle: string;
-  setFile: SetAtom<[SetStateAction<File | null>], void | SetStateAction<[SetStateAction<File | null>]>>
+  // setFile: SetAtom<[SetStateAction<File | null>], void | SetStateAction<[SetStateAction<File | null>]>>;
+  fileInputListener: React.ChangeEventHandler<HTMLInputElement>;
+  preview: string;
 }
 
-export function FileInputComponent({inputTitle, setFile} : FileInputComponentProps) {
-  
-  const [preview, setPreview] = useState<string | undefined>('');
-  
-  const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (!selectedFile) {
-      setPreview(undefined);
-      return;
-    }
-    
-    if(selectedFile) {
-      const objectUrl = URL.createObjectURL(selectedFile);
-      setPreview(objectUrl);
-      setFile(selectedFile);
-    }
-  }
+export function FileInputComponent({inputTitle, fileInputListener, preview} : FileInputComponentProps) {
 
   return (
 
@@ -61,7 +45,7 @@ export function FileInputComponent({inputTitle, setFile} : FileInputComponentPro
         id="dropzone-file"
         type="file"
         className="hidden"
-        onChange={onSelectFile}
+        onChange={fileInputListener}
       />
     </label>
       </>
