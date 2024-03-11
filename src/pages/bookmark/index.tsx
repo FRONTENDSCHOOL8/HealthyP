@@ -1,25 +1,46 @@
 import { db } from '@/api/pocketbase';
 import { LargeCard } from '@/components';
-import { useState, useEffect } from 'react';
-import { ListResult, RecordModel } from 'pocketbase';
 
 import getPbImage from '@/util/data/getPBImage';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
+import { RecordModel } from 'pocketbase';
+import { useEffect, useState } from 'react';
+
+// 일단 sdkㅇ서 가져오는 데이터
+const wait = (timeToDelay: number) => new Promise((resolve) => setTimeout(resolve, timeToDelay)); //이와 같이 선언 후
 
 export function BookmarkPage() {
-  const [data, setData] = useState<ListResult<RecordModel>>();
+  const { ref, inView } = useInView({ threshold: 0.7 });
   const [userData, setUserData] = useState<RecordModel>();
+  const getRecipeData = async ({ pageParam = 1 }) => {
+    const recordsData = await db.collection('recipes').getList(pageParam, 6, { expand: 'rating, profile' });
+    await wait(1000);
+    return recordsData.items;
+  };
+
+  const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ['recipes'],
+    queryFn: getRecipeData,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage = lastPage.length ? allPages.length + 1 : undefined;
+      return nextPage;
+    },
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const getRecipeData = async () => await db.collection('recipes').getList(1, 10, { expand: 'rating, profile' });
+    console.log(data);
+  }, [data]);
 
-      // getRecipeData 함수의 결과를 기다립니다.
-      const recipeData: ListResult<RecordModel> = await getRecipeData();
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      console.log('isInview');
+      fetchNextPage();
+    }
+  }, [fetchNextPage, hasNextPage, inView]);
 
-      // 실제 데이터를 상태에 설정합니다.
-      setData(recipeData);
-    };
-
+  useEffect(() => {
     async function getUserData() {
       const currentUser = localStorage.getItem('pocketbase_auth');
       if (currentUser === null) return;
@@ -31,7 +52,6 @@ export function BookmarkPage() {
 
     // fetchData 함수를 호출합니다.
     getUserData();
-    fetchData();
     db.collection('users').subscribe('*', getUserData);
 
     return () => {
@@ -39,29 +59,47 @@ export function BookmarkPage() {
     };
   }, []);
 
+  const contents = data?.pages.map((recipes) =>
+    recipes.map((recipe, index) => {
+      const url = getPbImage('recipes', recipe.id, recipe.image);
+      if (recipes.length === index + 1)
+        return (
+          <LargeCard
+            innerRef={ref}
+            key={index}
+            id={recipe.id}
+            userData={userData}
+            rating={recipe.expand?.rating}
+            url={recipe.image && url}
+            desc={recipe.desc}
+            title={recipe.title}
+            profile={recipe.expand?.profile}
+            keywords={recipe.keywords}
+          />
+        );
+      return (
+        <LargeCard
+          key={index}
+          id={recipe.id}
+          userData={userData}
+          rating={recipe.expand?.rating}
+          url={recipe.image && url}
+          desc={recipe.desc}
+          title={recipe.title}
+          profile={recipe.expand?.profile}
+          keywords={recipe.keywords}
+        />
+      );
+    })
+  );
+
+  if (status === 'pending') return <div>로딩중~~</div>;
+  if (status === 'error') return <div>실패 ㅋㅋ</div>;
+
   return (
     <div className="w-full h-full bg-gray-200 overflow-auto">
-      <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">
-        {data?.items &&
-          data?.items.map((data, idx) => {
-            if (data) {
-              const url = getPbImage('recipes', data.id, data.image);
-              return (
-                <LargeCard
-                  key={idx}
-                  id={data.id}
-                  userData={userData}
-                  rating={data.expand?.rating}
-                  url={data.image && url}
-                  desc={data.desc}
-                  title={data.title}
-                  profile={data.expand?.profile}
-                  keywords={data.keywords}
-                />
-              );
-            }
-          })}
-      </div>
+      <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">{contents}</div>
+      {isFetchingNextPage && <p>Loading...</p>}
     </div>
   );
 }

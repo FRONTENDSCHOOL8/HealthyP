@@ -135,6 +135,15 @@ type MaybeArray<T> = T | T[];
 
 // ===== users =====
 
+export interface myReview {
+  recipe_id: string;
+  recipe_title: string;
+  review_id: string;
+  creator: string;
+  review_text: string;
+}
+[];
+
 export interface UsersResponse extends AuthCollectionResponse {
   collectionName: 'users';
   name: string;

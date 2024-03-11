@@ -1,4 +1,4 @@
-import { RatingsResponse, RecipesRatingExpand } from '@/types';
+import { RatingsResponse, RecipesRatingExpand, myReview } from '@/types';
 import { atom } from 'jotai';
 import { ListResult, RecordModel } from 'pocketbase';
 
@@ -23,7 +23,7 @@ export const nutrition = atom<string | null>('');
 export const title = atom('');
 export const image = atom<File | null>(null);
 export const description = atom('');
-export const temp_image = atom<File | null>(null);
+export const step_images = atom<File[]>([]);
 export const time = atom(0); // 조리 시간
 export const difficulty = atom('쉬움'); // 난이도 선택
 
@@ -38,9 +38,14 @@ export const userRecordId = atom('');
 export const userNameAtom = atom('');
 export const imageUrlAtom = atom('');
 export const modalAtom = atom<boolean>(false);
-export const recipesAtom = atom<ListResult<RecordModel> | undefined>(undefined);
+export const myRecipesAtom = atom<ListResult<RecordModel> | undefined>(undefined);
+export const beforeDomPurifyAtom = atom<RecordModel[]>([]);
+export const defaultRecipesAtom = atom<RecordModel[]>([]);
 export const recentRecipesAtom = atom<RecordModel[]>([]);
 export const ratingDataAtom = atom<RatingsResponse[][]>([]);
+export const reviewDataAtom = atom<myReview[]>([]);
+export const fullRecipesAtom = atom<RecordModel[]>([]);
+export const deleteReviewAtom = atom('');
 
 // SearchComponent
 export const searchQuery = atom(''); // 검색어

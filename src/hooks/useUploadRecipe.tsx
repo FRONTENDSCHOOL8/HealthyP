@@ -13,6 +13,7 @@ import {
   nutrition,
   time,
   difficulty,
+  step_images,
 } from '@/stores/stores';
 
 import OpenAI from 'openai';
@@ -61,13 +62,13 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
   const timeData = useAtomValue(time);
   const difficultyData = useAtomValue(difficulty);
   const [userId, setUserId] = useState('');
+  const stepImages = useAtomValue(step_images);
 
   useEffect(() => {
     const getPocketbaseAuthRaw = localStorage.getItem('pocketbase_auth');
     if (getPocketbaseAuthRaw) {
       const pocketbaseAuth = JSON.parse(getPocketbaseAuthRaw);
       const authUserId = pocketbaseAuth.model.id;
-
       setUserId(authUserId);
     }
   }, []);
@@ -89,12 +90,20 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
         model: 'gpt-3.5-turbo-0125',
         response_format: { type: 'json_object' },
       });
-      console.log(completion.choices[0].message.content);
+      // console.log(completion.choices[0].message.content);
       const result = completion.choices[0].message.content;
       setNutritionData(result);
     }
     getNutritionData();
   }, []);
+
+  async function uploadStepImages(recipeId: string) {
+    const stepImagesData = {
+      recipe: recipeId,
+      images: stepImages,
+    };
+    await db.collection('step_images').create(stepImagesData);
+  }
 
   async function uploadRecipe() {
     try {
@@ -116,6 +125,8 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
         profile: userId,
       };
       const record = await db.collection('recipes').create(data);
+
+      uploadStepImages(record.id);
 
       setIsLoading(false);
       setError(null);
