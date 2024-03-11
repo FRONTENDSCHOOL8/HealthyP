@@ -10,6 +10,7 @@ import {
   DifficultyComponent,
   TimeComponent,
 } from './components/';
+import { OneButtonModal } from '@/components/modal/OneButtonModal';
 import { useSetAtom } from 'jotai';
 import { Form } from 'react-router-dom';
 import { ingredients, image, seasoning, description } from '@/stores/stores';
@@ -18,19 +19,22 @@ export function CreateOne() {
   const setImageFile = useSetAtom(image);
   const setDescription = useSetAtom(description);
   const [preview, setPreview] = useState('');
+  const [sizeAlert, setSizeAlert] = useState(false); 
 
   function handleFileInput(e : React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = e.target.files?.[0];
-      if (!selectedFile) {
-        setPreview("");
-        return;
-      }
-      
-      if(selectedFile) {
-        const objectUrl = URL.createObjectURL(selectedFile);
-        setPreview(objectUrl);
-        setImageFile(selectedFile);
-      }
+    if (!selectedFile) {
+      setPreview("");
+      return;
+    }
+    if(selectedFile && selectedFile.size < 5242880 ) {
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreview(objectUrl);
+      setImageFile(selectedFile);
+    } else if(selectedFile.size > 5242880) {
+      setPreview("");
+      setSizeAlert(true);
+    }
   }
 
   return (
@@ -63,6 +67,11 @@ export function CreateOne() {
       <Footer>
         <FooterButton buttonCase="large" text={['다음']} route={[() => 'two']} />
       </Footer>
+      <OneButtonModal 
+        isOpen={sizeAlert} 
+        confirmModal={() => {setSizeAlert(false)}} 
+        titleText='파일 크기 초과!'
+        firstLineText='5MB 이하 파일을 선택해주세요'/>
     </>
   );
 }

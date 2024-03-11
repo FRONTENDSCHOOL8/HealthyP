@@ -23,10 +23,12 @@ export function CreateThree() {
         setPreview("");
         return;
       }
-      if(selectedFile) {
+      if(selectedFile && selectedFile.size < 5242880) {
         const objectUrl = URL.createObjectURL(selectedFile);
         setPreview(objectUrl);
         setCurrImage(selectedFile);
+      } else if(selectedFile.size > 5242880) {
+        alert('파일 크기 5MB이하로 지정해주세요');
       }
       const record = await db.collection('step_images').getOne('ybjiy31vi4yxlu7');
       console.log(record);
