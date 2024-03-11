@@ -1,7 +1,7 @@
 import { Header, FooterButton, Footer } from '@/components';
-import { TextAreaComponent, FileInputComponent } from './components';
+import { TextAreaComponent, FileInput } from './components';
 import { useAtom } from 'jotai';
-import { useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 import { recipeSteps, step_images } from '@/stores/stores';
 import { useNavigate } from 'react-router-dom';
 import { getRandomId } from '@/util/math/getRandomId';
@@ -16,7 +16,32 @@ export function CreateThree() {
   const [currImage, setCurrImage] = useState<File>();
   const [sizeAlert, setSizeAlert] = useState(false);
 
-  async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
+  // async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
+  // async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
+  //   const selectedFile = e.target.files?.[0];
+  //   if (!selectedFile) {
+  //     setPreview('');
+  //     return;
+  //   }
+
+  //   if (selectedFile) {
+  //     const objectUrl = URL.createObjectURL(selectedFile);
+  //     setPreview(objectUrl);
+  //     setCurrImage(selectedFile);
+  //     return;
+  //   }
+
+  // if(selectedFile && selectedFile.size < 5242880) {
+  //   const objectUrl = URL.createObjectURL(selectedFile);
+  //   setPreview(objectUrl);
+  //   setCurrImage(selectedFile);
+  // } else if(selectedFile.size > 5242880) {
+  //   setPreview('');
+  //   setSizeAlert(true);
+  // }
+  // }
+
+  const handleFileInput: ChangeEventHandler<HTMLInputElement> | undefined = (e) => {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) {
       setPreview('');
@@ -30,7 +55,7 @@ export function CreateThree() {
       setPreview('');
       setSizeAlert(true);
     }
-  }
+  };
 
   const navigate = useNavigate();
   const goToTwo = () => {
@@ -42,7 +67,7 @@ export function CreateThree() {
     <div className="flex flex-col h-full">
       <Header option="titleWithClose" title="레시피 스탭 추가하기" />
       <div className="flex flex-col px-16pxr py-14pxr grow w-full gap-42pxr">
-        <FileInputComponent inputTitle="단계 이미지" fileInputListener={handleFileInput} preview={preview} />
+        <FileInput inputTitle="단계 이미지" handleInput={handleFileInput} preview={preview} />
         <TextAreaComponent
           inputTitle="설명"
           requiredText=" (필수)"
