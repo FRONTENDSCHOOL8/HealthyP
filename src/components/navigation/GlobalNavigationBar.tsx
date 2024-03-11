@@ -1,6 +1,16 @@
 import { SetStateAction } from 'jotai';
 import { Dispatch, useState } from 'react';
 import { Link } from 'react-router-dom';
+import home from '@/assets/icons/home.svg';
+import homeFill from '@/assets/icons/homeFill.svg';
+import search from '@/assets/icons/search.svg';
+import searchFill from '@/assets/icons/searchFill.svg';
+import create from '@/assets/icons/add.svg';
+import createFill from '@/assets/icons/addFill.svg';
+import bookmark from '@/assets/icons/bookmark.svg';
+import bookmarkFill from '@/assets/icons/bookmarkFill.svg';
+import user from '@/assets/icons/person.svg';
+import userFill from '@/assets/icons/personFill.svg';
 
 type RouteItem = {
   text: string;
@@ -13,32 +23,32 @@ const ROUTER_STATE: RouteItem[] = [
   {
     text: '홈',
     route: '/',
-    icon: 'bg-home-icon',
-    iconFill: 'bg-home-fill-icon',
+    icon: home,
+    iconFill: homeFill,
   },
   {
     text: '검색하기',
     route: '/search',
-    icon: 'bg-search-icon',
-    iconFill: 'bg-search-fill-icon',
+    icon: search,
+    iconFill: searchFill,
   },
   {
     text: '생성하기',
     route: '/create',
-    icon: 'bg-add-icon',
-    iconFill: 'bg-create-fill-icon',
+    icon: create,
+    iconFill: createFill,
   },
   {
     text: '북마크',
     route: '/bookmark',
-    icon: 'bg-bookmark-icon',
-    iconFill: 'bg-bookmark-fill-icon',
+    icon: bookmark,
+    iconFill: bookmarkFill,
   },
   {
     text: '마이페이지',
     route: '/user/recent',
-    icon: 'bg-person-icon',
-    iconFill: 'bg-person-fill-icon',
+    icon: user,
+    iconFill: userFill,
   },
 ];
 
@@ -49,6 +59,7 @@ type GNBButtonProps = {
   text: string;
   currentPage: string;
   setPage: Dispatch<SetStateAction<string>>;
+  profilePicture: string; 
 };
 
 function GNBButton({
@@ -58,6 +69,7 @@ function GNBButton({
   text,
   currentPage,
   setPage,
+  profilePicture,
 }: GNBButtonProps) {
   const renderIcon = () => {
     if (currentPage === route) return iconFill;
@@ -71,18 +83,34 @@ function GNBButton({
         onClick={() => {
           setPage(route);
         }}
-        className={`h-full w-full bg-no-repeat bg-[center_top_10px] ${renderIcon()}`}
+        className={`h-full w-full flex justify-center items-center`}
       >
+        <img src={renderIcon()} alt="" className={`${route === '/user/recent' ? 'border-2 border-black' : ''} w-30pxr h-30pxr rounded-full object-cover`} />
         <p className="sr-only">{text}</p>
       </Link>
     </li>
   );
 }
+interface GlobalNavigationProps {
+  profilePicture: string;
+}
 
-export default function GlobalNavigationBar() {
+export default function GlobalNavigationBar({profilePicture} : GlobalNavigationProps) {
   const [currentPage, setCurrentPage] = useState<string>(
     window.location.pathname
   );
+
+  if(profilePicture) {
+
+    
+
+    ROUTER_STATE[4] = {
+      text: '마이페이지',
+      route: '/user/recent',
+      icon: profilePicture,
+      iconFill: profilePicture,
+    }
+  }
 
   return (
     <nav className="fixed bottom-0 w-full h-80pxr px-side pb-24pxr bg-white max-w-1300pxr z-20">
@@ -94,6 +122,7 @@ export default function GlobalNavigationBar() {
               currentPage={currentPage}
               setPage={setCurrentPage}
               {...item}
+              profilePicture={profilePicture}
             />
           );
         })}
@@ -101,3 +130,7 @@ export default function GlobalNavigationBar() {
     </nav>
   );
 }
+
+
+
+
