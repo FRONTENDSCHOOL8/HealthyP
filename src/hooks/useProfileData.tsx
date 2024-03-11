@@ -1,10 +1,5 @@
 import { db } from '@/api/pocketbase';
-import {
-  imageUrlAtom,
-  userCollection,
-  userNameAtom,
-  userRecordId,
-} from '@/stores/stores';
+import { imageUrlAtom, userCollection, userNameAtom, userRecordId } from '@/stores/stores';
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 

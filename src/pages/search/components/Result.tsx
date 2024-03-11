@@ -4,7 +4,6 @@ import getPbImage from '@/util/data/getPBImage';
 import { useAtom } from 'jotai';
 import { memo, useEffect, useState } from 'react';
 import foodDefaultImg from '@/assets/images/flower3.jpg';
-import { RecipesExpand } from '@/types';
 
 export default function ResultComponent() {
   const [query] = useAtom(chooseQuery); // 선택 결과
