@@ -72,7 +72,7 @@ export function DetailPage() {
       </div>
       <div className="mt-auto py-14pxr px-14pxr bg-white fixed bottom-0 w-full max-w-1300pxr">
         <Link
-          to={isLogin ? '/detail/kxe7tcz38enf3y1/steps' : '/login'}
+          to={isLogin ? `'/detail/${recipeId}/steps'` : '/login'}
           className="w-full text-center block py-12pxr rounded-[7px] bg-primary text-white text-body-em"
         >
           {isLogin ? '시작하기' : '로그인하러가기'}
