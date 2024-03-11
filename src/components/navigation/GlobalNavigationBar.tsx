@@ -1,5 +1,5 @@
 import { SetStateAction } from 'jotai';
-import { Dispatch, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import home from '@/assets/icons/home.svg';
 import homeFill from '@/assets/icons/homeFill.svg';
@@ -11,6 +11,9 @@ import bookmark from '@/assets/icons/bookmark.svg';
 import bookmarkFill from '@/assets/icons/bookmarkFill.svg';
 import user from '@/assets/icons/person.svg';
 import userFill from '@/assets/icons/personFill.svg';
+import { getCurrentUserData } from '@/util';
+import getPbImage from '@/util/data/getPBImage';
+import defaultProfile from '@/assets/images/defaultProfile.png';
 
 type RouteItem = {
   text: string;
@@ -52,6 +55,33 @@ const ROUTER_STATE: RouteItem[] = [
   },
 ];
 
+const ROUTER_STATE_AUTH: RouteItem[] = [
+  {
+    text: '홈',
+    route: '/',
+    icon: home,
+    iconFill: homeFill,
+  },
+  {
+    text: '검색하기',
+    route: '/search',
+    icon: search,
+    iconFill: searchFill,
+  },
+  {
+    text: '생성하기',
+    route: '/create',
+    icon: create,
+    iconFill: createFill,
+  },
+  {
+    text: '북마크',
+    route: '/bookmark',
+    icon: bookmark,
+    iconFill: bookmarkFill,
+  },
+];
+
 type GNBButtonProps = {
   route: string;
   icon: string;
@@ -59,7 +89,6 @@ type GNBButtonProps = {
   text: string;
   currentPage: string;
   setPage: Dispatch<SetStateAction<string>>;
-  profilePicture: string; 
 };
 
 function GNBButton({
@@ -69,7 +98,6 @@ function GNBButton({
   text,
   currentPage,
   setPage,
-  profilePicture,
 }: GNBButtonProps) {
   const renderIcon = () => {
     if (currentPage === route) return iconFill;
@@ -85,52 +113,85 @@ function GNBButton({
         }}
         className={`h-full w-full flex justify-center items-center`}
       >
-        <img src={renderIcon()} alt="" className={`${route === '/user/recent' ? 'border-2 border-black' : ''} w-30pxr h-30pxr rounded-full object-cover`} />
+        <img src={renderIcon()} alt="" className="w-30pxr h-30pxr rounded-full object-cover" />
         <p className="sr-only">{text}</p>
       </Link>
     </li>
   );
 }
-interface GlobalNavigationProps {
+interface AuthGNBProps {
   profilePicture: string;
+  setPage: Dispatch<SetStateAction<string>>;
+  currentPage: string;
+}
+function AuthGNB({profilePicture, setPage, currentPage} : AuthGNBProps) {
+  return (
+    <li className="flex basis-full">
+      <Link
+        to='user/recent'
+        onClick={() => {
+          setPage('user/recent');
+        }}
+        className={`h-full w-full flex justify-center items-center`}
+        >
+        <img src={profilePicture} alt="" className= {`w-30pxr h-30pxr rounded-full object-cover ${currentPage === 'user/recent' ? 'border-2 border-black' : ''}`} />
+        <p className="sr-only">마이페이지</p>
+      </Link>
+    </li>
+  )
 }
 
-export default function GlobalNavigationBar({profilePicture} : GlobalNavigationProps) {
+
+export default function GlobalNavigationBar() {
   const [currentPage, setCurrentPage] = useState<string>(
     window.location.pathname
   );
+  const [profileImageURL, setProfileImageURL] = useState('');
 
-  if(profilePicture) {
-
-    
-
-    ROUTER_STATE[4] = {
-      text: '마이페이지',
-      route: '/user/recent',
-      icon: profilePicture,
-      iconFill: profilePicture,
+  useEffect(() => {
+    async function getUserProfilePicture() {
+      if(localStorage.getItem("pocketbase_auth")) {
+        const currentUser = getCurrentUserData()
+        if(getPbImage('users', currentUser.id, 'avatar')) {
+          setProfileImageURL(getPbImage('users', currentUser.id, currentUser.avatar));
+        } else {
+          setProfileImageURL(defaultProfile);
+        }
+      }
     }
-  }
+    getUserProfilePicture();
+}, []);
+
+
 
   return (
     <nav className="fixed bottom-0 w-full h-80pxr px-side pb-24pxr bg-white max-w-1300pxr z-20">
       <ul className="flex flex-row list-none w-full h-full">
-        {ROUTER_STATE.map((item, idx) => {
-          return (
-            <GNBButton
-              key={idx}
-              currentPage={currentPage}
-              setPage={setCurrentPage}
-              {...item}
-              profilePicture={profilePicture}
-            />
-          );
-        })}
+        {profileImageURL ? 
+          ROUTER_STATE_AUTH.map((item, idx) => {
+            return (
+              <GNBButton
+                key={idx}
+                currentPage={currentPage}
+                setPage={setCurrentPage}
+                {...item}
+              />
+            );
+          })
+          :
+          ROUTER_STATE.map((item, idx) => {
+            return (
+              <GNBButton
+                key={idx}
+                currentPage={currentPage}
+                setPage={setCurrentPage}
+                {...item}
+              />
+            );
+          })
+        }
+        {profileImageURL ? <AuthGNB profilePicture={profileImageURL} setPage={setCurrentPage} currentPage={currentPage} /> : <></>}
       </ul>
     </nav>
   );
 }
-
-
-
-
