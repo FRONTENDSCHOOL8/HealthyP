@@ -7,6 +7,7 @@ const useImagePreview = (file: File | null, collection: string, id: string) => {
   const updateProfile = useUpdateProfile(collection, id);
 
   useEffect(() => {
+    const getStorageData = localStorage.getItem('pocketbase_auth');
     if (!file) {
       setPreviewUrl(null);
       return;
@@ -14,6 +15,8 @@ const useImagePreview = (file: File | null, collection: string, id: string) => {
 
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
+
+    if (!getStorageData) return;
 
     (async () => {
       await updateProfile('avatar', url);
