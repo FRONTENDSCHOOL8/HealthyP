@@ -1,15 +1,20 @@
 import { SetStateAction } from 'jotai';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // type SetAtom<Args extends any[], Result> = (...args: Args) => Result;
 
 interface FileInputComponentProps {
   inputTitle: string;
   setFile: SetAtom<[SetStateAction<File | null>], void | SetStateAction<[SetStateAction<File | null>]>>;
+  nowPreview?: string | undefined;
 }
 
-export function FileInputComponent({ inputTitle, setFile }: FileInputComponentProps) {
+export function FileInputComponent({ inputTitle, setFile, nowPreview }: FileInputComponentProps) {
   const [preview, setPreview] = useState<string | undefined>('');
+
+  useEffect(() => {
+    setPreview(nowPreview);
+  }, [nowPreview]);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -21,6 +26,7 @@ export function FileInputComponent({ inputTitle, setFile }: FileInputComponentPr
     if (selectedFile) {
       const objectUrl = URL.createObjectURL(selectedFile);
       setPreview(objectUrl);
+      console.log(preview);
       setFile(selectedFile);
     }
   };

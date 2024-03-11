@@ -13,24 +13,23 @@ export function CreateThree() {
   const [tips, setTips] = useState('');
   const [stepImages, setStepImages] = useAtom(step_images);
   const [preview, setPreview] = useState('');
-  const [currImage, setCurrImage] = useState<File>()
-  const [sizeAlert, setSizeAlert] = useState(false); 
+  const [currImage, setCurrImage] = useState<File>();
+  const [sizeAlert, setSizeAlert] = useState(false);
 
-
-  async function handleFileInput(e : React.ChangeEvent<HTMLInputElement>) {
+  async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = e.target.files?.[0];
-      if (!selectedFile) {
-        setPreview("");
-        return;
-      }
-      if(selectedFile && selectedFile.size < 5242880) {
-        const objectUrl = URL.createObjectURL(selectedFile);
-        setPreview(objectUrl);
-        setCurrImage(selectedFile);
-      } else if(selectedFile.size > 5242880) {
-        setPreview('');
-        setSizeAlert(true);
-      }
+    if (!selectedFile) {
+      setPreview('');
+      return;
+    }
+    if (selectedFile && selectedFile.size < 5242880) {
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreview(objectUrl);
+      setCurrImage(selectedFile);
+    } else if (selectedFile.size > 5242880) {
+      setPreview('');
+      setSizeAlert(true);
+    }
   }
 
   const navigate = useNavigate();
@@ -43,7 +42,7 @@ export function CreateThree() {
     <div className="flex flex-col h-full">
       <Header option="titleWithClose" title="레시피 스탭 추가하기" />
       <div className="flex flex-col px-16pxr py-14pxr grow w-full gap-42pxr">
-        <FileInputComponent inputTitle="단계 이미지" fileInputListener={handleFileInput} preview={preview}/>
+        <FileInputComponent inputTitle="단계 이미지" fileInputListener={handleFileInput} preview={preview} />
         <TextAreaComponent
           inputTitle="설명"
           requiredText=" (필수)"
@@ -69,16 +68,11 @@ export function CreateThree() {
             if (preview) {
               const stepsData = new FormData();
               if (currImage === null || currImage === undefined) return;
-              setStepImages([...stepImages, currImage])
+              setStepImages([...stepImages, currImage]);
               stepsData.append('id', id);
               stepsData.append('description', description);
               stepsData.append('tips', tips);
-              setSteps(
-                JSON.stringify([
-                  ...JSON.parse(steps),
-                  Object.fromEntries(stepsData),
-                ])
-              );
+              setSteps(JSON.stringify([...JSON.parse(steps), Object.fromEntries(stepsData)]));
               navigate(path);
             } else {
               alert('이미지를 추가 해주세요!');
@@ -86,11 +80,14 @@ export function CreateThree() {
           }}
         />
       </Footer>
-      <OneButtonModal 
-        isOpen={sizeAlert} 
-        confirmModal={() => {setSizeAlert(false)}} 
-        titleText='파일 크기 초과!'
-        firstLineText='5MB 이하 파일을 선택해주세요'/>
+      <OneButtonModal
+        isOpen={sizeAlert}
+        confirmModal={() => {
+          setSizeAlert(false);
+        }}
+        titleText="파일 크기 초과!"
+        firstLineText="5MB 이하 파일을 선택해주세요"
+      />
     </div>
   );
 }
