@@ -7,7 +7,7 @@ export { CreateComplete } from './CreateComplete';
 
 export function CreateLayout() {
   return (
-    <div className="w-full h-full relative bg-white">
+    <div className="w-full h-full relative bg-white overflow-y-auto">
       <Provider>
         <Outlet />
       </Provider>
