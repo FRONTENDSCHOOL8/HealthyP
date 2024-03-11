@@ -135,6 +135,15 @@ type MaybeArray<T> = T | T[];
 
 // ===== users =====
 
+export interface myReview {
+  recipe_id: string;
+  recipe_title: string;
+  review_id: string;
+  creator: string;
+  review_text: string;
+}
+[];
+
 export interface UsersResponse extends AuthCollectionResponse {
   collectionName: 'users';
   name: string;
@@ -317,12 +326,8 @@ export interface RecipesResponse extends BaseCollectionResponse {
   seasoning: string;
   profile: string;
   nutrition: string;
-}
-
-export interface RecipesExpand extends RecipesResponse {
-  expand: {
-    rating: RatingsResponse[];
-  };
+  time: number;
+  difficulty: string;
 }
 
 export interface RecipesCreate extends BaseCollectionCreate {
@@ -338,6 +343,8 @@ export interface RecipesCreate extends BaseCollectionCreate {
   seasoning?: string;
   profile?: string;
   nutrition?: string;
+  time?: number;
+  difficulty?: string;
 }
 
 export interface RecipesUpdate extends BaseCollectionUpdate {
@@ -357,6 +364,10 @@ export interface RecipesUpdate extends BaseCollectionUpdate {
   seasoning?: string;
   profile?: string;
   nutrition?: string;
+  time?: number;
+  'time+'?: number;
+  'time-'?: number;
+  difficulty?: string;
 }
 
 export interface RecipesCollection {
@@ -371,6 +382,38 @@ export interface RecipesCollection {
     'bookmarks(recipe)': BookmarksCollection[];
     rating: RatingsCollection[];
     profile: UsersCollection;
+    'step_images(recipe)': StepImagesCollection[];
+  };
+}
+
+// ===== step_images =====
+
+export interface StepImagesResponse extends BaseCollectionResponse {
+  collectionName: 'step_images';
+  recipe: string;
+  images: Array<string>;
+}
+
+export interface StepImagesCreate extends BaseCollectionCreate {
+  recipe?: string;
+  images?: MaybeArray<File>;
+}
+
+export interface StepImagesUpdate extends BaseCollectionUpdate {
+  recipe?: string;
+  images?: MaybeArray<File>;
+  'images-'?: string;
+}
+
+export interface StepImagesCollection {
+  type: 'base';
+  collectionId: string;
+  collectionName: 'step_images';
+  response: StepImagesResponse;
+  create: StepImagesCreate;
+  update: StepImagesUpdate;
+  relations: {
+    recipe: RecipesCollection;
   };
 }
 
@@ -382,4 +425,5 @@ export type Schema = {
   ratings: RatingsCollection;
   bookmarks: BookmarksCollection;
   recipes: RecipesCollection;
+  step_images: StepImagesCollection;
 };

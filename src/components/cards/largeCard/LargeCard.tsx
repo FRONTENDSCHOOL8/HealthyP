@@ -8,6 +8,7 @@ import { Star, Review, BookmarkButton } from '@/components';
 import getPbImage from '@/util/data/getPBImage';
 import foodDefaultImg from '@/assets/images/flower3.jpg';
 import { OverflowCheckComponent } from '@/components/keyword/Keword';
+import { Ref } from 'react';
 
 interface profileProps {
   profile?: UsersResponse;
@@ -22,6 +23,7 @@ export interface LargeCardProps extends profileProps {
   rating: RatingsResponse[];
   id: string;
   userData: RecordModel | undefined;
+  innerRef?: Ref<HTMLDivElement>;
 }
 
 export function UserProfile({ profile }: profileProps) {
@@ -48,6 +50,7 @@ export default function LargeCard({
   profile,
   keywords,
   userData,
+  innerRef,
 }: LargeCardProps) {
   const handleClick = () => {
     const newRecipe = { title, id };
@@ -87,7 +90,7 @@ export default function LargeCard({
   });
 
   return (
-    <article className="h-max overflow-hidden p-14pxr bg-white max-w-430pxr shrink-0 shadow-default">
+    <article ref={innerRef} className="h-max overflow-hidden p-14pxr bg-white max-w-430pxr shrink-0 shadow-default">
       {profile && (
         <div className="flex justify-between min-h-54pxr items-center">
           <UserProfile profile={profile} />
