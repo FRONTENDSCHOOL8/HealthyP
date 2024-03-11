@@ -7,11 +7,7 @@ import {
 } from '@/components/input/PasswordComponent';
 import { ProgressBar } from '@/components/pagination/Pagination';
 import { useAtom } from 'jotai';
-import {
-  emailValid,
-  passwordConfirmValid,
-  passwordValid,
-} from '@/stores/stores';
+import { emailValid, passwordConfirmValid, passwordValid } from '@/stores/stores';
 import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -51,18 +47,14 @@ export function Verification() {
 
   return (
     <>
-      <Header
-        option="titlewithCloseAndFn"
-        title="회원가입"
-        handleClick={handleHeaderClick}
-      />
+      <Header option="titlewithCloseAndFn" title="회원가입" handleClick={handleHeaderClick} />
       <div role="group" className="mx-14pxr mt-18pxr mb-198pxr">
         <p className="text-title-2 mb-59pxr">
           가입하실 <br /> <span className={emphasizeClass}>이메일</span>과{' '}
           <span className={emphasizeClass}>비밀번호</span>를 <br /> 입력해주세요
         </p>
         <form role="group" className="flex flex-col">
-          <EmailComponent label error />
+          <EmailComponent label error valid />
           <PasswordComponent label error />
           <PasswordConfirmComponent />
         </form>

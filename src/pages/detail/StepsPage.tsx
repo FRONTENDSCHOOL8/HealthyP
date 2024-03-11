@@ -7,6 +7,7 @@ import { Keyboard, Navigation, Pagination} from 'swiper/modules';
 import SwiperNavButton from "./components/SwiperNavButton";
 import { AnimatePresence, motion } from 'framer-motion';
 import { Footer, FnButton } from "@/components";
+import getPbImage from "@/util/data/getPBImage";
 interface StepsInterface {
   id: string;
   description: string;
@@ -19,17 +20,23 @@ export function StepsPage() {
   const [swiperIndex, setSwiperIndex] = useState(0);
   const [stepsData, setStepsData] = useState<RecordModel>();
   const [loading, setLoading] = useState(true);
+  const [stepImages, setStepImages] = useState<Array<string>>([]);
   const navigate = useNavigate();
   
 
   useEffect(() => {
     async function getRecipeSteps() {
       if (recipeId === undefined) return;
-  
       try {
         const record = await db.collection('recipes').getOne(recipeId);
         if(record === null) alert("등록된 요리 단계가 없습니다");
         const parsedSteps = JSON.parse(record.steps);
+        const stepImageData = await db.collection('step_images').getFirstListItem(`recipe="${recipeId}"`);
+        const images = [...stepImageData.images]
+        const imageURL = images.map(item => {
+          return (getPbImage('step_images', stepImageData.id, item));
+        })
+        setStepImages(imageURL);
         setStepsData(parsedSteps);
       } catch (error) {
         console.error("Error fetching recipe steps:", error);
@@ -76,7 +83,7 @@ export function StepsPage() {
             "--swiper-pagination-bullet-height" : "5px",
           }}
           >
-          {stepsData?.map((item : StepsInterface) => {
+          {stepsData?.map((item : StepsInterface, index : number) => {
             return (
               <SwiperSlide 
                 key={item.id} 
@@ -84,7 +91,7 @@ export function StepsPage() {
                 >
                 <div className="flex flex-col gap-22pxr h-full items-center">
                   <img
-                    src={item.image}
+                    src={stepImages[index]}
                     alt={item.description}
                     className="object-cover w-full h-216pxr rounded-xl"
                   />
