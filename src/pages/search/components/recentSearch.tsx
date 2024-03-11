@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import close from '@/assets/icons/close.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const liClassName = 'py-10pxr border-b border-gray_150 flex justify-between items-center';
 
@@ -10,14 +10,18 @@ interface RecentSearchProps {
 }
 
 function RecentSearchComponent() {
-  const navigate = useNavigate();
-  const recentSearchRaw = sessionStorage.getItem('recentRecipe');
-  const recentSearch = recentSearchRaw ? JSON.parse(recentSearchRaw) : [];
+  const [recentSearch, setRecentSearch] = useState<RecentSearchProps[]>([]);
+
+  useEffect(() => {
+    const recentSearchRaw = sessionStorage.getItem('recentRecipe');
+    const recentSearchData = recentSearchRaw ? JSON.parse(recentSearchRaw) : [];
+    setRecentSearch(recentSearchData);
+  }, []);
 
   const handleDelete = (id: string) => {
     const filteredData = recentSearch.filter((item: RecentSearchProps) => item.id !== id);
     sessionStorage.setItem('recentRecipe', JSON.stringify(filteredData));
-    navigate(0);
+    setRecentSearch(filteredData);
   };
 
   return (

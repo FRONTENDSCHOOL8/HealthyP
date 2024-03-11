@@ -4,10 +4,11 @@ import getPbImage from '@/util/data/getPBImage';
 import { useAtom } from 'jotai';
 import { memo, useEffect, useState } from 'react';
 import foodDefaultImg from '@/assets/images/flower3.jpg';
+import { RecipesRatingExpand } from '@/types';
 
 export default function ResultComponent() {
   const [query] = useAtom(chooseQuery); // 선택 결과
-  const [sessionData, setSessionData] = useState<RecipesExpand[]>([]);
+  const [sessionData, setSessionData] = useState<RecipesRatingExpand[] | undefined>([]);
 
   useEffect(() => {
     const sessionDataRaw = sessionStorage.getItem('selectedRecipe');
@@ -32,7 +33,7 @@ export default function ResultComponent() {
               const url = getPbImage('recipes', id, image);
               return (
                 <div key={idx} className=" rounded-[5px]">
-                  <RecipeCard title={title} url={url || foodDefaultImg} rating={expand.rating} id={id} />
+                  <RecipeCard title={title} url={url || foodDefaultImg} rating={expand?.rating} id={id} />
                 </div>
               );
             })
@@ -41,7 +42,7 @@ export default function ResultComponent() {
               const url = getPbImage('recipes', id, image);
               return (
                 <div key={idx} className=" rounded-[5px]">
-                  <RecipeCard title={title} url={url || foodDefaultImg} rating={expand.rating} id={id} />
+                  <RecipeCard title={title} url={url || foodDefaultImg} rating={expand?.rating} id={id} />
                 </div>
               );
             })}
