@@ -124,6 +124,7 @@ interface AuthGNBProps {
   setPage: Dispatch<SetStateAction<string>>;
   currentPage: string;
 }
+
 function AuthGNB({profilePicture, setPage, currentPage} : AuthGNBProps) {
   return (
     <li className="flex basis-full">
@@ -140,7 +141,6 @@ function AuthGNB({profilePicture, setPage, currentPage} : AuthGNBProps) {
     </li>
   )
 }
-
 
 export default function GlobalNavigationBar() {
   const [currentPage, setCurrentPage] = useState<string>(
@@ -161,8 +161,6 @@ export default function GlobalNavigationBar() {
     }
     getUserProfilePicture();
 }, []);
-
-
 
   return (
     <nav className="fixed bottom-0 w-full h-80pxr px-side pb-24pxr bg-white max-w-1300pxr z-20">
