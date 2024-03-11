@@ -13,7 +13,7 @@ import { RatingsResponse } from '@/types';
 import DOMPurify from 'dompurify';
 
 // Animation Properties
-const DELETE_BTN_WIDTH = 70;
+const DELETE_BTN_WIDTH = 60;
 const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 };
 const MESSAGE_DELETE_TRANSITION = {
   opacity: {
