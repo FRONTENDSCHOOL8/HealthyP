@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { recipeSteps, step_images } from '@/stores/stores';
 import { useNavigate } from 'react-router-dom';
 import { getRandomId } from '@/util/math/getRandomId';
-import { db } from '@/api/pocketbase';
 import { OneButtonModal } from '@/components/modal/OneButtonModal';
 
 export function CreateThree() {

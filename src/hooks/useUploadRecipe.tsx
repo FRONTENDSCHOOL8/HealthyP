@@ -69,7 +69,6 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
     if (getPocketbaseAuthRaw) {
       const pocketbaseAuth = JSON.parse(getPocketbaseAuthRaw);
       const authUserId = pocketbaseAuth.model.id;
-
       setUserId(authUserId);
     }
   }, []);
@@ -91,7 +90,6 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
         model: 'gpt-3.5-turbo-0125',
         response_format: { type: 'json_object' },
       });
-      console.log(completion.choices[0].message.content);
       const result = completion.choices[0].message.content;
       setNutritionData(result);
     }
