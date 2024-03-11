@@ -134,7 +134,7 @@ function AuthGNB({profilePicture, setPage, currentPage} : AuthGNBProps) {
         }}
         className={`h-full w-full flex justify-center items-center`}
         >
-        <img src={profilePicture} alt="" className= {`w-30pxr h-30pxr rounded-full object-cover ${currentPage === 'user/recent' ? 'border-2 border-black' : ''}`} />
+        <img src={profilePicture} alt="" className= {`w-30pxr h-30pxr rounded-full object-cover ${currentPage === 'user/recent' ? 'border-2 border-black p-2pxr' : ''}`} />
         <p className="sr-only">마이페이지</p>
       </Link>
     </li>
