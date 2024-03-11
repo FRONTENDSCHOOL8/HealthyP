@@ -6,7 +6,7 @@ import { recipeSteps, step_images } from '@/stores/stores';
 import { useNavigate } from 'react-router-dom';
 import { getRandomId } from '@/util/math/getRandomId';
 import { db } from '@/api/pocketbase';
-
+import { OneButtonModal } from '@/components/modal/OneButtonModal';
 
 export function CreateThree() {
   const [steps, setSteps] = useAtom(recipeSteps);
@@ -15,6 +15,7 @@ export function CreateThree() {
   const [stepImages, setStepImages] = useAtom(step_images);
   const [preview, setPreview] = useState('');
   const [currImage, setCurrImage] = useState<File>()
+  const [sizeAlert, setSizeAlert] = useState(false); 
 
 
   async function handleFileInput(e : React.ChangeEvent<HTMLInputElement>) {
@@ -28,7 +29,8 @@ export function CreateThree() {
         setPreview(objectUrl);
         setCurrImage(selectedFile);
       } else if(selectedFile.size > 5242880) {
-        alert('파일 크기 5MB이하로 지정해주세요');
+        setPreview('');
+        setSizeAlert(true);
       }
       const record = await db.collection('step_images').getOne('ybjiy31vi4yxlu7');
       console.log(record);
@@ -87,6 +89,11 @@ export function CreateThree() {
           }}
         />
       </Footer>
+      <OneButtonModal 
+        isOpen={sizeAlert} 
+        confirmModal={() => {setSizeAlert(false)}} 
+        titleText='파일 크기 초과!'
+        firstLineText='5MB 이하 파일을 선택해주세요'/>
     </div>
   );
 }
