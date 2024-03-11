@@ -1,5 +1,5 @@
 import { Header, FooterButton, Footer } from '@/components';
-import { TextAreaComponent, FileInput } from './components';
+import { FileInput, TextArea } from './components';
 import { useAtom } from 'jotai';
 import { ChangeEventHandler, useState } from 'react';
 import { recipeSteps, step_images } from '@/stores/stores';
@@ -68,14 +68,14 @@ export function CreateThree() {
       <Header option="titleWithClose" title="레시피 스탭 추가하기" />
       <div className="flex flex-col px-16pxr pt-14pxr grow w-full gap-42pxr pb-120pxr">
         <FileInput inputTitle="단계 이미지" handleInput={handleFileInput} preview={preview} />
-        <TextAreaComponent
+        <TextArea
+          required
           inputTitle="설명"
-          requiredText=" (필수)"
           maxCharCount={400}
           setData={setDescription}
           placeholderText="요리 설명을 작성해주세요"
         />
-        <TextAreaComponent
+        <TextArea
           inputTitle="팁"
           maxCharCount={400}
           setData={setTips}

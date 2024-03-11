@@ -58,14 +58,14 @@ export function CreateOne() {
           id="category"
           dataArr={categories}
           label="카테고리"
-          isRequired
+          required
           onChange={(e) => setCategory((e.target as HTMLSelectElement).value)}
         />
         <SelectBox
           id="difficulty"
           dataArr={difficult}
           label="난이도"
-          isRequired
+          required
           onChange={(e) => setDifficulty((e.target as HTMLSelectElement).value)}
         />
         <KeywordInput inputTitle="키워드" placeholder="키워드는 쉼표(,) 로 구별해주세요" />

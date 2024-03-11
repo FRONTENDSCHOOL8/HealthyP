@@ -8,9 +8,16 @@ interface TextAreaProps {
   requiredText?: string;
   setData: Dispatch<SetStateAction<string>>;
   placeholderText: string;
+  required?: boolean;
 }
 
-export default function TextArea({ inputTitle, maxCharCount, setData, placeholderText }: TextAreaProps) {
+export default function TextArea({
+  inputTitle,
+  maxCharCount,
+  setData,
+  placeholderText,
+  required = false,
+}: TextAreaProps) {
   const [text, setText] = useState('');
   const [charCount, setCharCount] = useState(0);
 
@@ -34,7 +41,7 @@ export default function TextArea({ inputTitle, maxCharCount, setData, placeholde
         {inputTitle ? (
           <p>
             {inputTitle}
-            <Required />
+            {required && <Required />}
           </p>
         ) : (
           <></>
