@@ -152,7 +152,7 @@ export default function GlobalNavigationBar() {
     async function getUserProfilePicture() {
       if(localStorage.getItem("pocketbase_auth")) {
         const currentUser = getCurrentUserData()
-        if(getPbImage('users', currentUser.id, 'avatar')) {
+        if(currentUser.avatar) {
           setProfileImageURL(getPbImage('users', currentUser.id, currentUser.avatar));
         } else {
           setProfileImageURL(defaultProfile);
