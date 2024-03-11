@@ -36,8 +36,7 @@ export function MainPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const getRecipeData = async () =>
-        await db.collection('recipes').getList(1, 10, { expand: 'rating' });
+      const getRecipeData = async () => await db.collection('recipes').getList(1, 10, { expand: 'rating' });
 
       // getRecipeData 함수의 결과를 기다립니다.
       const recipeData: ListResult<RecordModel> = await getRecipeData();
@@ -59,10 +58,7 @@ export function MainPage() {
       <SwiperMain />
       <FakeButtons />
       <section>
-        <Link
-          to={'bookmark'}
-          className="flex pl-14pxr pr-10pxr py-10pxr text-title-2-em justify-between"
-        >
+        <Link to={'bookmark'} className="flex pl-14pxr pr-10pxr py-10pxr text-title-2-em justify-between">
           <h2>오늘의 레시피</h2>
           <span className="size-30pxr bg-arrow-small-icon rotate-[270deg] bg-center"></span>
         </Link>
