@@ -5,15 +5,16 @@ interface FileInputProps extends HTMLAttributes<HTMLInputElement> {
   inputTitle: string;
   preview: string;
   handleInput: ChangeEventHandler<HTMLInputElement> | undefined;
+  required?: boolean;
 }
 
-export default function FileInput({ inputTitle, preview, handleInput }: FileInputProps) {
+export default function FileInput({ inputTitle, preview, handleInput, required = false }: FileInputProps) {
   return (
     <>
       <label htmlFor="dropzone-file" className="text-sub-em flex flex-col gap-10pxr">
         <p className="inline-block">
           {inputTitle}
-          <Required />
+          {required && <Required />}
         </p>
         <div className="h-180pxr w-full bg-gray_150 hover:bg-gray_150 flex justify-center items-center hover:fill-gray-500 fill-gray-400 rounded-lg overflow-hidden">
           <svg

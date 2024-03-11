@@ -330,6 +330,10 @@ export interface RecipesResponse extends BaseCollectionResponse {
   difficulty: string;
 }
 
+export interface RecipesRatingExpand extends RecipesResponse {
+  expand: { rating: RatingsResponse[] };
+}
+
 export interface RecipesCreate extends BaseCollectionCreate {
   title?: string;
   views?: number;

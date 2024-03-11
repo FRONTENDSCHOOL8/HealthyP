@@ -6,6 +6,8 @@ import addPrimary from '@/assets/icons/addPrimary.svg';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import useUploadRecipe from '@/hooks/useUploadRecipe';
 import { recipeSteps, step_images } from '@/stores/stores';
+import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
+import { useState } from 'react';
 
 function TipContainer() {
   return (
@@ -122,6 +124,7 @@ function StepContainer() {
 }
 
 export function CreateTwo() {
+  const [isOpen, setIsOpen] = useState(false);
   const { uploadRecipe } = useUploadRecipe();
   const navigate = useNavigate();
 
@@ -130,10 +133,21 @@ export function CreateTwo() {
   };
   const path: string = goToComplete();
 
+  const handleHeaderClick = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+  const handleConfirm = () => {
+    navigate('/');
+  };
+
   return (
     <div className="h-full w-full flex flex-col">
       <div className="">
-        <Header option="titleWithClose" title="레시피 등록하기" />
+        <Header option="titlewithCloseAndFn" title="레시피 등록하기" handleClick={handleHeaderClick} />
         <TipContainer />
       </div>
       <StepContainer />
@@ -148,6 +162,14 @@ export function CreateTwo() {
           }}
         />
       </Footer>
+      <TwoButtonModal
+        isOpen={isOpen}
+        headline="정말 나가시겠습니까?"
+        closeModal={handleClose}
+        confirmModal={handleConfirm}
+        isAnimated={false}
+        where="메인페이지"
+      />
     </div>
   );
 }

@@ -17,6 +17,7 @@ export function CreateThree() {
   const [sizeAlert, setSizeAlert] = useState(false);
 
   // async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
+  // async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
   //   const selectedFile = e.target.files?.[0];
   //   if (!selectedFile) {
   //     setPreview('');
@@ -46,7 +47,6 @@ export function CreateThree() {
       setPreview('');
       return;
     }
-
     if (selectedFile && selectedFile.size < 5242880) {
       const objectUrl = URL.createObjectURL(selectedFile);
       setPreview(objectUrl);
@@ -66,7 +66,7 @@ export function CreateThree() {
   return (
     <div className="flex flex-col h-full">
       <Header option="titleWithClose" title="레시피 스탭 추가하기" />
-      <div className="flex flex-col px-16pxr pt-14pxr grow w-full gap-42pxr pb-120pxr">
+      <div className="flex flex-col px-16pxr py-14pxr grow w-full gap-42pxr pb-120pxr">
         <FileInput inputTitle="단계 이미지" handleInput={handleFileInput} preview={preview} />
         <TextArea
           required

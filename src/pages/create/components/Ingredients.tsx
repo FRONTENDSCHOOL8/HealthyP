@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useAtom, PrimitiveAtom } from 'jotai';
+import { Required } from '@/components';
 
 interface IngredientsProps {
   titleText: string;
   atom: PrimitiveAtom<string>;
   namePlaceholder: string;
   amountPlaceholder: string;
+  required?: boolean;
 }
 
 interface IngredientData {
@@ -20,6 +22,7 @@ export default function IngredientsComponent({
   atom,
   namePlaceholder,
   amountPlaceholder,
+  required = false,
 }: IngredientsProps) {
   const [ingredName, setIngredName] = useState('');
   const [ingredAmount, setIngredAmount] = useState('');
@@ -29,7 +32,7 @@ export default function IngredientsComponent({
     <div className="flex flex-col gap-10pxr">
       <h3 className="text-sub-em">
         {titleText}
-        <span className="text-sub">{' (필수)'}</span>
+        {required && <Required />}
       </h3>
       <div className="flex items-center justify-center gap-6pxr">
         <label htmlFor="ingredient-name" className="sr-only">
@@ -76,7 +79,7 @@ export default function IngredientsComponent({
           추가
         </button>
       </div>
-      <div className="border-t-2 border-b-2 h-150pxr overflow-y-scroll no-scrollbar bg-gray_150">
+      <div className="border-t-2 border-b-2 h-150pxr overflow-y-scroll no-scrollbar bg-white">
         {JSON.parse(ingredientData).map((item: IngredientData, index: string) => {
           return (
             <div key={index} className="flex gap-6pxr py-8pxr pl-10pxr border-b-2">
