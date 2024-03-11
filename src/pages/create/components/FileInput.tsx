@@ -1,18 +1,20 @@
+import { Required } from '@/components';
 import { ChangeEventHandler, HTMLAttributes } from 'react';
 
 interface FileInputProps extends HTMLAttributes<HTMLInputElement> {
   inputTitle: string;
   preview: string;
   handleInput: ChangeEventHandler<HTMLInputElement> | undefined;
+  required?: boolean;
 }
 
-export function FileInput({ inputTitle, preview, handleInput }: FileInputProps) {
+export default function FileInput({ inputTitle, preview, handleInput, required = false }: FileInputProps) {
   return (
     <>
       <label htmlFor="dropzone-file" className="text-sub-em flex flex-col gap-10pxr">
         <p className="inline-block">
           {inputTitle}
-          <span className="text-sub">{' (필수)'}</span>
+          {required && <Required />}
         </p>
         <div className="h-180pxr w-full bg-gray_150 hover:bg-gray_150 flex justify-center items-center hover:fill-gray-500 fill-gray-400 rounded-lg overflow-hidden">
           <svg
@@ -34,7 +36,7 @@ export function FileInput({ inputTitle, preview, handleInput }: FileInputProps) 
             className={`object-cover h-full w-full ${preview ? 'block' : 'hidden'}`}
           />
         </div>
-        <input id="dropzone-file" type="file" className="hidden" onChange={handleInput} />
+        <input id="dropzone-file" type="file" className="hidden" onChange={handleInput} required />
       </label>
     </>
   );

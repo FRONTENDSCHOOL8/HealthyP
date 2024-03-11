@@ -76,7 +76,7 @@ function StepContainer() {
   }
 
   return (
-    <div className="w-full grow bg-gray_150 relative p-14pxr flex flex-col gap-8pxr">
+    <div className="w-full grow bg-gray_150 relative pt-14pxr px-14pxr flex flex-col gap-8pxr pb-120pxr">
       <AddButton />
       <ul className="flex flex-col gap-10pxr">
         <AnimatePresence>
