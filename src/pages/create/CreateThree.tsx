@@ -32,8 +32,6 @@ export function CreateThree() {
         setPreview('');
         setSizeAlert(true);
       }
-      const record = await db.collection('step_images').getOne('ybjiy31vi4yxlu7');
-      console.log(record);
   }
 
   const navigate = useNavigate();
