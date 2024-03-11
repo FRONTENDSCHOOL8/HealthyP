@@ -13,6 +13,7 @@ import {
   nutrition,
   time,
   difficulty,
+  step_images
 } from '@/stores/stores';
 
 import OpenAI from 'openai';
@@ -61,6 +62,7 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
   const timeData = useAtomValue(time);
   const difficultyData = useAtomValue(difficulty);
   const [userId, setUserId] = useState('');
+  const stepImages = useAtomValue(step_images);
 
   useEffect(() => {
     const getPocketbaseAuthRaw = localStorage.getItem('pocketbase_auth');
@@ -96,6 +98,14 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
     getNutritionData();
   }, []);
 
+  async function uploadStepImages(recipeId : string) {
+    const stepImagesData = {
+      recipe: recipeId,
+      images: stepImages
+    }
+    await db.collection('step_images').create(stepImagesData);
+  }
+
   async function uploadRecipe() {
     try {
       setIsLoading(true);
@@ -116,6 +126,8 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
         profile: userId,
       };
       const record = await db.collection('recipes').create(data);
+
+      uploadStepImages(record.id);
 
       setIsLoading(false);
       setError(null);

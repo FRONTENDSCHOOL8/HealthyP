@@ -2,15 +2,35 @@ import { Header, FooterButton, Footer } from '@/components';
 import { TextAreaComponent, FileInputComponent } from './components';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
-import { recipeSteps, temp_image } from '@/stores/stores';
+import { recipeSteps, step_images } from '@/stores/stores';
 import { useNavigate } from 'react-router-dom';
 import { getRandomId } from '@/util/math/getRandomId';
+import { db } from '@/api/pocketbase';
+
 
 export function CreateThree() {
   const [steps, setSteps] = useAtom(recipeSteps);
   const [description, setDescription] = useState('');
   const [tips, setTips] = useState('');
-  const [image, setImage] = useAtom(temp_image);
+  const [stepImages, setStepImages] = useAtom(step_images);
+  const [preview, setPreview] = useState('');
+  const [currImage, setCurrImage] = useState<File>()
+
+
+  async function handleFileInput(e : React.ChangeEvent<HTMLInputElement>) {
+    const selectedFile = e.target.files?.[0];
+      if (!selectedFile) {
+        setPreview("");
+        return;
+      }
+      if(selectedFile) {
+        const objectUrl = URL.createObjectURL(selectedFile);
+        setPreview(objectUrl);
+        setCurrImage(selectedFile);
+      }
+      const record = await db.collection('step_images').getOne('ybjiy31vi4yxlu7');
+      console.log(record);
+  }
 
   const navigate = useNavigate();
   const goToTwo = () => {
@@ -22,7 +42,7 @@ export function CreateThree() {
     <div className="flex flex-col h-full">
       <Header option="titleWithClose" title="레시피 스탭 추가하기" />
       <div className="flex flex-col px-16pxr py-14pxr grow w-full gap-42pxr">
-        <FileInputComponent inputTitle="단계 이미지" setFile={setImage} />
+        <FileInputComponent inputTitle="단계 이미지" fileInputListener={handleFileInput} preview={preview}/>
         <TextAreaComponent
           inputTitle="설명"
           requiredText=" (필수)"
@@ -44,19 +64,12 @@ export function CreateThree() {
           route={[() => '/create', () => '../two']}
           onClickTwo={async () => {
             const id = getRandomId();
-            const reader = new FileReader();
-            const readerPromise = new Promise((resolve) => {
-              reader.onloadend = () => {
-                resolve(reader.result);
-              };
-            });
 
-            if (image) {
-              reader.readAsDataURL(image);
-              const imageURL = await readerPromise;
+            if (preview) {
               const stepsData = new FormData();
+              if (currImage === null || currImage === undefined) return;
+              setStepImages([...stepImages, currImage])
               stepsData.append('id', id);
-              stepsData.append('image', imageURL as Blob | string);
               stepsData.append('description', description);
               stepsData.append('tips', tips);
               setSteps(
@@ -65,7 +78,6 @@ export function CreateThree() {
                   Object.fromEntries(stepsData),
                 ])
               );
-
               navigate(path);
             } else {
               alert('이미지를 추가 해주세요!');

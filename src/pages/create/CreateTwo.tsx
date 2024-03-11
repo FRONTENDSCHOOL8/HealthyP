@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { Header, FooterButton, Footer } from '@/components';
 import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import useUploadRecipe from '@/hooks/useUploadRecipe';
-import { recipeSteps } from '@/stores/stores';
+import { recipeSteps, step_images } from '@/stores/stores';
 
 function TipContainer() {
   return (
@@ -58,6 +58,12 @@ interface stepType {
 
 function StepContainer() {
   const [steps, setSteps] = useAtom(recipeSteps);
+  const stepImages = useAtomValue(step_images);
+
+  const images = [...stepImages]
+  const imageUrls = images.map(item => {
+    return (URL.createObjectURL(item))
+  })
 
   function handleDragEnd(info: PanInfo, stepId: string) {
     const dragDistance = info.point.x;
@@ -92,7 +98,7 @@ function StepContainer() {
                 >
                   <div className="w-64pxr h-64pxr rounded-lg">
                     <img
-                      src={item.image}
+                      src={imageUrls[index]}
                       alt=""
                       className="w-full h-full rounded-lg object-cover"
                     />

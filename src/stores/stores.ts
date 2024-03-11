@@ -23,7 +23,7 @@ export const nutrition = atom<string | null>('');
 export const title = atom('');
 export const image = atom<File | null>(null);
 export const description = atom('');
-export const temp_image = atom<File | null>(null);
+export const step_images = atom<File[]>([]);
 export const time = atom(0); // 조리 시간
 export const difficulty = atom('쉬움'); // 난이도 선택
 

@@ -1,4 +1,5 @@
 import { Header, FooterButton, Footer } from '@/components';
+import { useState } from 'react';
 import {
   FileInputComponent,
   TextAreaComponent,
@@ -16,12 +17,27 @@ import { ingredients, image, seasoning, description } from '@/stores/stores';
 export function CreateOne() {
   const setImageFile = useSetAtom(image);
   const setDescription = useSetAtom(description);
+  const [preview, setPreview] = useState('');
+
+  function handleFileInput(e : React.ChangeEvent<HTMLInputElement>) {
+    const selectedFile = e.target.files?.[0];
+      if (!selectedFile) {
+        setPreview("");
+        return;
+      }
+      
+      if(selectedFile) {
+        const objectUrl = URL.createObjectURL(selectedFile);
+        setPreview(objectUrl);
+        setImageFile(selectedFile);
+      }
+  }
 
   return (
     <>
       <Header option="titleWithClose" title="레시피 등록하기" />
       <Form action="two" className="px-20pxr py-20pxr flex flex-col gap-42pxr pb-120pxr bg-white">
-        <FileInputComponent inputTitle={'레시피 이미지'} setFile={setImageFile} />
+        <FileInputComponent inputTitle={'레시피 이미지'} fileInputListener={handleFileInput} preview={preview} />
         <TitleComponent inputTitle="레시피 제목" placeholder="레시피 제목" />
         <div className="flex justify-between whitespace-nowrap gap-1">
           <TimeComponent />
