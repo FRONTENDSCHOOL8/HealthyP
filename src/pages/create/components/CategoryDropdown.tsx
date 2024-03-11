@@ -2,7 +2,7 @@ import { category } from '@/stores/stores';
 import { useAtom } from 'jotai';
 import { MutableRefObject, useRef } from 'react';
 
-const categories = ['건강식', '다이어트', '벌크업', '비건', '비건', '비건', '비건', '비건', '비건', '비건'];
+const categories = ['건강식', '다이어트', '벌크업', '비건'];
 
 export function CategoryDropdown() {
   const categorySelectModal: MutableRefObject<HTMLDialogElement | null> = useRef(null);

@@ -13,7 +13,7 @@ import {
   nutrition,
   time,
   difficulty,
-  step_images
+  step_images,
 } from '@/stores/stores';
 
 import OpenAI from 'openai';
@@ -90,17 +90,18 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
         model: 'gpt-3.5-turbo-0125',
         response_format: { type: 'json_object' },
       });
+      // console.log(completion.choices[0].message.content);
       const result = completion.choices[0].message.content;
       setNutritionData(result);
     }
     getNutritionData();
   }, []);
 
-  async function uploadStepImages(recipeId : string) {
+  async function uploadStepImages(recipeId: string) {
     const stepImagesData = {
       recipe: recipeId,
-      images: stepImages
-    }
+      images: stepImages,
+    };
     await db.collection('step_images').create(stepImagesData);
   }
 
