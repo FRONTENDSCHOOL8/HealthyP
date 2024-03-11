@@ -10,7 +10,7 @@ export default function Star({ rating }: { rating: RatingsResponse[] | undefined
 
     if (rating) {
       const total = rating.reduce((acc, cur) => acc + cur.review_stars, 0);
-      return (total / rating.length / 2).toFixed(1) + '점';
+      return (total / rating.length).toFixed(1) + '점';
     } else return '-점';
   };
 

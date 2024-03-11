@@ -1,7 +1,7 @@
 import { Header, FooterButton, Footer } from '@/components';
-import { TextAreaComponent, FileInputComponent } from './components';
+import { TextAreaComponent, FileInput } from './components';
 import { useAtom } from 'jotai';
-import { useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 import { recipeSteps, step_images } from '@/stores/stores';
 import { useNavigate } from 'react-router-dom';
 import { getRandomId } from '@/util/math/getRandomId';
@@ -13,25 +13,49 @@ export function CreateThree() {
   const [tips, setTips] = useState('');
   const [stepImages, setStepImages] = useAtom(step_images);
   const [preview, setPreview] = useState('');
-  const [currImage, setCurrImage] = useState<File>()
-  const [sizeAlert, setSizeAlert] = useState(false); 
+  const [currImage, setCurrImage] = useState<File>();
+  const [sizeAlert, setSizeAlert] = useState(false);
 
+  // async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
+  //   const selectedFile = e.target.files?.[0];
+  //   if (!selectedFile) {
+  //     setPreview('');
+  //     return;
+  //   }
 
-  async function handleFileInput(e : React.ChangeEvent<HTMLInputElement>) {
+  //   if (selectedFile) {
+  //     const objectUrl = URL.createObjectURL(selectedFile);
+  //     setPreview(objectUrl);
+  //     setCurrImage(selectedFile);
+  //     return;
+  //   }
+
+  // if(selectedFile && selectedFile.size < 5242880) {
+  //   const objectUrl = URL.createObjectURL(selectedFile);
+  //   setPreview(objectUrl);
+  //   setCurrImage(selectedFile);
+  // } else if(selectedFile.size > 5242880) {
+  //   setPreview('');
+  //   setSizeAlert(true);
+  // }
+  // }
+
+  const handleFileInput: ChangeEventHandler<HTMLInputElement> | undefined = (e) => {
     const selectedFile = e.target.files?.[0];
-      if (!selectedFile) {
-        setPreview("");
-        return;
-      }
-      if(selectedFile && selectedFile.size < 5242880) {
-        const objectUrl = URL.createObjectURL(selectedFile);
-        setPreview(objectUrl);
-        setCurrImage(selectedFile);
-      } else if(selectedFile.size > 5242880) {
-        setPreview('');
-        setSizeAlert(true);
-      }
-  }
+    if (!selectedFile) {
+      setPreview('');
+      return;
+    }
+
+    if (selectedFile && selectedFile.size < 5242880) {
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreview(objectUrl);
+      setCurrImage(selectedFile);
+    } else if (selectedFile.size > 5242880) {
+      setPreview('');
+      setSizeAlert(true);
+    }
+  };
 
   const navigate = useNavigate();
   const goToTwo = () => {
@@ -42,8 +66,8 @@ export function CreateThree() {
   return (
     <div className="flex flex-col h-full">
       <Header option="titleWithClose" title="레시피 스탭 추가하기" />
-      <div className="flex flex-col px-16pxr py-14pxr grow w-full gap-42pxr">
-        <FileInputComponent inputTitle="단계 이미지" fileInputListener={handleFileInput} preview={preview}/>
+      <div className="flex flex-col px-16pxr pt-14pxr grow w-full gap-42pxr pb-120pxr">
+        <FileInput inputTitle="단계 이미지" handleInput={handleFileInput} preview={preview} />
         <TextAreaComponent
           inputTitle="설명"
           requiredText=" (필수)"
@@ -69,16 +93,11 @@ export function CreateThree() {
             if (preview) {
               const stepsData = new FormData();
               if (currImage === null || currImage === undefined) return;
-              setStepImages([...stepImages, currImage])
+              setStepImages([...stepImages, currImage]);
               stepsData.append('id', id);
               stepsData.append('description', description);
               stepsData.append('tips', tips);
-              setSteps(
-                JSON.stringify([
-                  ...JSON.parse(steps),
-                  Object.fromEntries(stepsData),
-                ])
-              );
+              setSteps(JSON.stringify([...JSON.parse(steps), Object.fromEntries(stepsData)]));
               navigate(path);
             } else {
               alert('이미지를 추가 해주세요!');
@@ -86,11 +105,14 @@ export function CreateThree() {
           }}
         />
       </Footer>
-      <OneButtonModal 
-        isOpen={sizeAlert} 
-        confirmModal={() => {setSizeAlert(false)}} 
-        titleText='파일 크기 초과!'
-        firstLineText='5MB 이하 파일을 선택해주세요'/>
+      <OneButtonModal
+        isOpen={sizeAlert}
+        confirmModal={() => {
+          setSizeAlert(false);
+        }}
+        titleText="파일 크기 초과!"
+        firstLineText="5MB 이하 파일을 선택해주세요"
+      />
     </div>
   );
 }
