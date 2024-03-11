@@ -3,12 +3,12 @@ import { memo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { searchQuery, chooseQuery, isClick } from '@/stores/stores';
 import { db } from '@/api/pocketbase';
-import { RecipesExpand } from '@/types';
+import { RecipesRatingExpand } from '@/types';
 import Result from './Result';
 
 // 쿼리 구독을 위한 함수
-async function fetchRecipes(): Promise<RecipesExpand[]> {
-  const response = await db.collection('recipes').getFullList<RecipesExpand>({ expand: 'rating' });
+async function fetchRecipes(): Promise<RecipesRatingExpand[]> {
+  const response = await db.collection('recipes').getFullList<RecipesRatingExpand>({ expand: 'rating' });
   return response;
 }
 
@@ -23,7 +23,7 @@ function SearchQueryComponent() {
     data: allRecipes,
     isError,
     isLoading,
-  } = useQuery<RecipesExpand[]>({ queryKey: ['recipes'], queryFn: fetchRecipes, staleTime: 1000 * 30 });
+  } = useQuery<RecipesRatingExpand[]>({ queryKey: ['recipes'], queryFn: fetchRecipes, staleTime: 1000 * 30 });
 
   // 검색 결과를 필터링합니다.
   const filteredQuery =
@@ -32,11 +32,11 @@ function SearchQueryComponent() {
     }) ?? [];
 
   // 선택한 레시피를 상태에 설정합니다.
-  const handleSelectRecipe = (selected: RecipesExpand) => {
+  const handleSelectRecipe = (selected: RecipesRatingExpand) => {
     const selectedTitle = selected.title.replace(/\s+/g, '');
     const selectedCategory = selected.category.replace(/\s+/g, '');
 
-    const filteredData: RecipesExpand[] | undefined = allRecipes?.filter(
+    const filteredData: RecipesRatingExpand[] | undefined = allRecipes?.filter(
       (item) =>
         item.title.replace(/\s+/g, '').includes(selectedTitle) ||
         item.category.replace(/\s+/g, '').includes(selectedCategory)

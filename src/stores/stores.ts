@@ -1,4 +1,4 @@
-import { RatingsResponse, RecipesExpand } from '@/types';
+import { RatingsResponse, RecipesRatingExpand } from '@/types';
 import { atom } from 'jotai';
 import { ListResult, RecordModel } from 'pocketbase';
 
@@ -44,6 +44,6 @@ export const ratingDataAtom = atom<RatingsResponse[][]>([]);
 
 // SearchComponent
 export const searchQuery = atom(''); // 검색어
-export const searchResult = atom<RecipesExpand[]>([]); // 입력 결과
-export const chooseQuery = atom<RecipesExpand[] | undefined>([]); // 선택 결과
+export const searchResult = atom([]); // 입력 결과
+export const chooseQuery = atom([]); // 선택 결과
 export const isClick = atom(false); // 클릭 여부
