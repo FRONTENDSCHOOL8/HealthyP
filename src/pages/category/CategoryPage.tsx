@@ -17,11 +17,21 @@ export function CategoryPage() {
   const [userData, setUserData] = useState<RecordModel>();
 
   const getRecipeData = async ({ pageParam = 1 }) => {
-    const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
-      expand: 'rating, profile',
-      filter: `category = "${title}"`
-    });
-    return recordsData.items;
+    
+    if(title === "오늘의 레시피") {
+      const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
+        expand: 'rating, profile', 
+        sort: '-views' });
+
+      return recordsData.items;
+    } else {
+      const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
+        expand: 'rating, profile',
+        filter: `category = "${title}"`
+      });
+
+      return recordsData.items
+    }
   };
 
   const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery({
@@ -55,7 +65,6 @@ export function CategoryPage() {
       setUserData(response);
     }
 
-    // fetchData 함수를 호출합니다.
     getUserData();
     db.collection('users').subscribe('*', getUserData);
 

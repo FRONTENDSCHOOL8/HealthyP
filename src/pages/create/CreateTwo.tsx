@@ -84,7 +84,7 @@ function StepContainer() {
       console.log(dragDistance);
       if (dragDistance > DELETE_BTN_WIDTH) {
         const stepData = JSON.parse(steps).filter((item: stepType) => item.id !== stepId);
-        const filteredImages = stepImages.filter((item, idx) => idx !== itemIndex);
+        const filteredImages = stepImages.filter((_item, idx) => idx !== itemIndex);
         setStepImages([...filteredImages])
         setSteps(JSON.stringify(stepData));
       }

@@ -27,7 +27,7 @@ export function BookmarkPage() {
       expand: 'rating, profile',
       filter: conditions.join(' || ')
     });
-    // await wait(1000);
+    await wait(1000);
     return recordsData.items;
   };
 
