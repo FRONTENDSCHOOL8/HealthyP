@@ -1,14 +1,26 @@
 import { Required } from '@/components';
-import { ChangeEventHandler, HTMLAttributes } from 'react';
+import { ChangeEventHandler, HTMLAttributes, useEffect, useState } from 'react';
 
 interface FileInputProps extends HTMLAttributes<HTMLInputElement> {
   inputTitle: string;
-  preview: string;
   handleInput: ChangeEventHandler<HTMLInputElement> | undefined;
   required?: boolean;
+  data?: File | null;
+  preview : string;
 }
 
-export default function FileInput({ inputTitle, preview, handleInput, required = false }: FileInputProps) {
+export default function FileInput({ inputTitle, handleInput, data, required = false, preview }: FileInputProps) {
+  const [previewUrl, setPreviewUrl] = useState('');
+
+
+  useEffect(() => {
+    if(data === null || data === undefined) {
+      setPreviewUrl(preview)
+      return;} 
+    const objectUrl = URL.createObjectURL(data);
+    setPreviewUrl(objectUrl);
+  }, [data, preview])
+
   return (
     <>
       <label htmlFor="dropzone-file" className="text-sub-em flex flex-col gap-10pxr">
@@ -22,7 +34,7 @@ export default function FileInput({ inputTitle, preview, handleInput, required =
             height="48"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
-            className={preview ? 'hidden' : 'block'}
+            className={previewUrl ? 'hidden' : 'block'}
           >
             <circle cx="12" cy="12" r="9.75" className="fill-inherit" />
             <path
@@ -31,12 +43,12 @@ export default function FileInput({ inputTitle, preview, handleInput, required =
             />
           </svg>
           <img
-            src={preview ? preview : ''}
+            src={previewUrl ? previewUrl : ''}
             alt=""
-            className={`object-cover h-full w-full ${preview ? 'block' : 'hidden'}`}
+            className={`object-cover h-full w-full ${previewUrl ? 'block' : 'hidden'}`}
           />
         </div>
-        <input id="dropzone-file" type="file" className="hidden" onChange={handleInput} required />
+        <input id="dropzone-file" type="file" className="hidden" value={data?.webkitRelativePath} onChange={handleInput} required />
       </label>
     </>
   );

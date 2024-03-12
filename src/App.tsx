@@ -36,7 +36,7 @@ import {
   ReviewPage,
   CreateReview,
   SearchLayout,
-  CategoryPage
+  CategoryPage,
 } from './pages/';
 import { isStore } from './stores/stores';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';

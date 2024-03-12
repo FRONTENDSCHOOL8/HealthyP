@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { Header, FooterButton, Footer } from '@/components';
 import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
@@ -7,7 +7,7 @@ import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import useUploadRecipe from '@/hooks/useUploadRecipe';
 import { recipeSteps, step_images } from '@/stores/stores';
 import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
 
 function TipContainer() {
@@ -28,10 +28,11 @@ function TipContainer() {
 }
 
 function AddButton() {
+  const steps = useAtomValue(recipeSteps);
   return (
     <>
       <Link
-        to="../three"
+        to={`../three/${JSON.parse(steps).length}`}
         className="w-full py-16pxr flex justify-center gap-4pxr items-center sticky top-0 bg-white rounded-full text-body shadow-md mb-20pxr"
       >
         <img src={addPrimary} alt="" />
@@ -100,11 +101,12 @@ function StepContainer() {
         <AnimatePresence>
           {JSON.parse(steps).map((item: stepType, index: number) => {
             return (
-              <motion.li
+              <motion.a
                 key={item.id}
                 exit={MESSAGE_DELETE_ANIMATION}
                 transition={MESSAGE_DELETE_TRANSITION}
                 className="relative "
+                href={`/create/three/${index}`}
               >
                 <motion.div
                   drag="x"
@@ -133,7 +135,7 @@ function StepContainer() {
                 >
                   삭제
                 </div>
-              </motion.li>
+              </motion.a>
             );
           })}
         </AnimatePresence>

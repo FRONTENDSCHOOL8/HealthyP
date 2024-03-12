@@ -6,6 +6,7 @@ interface TextAreaProps {
   inputTitle?: string;
   maxCharCount: number;
   requiredText?: string;
+  data?: string;
   setData: Dispatch<SetStateAction<string>>;
   placeholderText: string;
   required?: boolean;
@@ -15,21 +16,22 @@ export default function TextArea({
   inputTitle,
   maxCharCount,
   setData,
+  data,
   placeholderText,
   required = false,
 }: TextAreaProps) {
-  const [text, setText] = useState('');
   const [charCount, setCharCount] = useState(0);
 
   useEffect(() => {
-    setCharCount(text.length);
-  }, [text]);
+    if(data === undefined || data === null) return;
+    setCharCount(data.length);
+  }, [data]);
 
   const handleTextChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const newText = e.target.value;
       if (newText.length <= maxCharCount) {
-        setText(newText);
+        // setText(newText);
         setData(newText);
       }
     },
@@ -51,7 +53,7 @@ export default function TextArea({
           id="text-area"
           placeholder={placeholderText}
           className="w-full h-120pxr py-8pxr px-10pxr bg-gray_150 rounded-md text-sub focus:outline-primary"
-          value={text}
+          value={data}
           onChange={handleTextChange}
         />
       </label>
