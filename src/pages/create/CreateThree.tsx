@@ -1,4 +1,4 @@
-import { Header, FooterButton, Footer } from '@/components';
+import { Header, FooterButton, Footer, TwoButtonModal } from '@/components';
 import { FileInput, TextArea } from './components';
 import { useAtom } from 'jotai';
 import { ChangeEventHandler, useState } from 'react';
@@ -15,6 +15,8 @@ export function CreateThree() {
   const [preview, setPreview] = useState('');
   const [currImage, setCurrImage] = useState<File>();
   const [sizeAlert, setSizeAlert] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isAlert, setIsAlert] = useState(false);
 
   // async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
   // async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
@@ -63,11 +65,22 @@ export function CreateThree() {
   };
   const path: string = goToTwo();
 
+  const handleHeaderClick = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+  const handleConfirm = () => {
+    navigate('../two');
+  };
+
   return (
     <div className="flex flex-col h-full">
-      <Header option="titleWithClose" title="레시피 스탭 추가하기" />
+      <Header option="titlewithCloseAndFn" title="레시피 스탭 추가하기" handleClick={handleHeaderClick} />
       <div className="flex flex-col px-16pxr py-14pxr grow w-full gap-42pxr pb-120pxr">
-        <FileInput inputTitle="단계 이미지" handleInput={handleFileInput} preview={preview} />
+        <FileInput inputTitle="단계 이미지" handleInput={handleFileInput} preview={preview} required />
         <TextArea
           required
           inputTitle="설명"
@@ -85,8 +98,11 @@ export function CreateThree() {
       <Footer>
         <FooterButton
           buttonCase="medium"
-          text={['이전', '완료']}
-          route={[() => '/create', () => '../two']}
+          text={['취소', '완료']}
+          route={[() => '../two', () => '../two']}
+          onClickOne={() => {
+            setIsOpen(true);
+          }}
           onClickTwo={async () => {
             const id = getRandomId();
 
@@ -100,7 +116,7 @@ export function CreateThree() {
               setSteps(JSON.stringify([...JSON.parse(steps), Object.fromEntries(stepsData)]));
               navigate(path);
             } else {
-              alert('이미지를 추가 해주세요!');
+              setIsAlert(true);
             }
           }}
         />
@@ -112,6 +128,22 @@ export function CreateThree() {
         }}
         titleText="파일 크기 초과!"
         firstLineText="5MB 이하 파일을 선택해주세요"
+      />
+      <OneButtonModal
+        isOpen={isAlert}
+        confirmModal={() => {
+          setIsAlert(false);
+        }}
+        titleText="양식을 지켜주세요!"
+        firstLineText="단계에 들어갈 사진을 꼭 넣어주세요!"
+      />
+      <TwoButtonModal
+        isOpen={isOpen}
+        headline="정말 나가시겠습니까?"
+        where="이전 페이지"
+        closeModal={handleClose}
+        confirmModal={handleConfirm}
+        isAnimated={false}
       />
     </div>
   );

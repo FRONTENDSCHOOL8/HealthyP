@@ -92,7 +92,7 @@ export function CreateOne() {
         <Ingredients titleText="양념" atom={seasoning} namePlaceholder="간장" amountPlaceholder="2스푼" />
       </Form>
       <Footer>
-        <FooterButton buttonCase="large" text={['다음']} route={[() => 'two']} />
+        <FooterButton buttonCase="large" text={['다음']} route={[() => 'two']} isAnimated={false} />
       </Footer>
       <OneButtonModal
         isOpen={sizeAlert}
