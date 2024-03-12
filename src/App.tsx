@@ -36,7 +36,8 @@ import {
   ReviewPage,
   CreateReview,
   SearchLayout,
-  CategoryPage
+  Notifications,
+  CategoryPage,
 } from './pages/';
 import { isStore } from './stores/stores';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'category/:title',
-        element: <CategoryPage />
+        element: <CategoryPage />,
       },
       {
         path: 'search',
@@ -196,6 +197,11 @@ const router = createBrowserRouter([
   {
     path: '/fullPage',
     element: <FullPageInfoLayout />,
+  },
+  // 알림
+  {
+    path: '/notifications',
+    element: <Notifications />,
   },
 ]);
 
