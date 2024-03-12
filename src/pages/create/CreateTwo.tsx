@@ -7,7 +7,8 @@ import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import useUploadRecipe from '@/hooks/useUploadRecipe';
 import { recipeSteps, step_images } from '@/stores/stores';
 import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import LoadingAnimation from '@/components/loading/LoadingAnimation';
 
 function TipContainer() {
   return (
@@ -85,13 +86,12 @@ function StepContainer() {
       if (dragDistance > DELETE_BTN_WIDTH) {
         const stepData = JSON.parse(steps).filter((item: stepType) => item.id !== stepId);
         const filteredImages = stepImages.filter((item, idx) => idx !== itemIndex);
-        setStepImages([...filteredImages])
+        setStepImages([...filteredImages]);
         setSteps(JSON.stringify(stepData));
       }
     },
     [setSteps, setStepImages, stepImages, steps]
   );
-
 
   return (
     <div className="w-full grow bg-gray_150 relative pt-14pxr px-14pxr flex flex-col gap-8pxr pb-120pxr">
@@ -145,7 +145,7 @@ function StepContainer() {
 export function CreateTwo() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-  const { uploadRecipe } = useUploadRecipe();
+  const { uploadRecipe, isLoading } = useUploadRecipe();
   const navigate = useNavigate();
 
   const goToComplete = () => {
@@ -169,44 +169,52 @@ export function CreateTwo() {
   };
 
   const handleSubmitConfirm = () => {
+    setIsSubmit(false);
     uploadRecipe();
+
     navigate(path);
   };
 
   return (
-    <div className="h-full w-full flex flex-col">
-      <div className="">
-        <Header option="titlewithCloseAndFn" title="레시피 등록하기" handleClick={handleHeaderClick} />
-        <TipContainer />
-      </div>
-      <StepContainer />
-      <Footer>
-        <FooterButton
-          buttonCase="medium"
-          text={['이전', '완료']}
-          route={[() => '/create', () => '../complete']}
-          onClickTwo={() => {
-            setIsSubmit(true);
-          }}
-        />
-      </Footer>
-      <TwoButtonModal
-        isOpen={isOpen}
-        headline="정말 나가시겠습니까?"
-        closeModal={handleClose}
-        confirmModal={handleConfirm}
-        isAnimated={false}
-        where="메인페이지"
-      />
-      <TwoButtonModal
-        isOpen={isSubmit}
-        headline="레시피 작성을 마치겠습니까?"
-        closeModal={handleSubmitClose}
-        confirmModal={handleSubmitConfirm}
-        isAnimated={false}
-        where="완료페이지"
-        textFirstLine="확인을 누르시면"
-      />
-    </div>
+    <>
+      {isLoading ? (
+        <LoadingAnimation />
+      ) : (
+        <div className="h-full w-full flex flex-col">
+          <div>
+            <Header option="titlewithCloseAndFn" title="레시피 등록하기" handleClick={handleHeaderClick} />
+            <TipContainer />
+          </div>
+          <StepContainer />
+          <Footer>
+            <FooterButton
+              buttonCase="medium"
+              text={['이전', '완료']}
+              route={[() => '/create', () => '../complete']}
+              onClickTwo={() => {
+                setIsSubmit(true);
+              }}
+            />
+          </Footer>
+          <TwoButtonModal
+            isOpen={isOpen}
+            headline="정말 나가시겠습니까?"
+            closeModal={handleClose}
+            confirmModal={handleConfirm}
+            isAnimated={false}
+            where="메인페이지"
+          />
+          <TwoButtonModal
+            isOpen={isSubmit}
+            headline="레시피 작성을 마치겠습니까?"
+            closeModal={handleSubmitClose}
+            confirmModal={handleSubmitConfirm}
+            isAnimated={false}
+            where="완료페이지"
+            textFirstLine="확인을 누르시면"
+          />
+        </div>
+      )}
+    </>
   );
 }

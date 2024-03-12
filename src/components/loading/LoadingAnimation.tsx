@@ -1,7 +1,8 @@
 import Lottie from 'react-lottie';
 import animationData from './json/loading.json'; // 애니메이션 파일 경로
+import { memo } from 'react';
 
-const LoadingAnimation = () => {
+const LoadingAnimation = memo(() => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -17,6 +18,8 @@ const LoadingAnimation = () => {
       <span className="animate-bounce animate-infinite animate-ease-in-out text-title-1-em">레시피 작성중...</span>
     </div>
   );
-};
+});
+
+LoadingAnimation.displayName = 'LoadingAnimation';
 
 export default LoadingAnimation;
