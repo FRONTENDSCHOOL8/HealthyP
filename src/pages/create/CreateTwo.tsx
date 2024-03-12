@@ -59,18 +59,20 @@ interface stepType {
 
 function StepContainer() {
   const [steps, setSteps] = useAtom(recipeSteps);
-  const stepImages = useAtomValue(step_images);
+  const [stepImages, setStepImages] = useAtom(step_images);
 
   const images = [...stepImages];
   const imageUrls = images.map((item) => {
     return URL.createObjectURL(item);
   });
 
-  function handleDragEnd(info: PanInfo, stepId: string) {
+  function handleDragEnd(info: PanInfo, stepId: string, itemIndex: number) {
     const dragDistance = info.point.x;
 
     if (dragDistance < -DELETE_BTN_WIDTH) {
       const stepData = JSON.parse(steps).filter((item: stepType) => item.id !== stepId);
+      const filteredImages = stepImages.filter((item, idx) => idx !== itemIndex);
+      setStepImages([...filteredImages])
       setSteps(JSON.stringify(stepData));
     }
   }
@@ -91,7 +93,7 @@ function StepContainer() {
                 <motion.div
                   drag="x"
                   dragConstraints={{ left: 0, right: 0 }}
-                  onDragEnd={(_, info) => handleDragEnd(info, item.id)}
+                  onDragEnd={(_, info) => handleDragEnd(info, item.id, index)}
                   key={item.id}
                   className="flex items-center h-full gap-10pxr px-10pxr py-8pxr z-10 relative bg-white rounded-xl"
                 >
