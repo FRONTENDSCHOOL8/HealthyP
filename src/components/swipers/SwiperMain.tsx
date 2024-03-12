@@ -1,10 +1,10 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Keyboard, Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { useState } from 'react';
-import foodBanner from '@/assets/images/foodBanner.jpg';
-import foodBanner2 from '@/assets/images/foodBanner2.jpg';
-import foodBanner3 from '@/assets/images/foodBanner3.jpg'
-import foodBanner4 from '@/assets/images/foodBanner4.jpg';
+import foodBanner from '@/assets/images/foodBanner.webp';
+import foodBanner2 from '@/assets/images/foodBanner2.webp';
+import foodBanner3 from '@/assets/images/foodBanner3.webp'
+import foodBanner4 from '@/assets/images/foodBanner4.webp';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
