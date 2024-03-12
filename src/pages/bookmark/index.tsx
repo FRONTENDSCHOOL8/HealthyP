@@ -6,15 +6,27 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 import { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
+import { getCurrentUserData } from '@/util';
 
 // 일단 sdkㅇ서 가져오는 데이터
 const wait = (timeToDelay: number) => new Promise((resolve) => setTimeout(resolve, timeToDelay)); //이와 같이 선언 후
 
+
 export function BookmarkPage() {
   const { ref, inView } = useInView({ threshold: 0.7 });
   const [userData, setUserData] = useState<RecordModel>();
+
   const getRecipeData = async ({ pageParam = 1 }) => {
-    const recordsData = await db.collection('recipes').getList(pageParam, 6, { expand: 'rating, profile' });
+    const currentUser = getCurrentUserData();
+    const userBookmarks = currentUser?.bookmark;
+    const conditions = userBookmarks.map((id : string) => {
+      return `id = "${id}"`;
+    })
+    
+    const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
+      expand: 'rating, profile',
+      filter: conditions.join(' || ')
+    });
     await wait(1000);
     return recordsData.items;
   };
