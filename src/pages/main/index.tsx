@@ -1,34 +1,53 @@
 import getPbImage from '@/util/data/getPBImage';
-
 import { db } from '@/api/pocketbase';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ListResult, RecordModel } from 'pocketbase';
 import { SwiperMain, RecipeCard } from '@/components';
-
+import healthyFood from '@/assets/icons/healthy_food.png'
+import bulk from '@/assets/icons/bulk.png'
+import diet from '@/assets/icons/diet.png'
+import vegan from '@/assets/icons/vegan.png'
 import foodDefaultImg from '@/assets/images/flower3.jpg';
 
-function FakeButtons() {
+
+const categories = [
+  {
+    label: '건강식',
+    image: healthyFood
+  },
+  {
+    label: '다이어트',
+    image: diet
+  },
+  {
+    label: '벌크업',
+    image: bulk
+  },
+  {
+    label: '비건',
+    image: vegan
+  }
+]
+
+
+function CategoryButtons() {
   return (
-    <ul className="flex w-full justify-center py-30pxr gap-32pxr">
-      <li className="flex flex-col items-center">
-        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
-        <p>건강식</p>
-      </li>
-      <li className="flex flex-col items-center">
-        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
-        <p>다이어트</p>
-      </li>
-      <li className="flex flex-col items-center">
-        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
-        <p>벌크업</p>
-      </li>
-      <li className="flex flex-col items-center">
-        <Link to="../search" className="h-50pxr w-50pxr bg-gray-400"></Link>
-        <p>비건</p>
-      </li>
-    </ul>
-  );
+    <div className='w-full flex px-40pxr py-30pxr justify-between'>
+      {
+        categories.map(item => {
+          return (
+            <Link key={item.label} to={`/category/${item.label}`} className='h-74pxr w-60pxr flex flex-col items-center gap-4pxr'>
+              <div className='size-50pxr flex justify-center items-center rounded-full border hover:bg-gray-200'>
+                <img src={item.image} alt={item.label} className='size-32pxr'/>
+              </div>
+              <h2 className='text-sub'>{item.label}</h2>
+            </Link>
+          )
+        })
+      }
+    </div>
+  )
 }
 
 export function MainPage() {
@@ -36,7 +55,7 @@ export function MainPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const getRecipeData = async () => await db.collection('recipes').getList(1, 10, { expand: 'rating' });
+      const getRecipeData = async () => await db.collection('recipes').getList(1, 10, { expand: 'rating', sort: '-views' });
 
       // getRecipeData 함수의 결과를 기다립니다.
       const recipeData: ListResult<RecordModel> = await getRecipeData();
@@ -56,9 +75,9 @@ export function MainPage() {
   return (
     <div className="overflow-y-scroll overflow-x-hidden h-full w-full pb-90pxr no-scrollbar">
       <SwiperMain />
-      <FakeButtons />
+      <CategoryButtons />
       <section>
-        <Link to={'bookmark'} className="flex pl-14pxr pr-10pxr py-10pxr text-title-2-em justify-between">
+        <Link to={'/category/오늘의 레시피'} className="flex pl-14pxr pr-10pxr py-10pxr text-title-2-em justify-between">
           <h2>오늘의 레시피</h2>
           <span className="size-30pxr bg-arrow-small-icon rotate-[270deg] bg-center"></span>
         </Link>
