@@ -1,10 +1,11 @@
 import { db } from '@/api/pocketbase';
-import { countNotificationAtom, userRecordId } from '@/stores/stores';
+import { countNotificationAtom, reviewDataAtom, userRecordId } from '@/stores/stores';
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 
 const useCheckNotification = () => {
   const [id] = useAtom(userRecordId);
+  const [review] = useAtom(reviewDataAtom);
   const [countNotification, setCountNotification] = useAtom(countNotificationAtom);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const useCheckNotification = () => {
 
       fetchData();
     }
-  }, [id, setCountNotification]);
+  }, [id, setCountNotification, review]);
 
   const countInt = parseInt(countNotification, 10);
 

@@ -80,7 +80,7 @@ export function CreateReview() {
             </button>
             <button
               type="button"
-              aria-label="이전"
+              aria-label="완료"
               className="w-2/3 bg-primary py-12pxr text-white rounded-[7px] cursor"
               onClick={UploadReview}
             >

@@ -225,7 +225,9 @@ const NotificationContainer = () => {
                                 />
                                 <h2 className="text-foot-em">{item.review_creator_name}</h2>
                                 <div className="w-3pxr h-3pxr rounded-full bg-gray_200"></div>
-                                <span className="text-foot text-gray_500">{item.review_created_before} 전</span>
+                                <span className="text-foot text-gray_500">
+                                  {item.review_created_before ? `${item.review_created_before} 전` : 'now'}
+                                </span>
                               </div>
                               <div className="flex flex-col gap-4pxr">
                                 <h3 className="text-foot-em">{item.recipe_title}</h3>
