@@ -7,8 +7,10 @@ import { RecordModel } from 'pocketbase';
 import { useEffect } from 'react';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
+import { useNavigate } from 'react-router-dom';
+import useNotificationData from '@/hooks/useNotificationData';
 
-export function MyRecipes() {
+const MyRecipesContainer = () => {
   const [id] = useAtom(userRecordId);
   const [myRecipes, setMyRecipes] = useAtom(myRecipesAtom);
 
@@ -18,6 +20,7 @@ export function MyRecipes() {
         const getRecipeData = async () =>
           await db.collection('recipes').getList(1, 10, {
             filter: `profile = "${id}"`,
+            sort: '-created',
           });
 
         const recipeData = await getRecipeData();
@@ -27,13 +30,10 @@ export function MyRecipes() {
 
       fetchData();
     }
-  }, [id]);
+  }, [id, setMyRecipes]);
 
   return (
     <>
-      <Header option="onlyAlarm" />
-      <Profile />
-      <Tab />
       {myRecipes ? (
         <div className="pb-140pxr">
           <div className="grid gap-6pxr grid-cols-card justify-center w-full bg-gray-200">
@@ -62,6 +62,24 @@ export function MyRecipes() {
       ) : (
         <div>Loading...</div>
       )}
+    </>
+  );
+};
+
+export function MyRecipes() {
+  const navigate = useNavigate();
+  const { hasNotification } = useNotificationData();
+
+  const openNotification = () => {
+    navigate('/notifications');
+  };
+
+  return (
+    <>
+      <Header option="onlyAlarm" handleClick={openNotification} hasNotification={hasNotification} />
+      <Profile />
+      <Tab />
+      <MyRecipesContainer />
     </>
   );
 }

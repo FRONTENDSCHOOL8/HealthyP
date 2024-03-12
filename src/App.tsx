@@ -36,6 +36,7 @@ import {
   ReviewPage,
   CreateReview,
   SearchLayout,
+  Notifications,
   CategoryPage,
 } from './pages/';
 import { isStore } from './stores/stores';
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'category/:title',
-        element: <CategoryPage />
+        element: <CategoryPage />,
       },
       {
         path: 'search',
@@ -196,6 +197,11 @@ const router = createBrowserRouter([
   {
     path: '/fullPage',
     element: <FullPageInfoLayout />,
+  },
+  // 알림
+  {
+    path: '/notifications',
+    element: <Notifications />,
   },
 ]);
 

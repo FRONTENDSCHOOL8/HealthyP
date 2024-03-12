@@ -1,27 +1,17 @@
 import { db } from '@/api/pocketbase';
 import { Header, Review, Star } from '@/components';
-import { defaultRecipesAtom, ratingDataAtom, recentRecipesAtom } from '@/stores/stores';
+import useNotificationData from '@/hooks/useNotificationData';
+import { defaultRecipesAtom, deleteRecentRecipeAtom, ratingDataAtom, recentRecipesAtom } from '@/stores/stores';
+import { RatingsResponse } from '@/types';
 import getPbImage from '@/util/data/getPBImage';
+import DOMPurify from 'dompurify';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
 import { useAtom } from 'jotai';
 import { RecordModel } from 'pocketbase';
-import { MouseEventHandler, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
-import { RatingsResponse } from '@/types';
-import DOMPurify from 'dompurify';
-
-// Animation Properties
-const DELETE_BTN_WIDTH = 60;
-const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 };
-const MESSAGE_DELETE_TRANSITION = {
-  opacity: {
-    transition: {
-      duration: 0,
-    },
-  },
-};
 
 interface Recipe {
   id: string;
@@ -31,6 +21,7 @@ const RecipeContainer = () => {
   const [recipes, setRecipes] = useAtom(defaultRecipesAtom);
   const [recentRecipes, setRecentRecipes] = useAtom(recentRecipesAtom);
   const [ratingData, setRatingData] = useAtom(ratingDataAtom);
+  const [deleteRecentRecipeId, setDeleteRecentRecipeId] = useAtom(deleteRecentRecipeAtom);
 
   useEffect(() => {
     const recentViewRaw = sessionStorage.getItem('recentRecipe');
@@ -97,55 +88,55 @@ const RecipeContainer = () => {
     fetchData();
   }, [recentRecipes, setRatingData]);
 
-  const handleDragEnd = async (info: PanInfo, recipeId: string | RecordModel) => {
-    const dragDistance = info.point.x;
+  // Animation Properties
+  const DELETE_BTN_WIDTH = 60;
+  const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 };
+  const MESSAGE_DELETE_TRANSITION = {
+    opacity: {
+      transition: {
+        duration: 0,
+      },
+    },
+  };
 
-    if (dragDistance < -DELETE_BTN_WIDTH) {
-      if (recentRecipes) {
+  const dragState = useRef({
+    start: 0,
+    end: 0,
+  });
+
+  const handleDragStart = (info: PanInfo) => {
+    dragState.current.start = info.point.x;
+  };
+
+  const handleDragEnd = useCallback(
+    (info: PanInfo, recipeId: string) => {
+      dragState.current.end = info.point.x;
+      // direction 반대 차단
+      if (dragState.current.end > dragState.current.start) return;
+      const dragDistance = dragState.current.start - dragState.current.end;
+      if (dragDistance > DELETE_BTN_WIDTH) {
+        setDeleteRecentRecipeId(recipeId);
+      }
+    },
+    [setDeleteRecentRecipeId]
+  );
+
+  useEffect(() => {
+    const deleteRecentRecipe = async () => {
+      if (deleteRecentRecipeId) {
         // 현재 상태에서 해당 id의 recipe를 제거
-        const newRecipes = recentRecipes.filter((id) => id !== recipeId);
+        const newRecipes = recentRecipes.filter((item) => item.id !== deleteRecentRecipeId);
         setRecentRecipes(newRecipes);
 
         // sessionStorage 업데이트
-        const updatedRecentView = recentRecipes.filter((item: RecordModel) => item.id !== recipeId);
+        const updatedRecentView = recentRecipes.filter((item: RecordModel) => item.id !== deleteRecentRecipeId);
         sessionStorage.setItem('recentRecipe', JSON.stringify(updatedRecentView));
         setRecentRecipes(updatedRecentView);
       }
-    }
-  };
+    };
 
-  const handleClick = (title: string, id: string): MouseEventHandler<HTMLAnchorElement> | undefined => {
-    const newRecipe = { title, id };
-
-    // sessionStorage에서 recentRecipe 목록을 가져옴
-    const recentRecipesRaw = sessionStorage.getItem('recentRecipe');
-    const recentRecipes = recentRecipesRaw ? JSON.parse(recentRecipesRaw) : [];
-
-    // recentRecipes가 배열이 아닌 경우를 처리(예상치 못한 값이 있는 경우)
-    if (!Array.isArray(recentRecipes)) {
-      sessionStorage.setItem('recentRecipe', JSON.stringify([newRecipe]));
-      return;
-    }
-
-    // 이미 리스트에 같은 레시피가 있는지 확인
-    const existingIndex = recentRecipes.findIndex((r) => r.id === newRecipe.id);
-
-    // 레시피가 이미 존재한다면 기존의 것을 제거
-    if (existingIndex !== -1) {
-      recentRecipes.splice(existingIndex, 1);
-    }
-
-    // 새로운 레시피를 추가
-    recentRecipes.push(newRecipe);
-
-    // 레시피 목록이 5개를 넘으면, 가장 오래된 레시피를 제거
-    while (recentRecipes.length > 5) {
-      recentRecipes.shift();
-    }
-
-    // 업데이트된 레시피 목록을 sessionStorage에 저장
-    sessionStorage.setItem('recentRecipe', JSON.stringify(recentRecipes));
-  };
+    deleteRecentRecipe();
+  }, [deleteRecentRecipeId, setRecentRecipes]);
 
   return (
     <>
@@ -167,15 +158,12 @@ const RecipeContainer = () => {
                         <motion.div
                           drag="x"
                           dragConstraints={{ left: 0, right: 0 }}
+                          onDragStart={(_, info) => handleDragStart(info)}
                           onDragEnd={(_, info) => handleDragEnd(info, item.id)}
                           key={item.id}
                           className="flex flex-row items-center h-full gap-10pxr pt-14pxr pb-6pxr z-10 relative bg-white"
                         >
-                          <Link
-                            to={`/detail/${item.id}`}
-                            onClick={handleClick(item.title, item.id)}
-                            className="basis-1/3"
-                          >
+                          <Link to={`/detail/${item.id}`} className="basis-1/3">
                             <div className="aspect-square rounded-[12px]">
                               <img
                                 src={getPbImage('recipes', item.id, item.image)}
@@ -185,11 +173,7 @@ const RecipeContainer = () => {
                             </div>
                           </Link>
                           <div className="basis-2/3 flex flex-col gap-12pxr h-full w-full justify-between min-h-100pxr">
-                            <Link
-                              to={`/detail/${item.id}`}
-                              onClick={handleClick(item.title, item.id)}
-                              className="flex flex-col gap-4pxr"
-                            >
+                            <Link to={`/detail/${item.id}`} className="flex flex-col gap-4pxr">
                               <h2 className="text-sub-em line-clamp-1">{item.title}</h2>
                               <p className="text-cap-1 line-clamp-2">{item.desc}</p>
                             </Link>
@@ -230,9 +214,16 @@ const RecipeContainer = () => {
 };
 
 export function RecentRecipes() {
+  const navigate = useNavigate();
+  const { hasNotification } = useNotificationData();
+
+  const openNotification = () => {
+    navigate('/notifications');
+  };
+
   return (
     <>
-      <Header option="onlyAlarm" />
+      <Header option="onlyAlarm" handleClick={openNotification} hasNotification={hasNotification} />
       <Profile />
       <Tab />
       <RecipeContainer />
