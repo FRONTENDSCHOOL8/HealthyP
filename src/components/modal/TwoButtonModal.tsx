@@ -11,6 +11,7 @@ interface TwoButtonModalProps {
   isActive?: boolean;
   isAnimated?: boolean;
   where?: string;
+  textFirstLine?: string;
 }
 
 const buttonBasic = 'px-38pxr py-12pxr rounded-[7px]';
@@ -45,6 +46,7 @@ function TwoButtonModalComponent({
   isActive = true,
   isAnimated = true,
   where = '이전페이지',
+  textFirstLine = '확인을 누르시면 저장되지 않고',
 }: TwoButtonModalProps) {
   return (
     <AnimatePresence>
@@ -67,7 +69,7 @@ function TwoButtonModalComponent({
                     </>
                   ) : (
                     <>
-                      <span>확인을 누르시면 저장되지 않고</span>
+                      <span>{textFirstLine}</span>
                       <span>{where}로 이동합니다.</span>
                     </>
                   )}

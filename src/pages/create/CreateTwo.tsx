@@ -140,6 +140,7 @@ function StepContainer() {
 
 export function CreateTwo() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const { uploadRecipe } = useUploadRecipe();
   const navigate = useNavigate();
 
@@ -159,6 +160,15 @@ export function CreateTwo() {
     navigate('/');
   };
 
+  const handleSubmitClose = () => {
+    setIsSubmit(false);
+  };
+
+  const handleSubmitConfirm = () => {
+    uploadRecipe();
+    navigate(path);
+  };
+
   return (
     <div className="h-full w-full flex flex-col">
       <div className="">
@@ -172,8 +182,7 @@ export function CreateTwo() {
           text={['이전', '완료']}
           route={[() => '/create', () => '../complete']}
           onClickTwo={() => {
-            uploadRecipe();
-            navigate(path);
+            setIsSubmit(true);
           }}
         />
       </Footer>
@@ -184,6 +193,15 @@ export function CreateTwo() {
         confirmModal={handleConfirm}
         isAnimated={false}
         where="메인페이지"
+      />
+      <TwoButtonModal
+        isOpen={isSubmit}
+        headline="레시피 작성을 마치겠습니까?"
+        closeModal={handleSubmitClose}
+        confirmModal={handleSubmitConfirm}
+        isAnimated={false}
+        where="완료페이지"
+        textFirstLine="확인을 누르시면"
       />
     </div>
   );
