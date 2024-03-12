@@ -1,33 +1,26 @@
 import { db } from '@/api/pocketbase';
-import { LargeCard } from '@/components';
+import { Header, LargeCard } from '@/components';
 
 import getPbImage from '@/util/data/getPBImage';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 import { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
-import { getCurrentUserData } from '@/util';
-
-// 일단 sdkㅇ서 가져오는 데이터
-const wait = (timeToDelay: number) => new Promise((resolve) => setTimeout(resolve, timeToDelay)); //이와 같이 선언 후
+import { useParams } from 'react-router-dom';
 
 
-export function BookmarkPage() {
+
+
+export function CategoryPage() {
+  const {title} = useParams();
   const { ref, inView } = useInView({ threshold: 0.7 });
   const [userData, setUserData] = useState<RecordModel>();
 
   const getRecipeData = async ({ pageParam = 1 }) => {
-    const currentUser = getCurrentUserData();
-    const userBookmarks = currentUser?.bookmark;
-    const conditions = userBookmarks.map((id : string) => {
-      return `id = "${id}"`;
-    })
-    
     const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
       expand: 'rating, profile',
-      filter: conditions.join(' || ')
+      filter: `category = "${title}"`
     });
-    // await wait(1000);
     return recordsData.items;
   };
 
@@ -71,6 +64,7 @@ export function BookmarkPage() {
     };
   }, []);
 
+
   const contents = data?.pages.map((recipes) =>
     recipes.map((recipe, index) => {
       const url = getPbImage('recipes', recipe.id, recipe.image);
@@ -110,6 +104,7 @@ export function BookmarkPage() {
 
   return (
     <div className="w-full h-full bg-gray-200 overflow-auto">
+      <Header option="titleWithBack" title={title}/>
       <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">{contents}</div>
       {isFetchingNextPage && <p>Loading...</p>}
     </div>
