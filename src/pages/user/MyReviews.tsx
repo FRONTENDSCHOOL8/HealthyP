@@ -1,6 +1,8 @@
 import { db } from '@/api/pocketbase';
 import { Header } from '@/components';
-import { deleteReviewAtom, reviewDataAtom, userRecordId } from '@/stores/stores';
+import useNotificationData from '@/hooks/useNotificationData';
+import useProfileData from '@/hooks/useProfileData';
+import { deleteReviewAtom, reviewDataAtom } from '@/stores/stores';
 import { MyReview } from '@/types';
 import DOMPurify from 'dompurify';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
@@ -9,10 +11,9 @@ import { useCallback, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
-import useNotificationData from '@/hooks/useNotificationData';
 
 const MyReviewsContainer = () => {
-  const [id] = useAtom(userRecordId);
+  const { id } = useProfileData();
   const [review, setReview] = useAtom(reviewDataAtom);
   const [deleteReviewId, setDeleteReviewId] = useAtom(deleteReviewAtom);
 
@@ -85,7 +86,10 @@ const MyReviewsContainer = () => {
   useEffect(() => {
     const deleteReview = async () => {
       if (deleteReviewId) {
+        const getNotification = await db.collection('notifications').getFirstListItem(`review="${deleteReviewId}"`);
+
         await db.collection('ratings').delete(deleteReviewId);
+        await db.collection('notifications').delete(getNotification.id);
       }
       const updatedReviews = review.filter((item) => item.review_id !== deleteReviewId);
       setReview(updatedReviews);

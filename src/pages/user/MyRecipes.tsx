@@ -1,17 +1,18 @@
 import { db } from '@/api/pocketbase';
 import { Header, LargeCard } from '@/components';
-import { myRecipesAtom, userRecordId } from '@/stores/stores';
+import useNotificationData from '@/hooks/useNotificationData';
+import useProfileData from '@/hooks/useProfileData';
+import { myRecipesAtom } from '@/stores/stores';
 import getPbImage from '@/util/data/getPBImage';
 import { useAtom } from 'jotai';
 import { RecordModel } from 'pocketbase';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
-import { useNavigate } from 'react-router-dom';
-import useNotificationData from '@/hooks/useNotificationData';
 
 const MyRecipesContainer = () => {
-  const [id] = useAtom(userRecordId);
+  const { id } = useProfileData();
   const [myRecipes, setMyRecipes] = useAtom(myRecipesAtom);
 
   useEffect(() => {
