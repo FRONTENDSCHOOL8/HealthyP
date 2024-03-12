@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { Header, FooterButton, Footer } from '@/components';
 import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
@@ -64,7 +64,7 @@ function StepContainer() {
     end: 0,
   });
   const [steps, setSteps] = useAtom(recipeSteps);
-  const stepImages = useAtomValue(step_images);
+  const [stepImages, setStepImages] = useAtom(step_images);
 
   const images = [...stepImages];
   const imageUrls = images.map((item) => {
@@ -74,8 +74,9 @@ function StepContainer() {
   const handleDragStart = (info: PanInfo) => {
     dragState.current.start = info.point.x;
   };
+
   const handleDragEnd = useCallback(
-    (info: PanInfo, stepId: string) => {
+    (info: PanInfo, stepId: string, itemIndex: number) => {
       dragState.current.end = info.point.x;
       // direction 반대 차단
       if (dragState.current.end > dragState.current.start) return;
@@ -83,11 +84,14 @@ function StepContainer() {
       console.log(dragDistance);
       if (dragDistance > DELETE_BTN_WIDTH) {
         const stepData = JSON.parse(steps).filter((item: stepType) => item.id !== stepId);
+        const filteredImages = stepImages.filter((item, idx) => idx !== itemIndex);
+        setStepImages([...filteredImages])
         setSteps(JSON.stringify(stepData));
       }
     },
-    [setSteps, steps]
+    [setSteps, setStepImages, stepImages, steps]
   );
+
 
   return (
     <div className="w-full grow bg-gray_150 relative pt-14pxr px-14pxr flex flex-col gap-8pxr pb-120pxr">
@@ -106,7 +110,7 @@ function StepContainer() {
                   drag="x"
                   dragConstraints={{ left: 0, right: 0 }}
                   onDragStart={(_, info) => handleDragStart(info)}
-                  onDragEnd={(_, info) => handleDragEnd(info, item.id)}
+                  onDragEnd={(_, info) => handleDragEnd(info, item.id, index)}
                   key={item.id}
                   className="flex items-center h-full gap-10pxr px-10pxr py-8pxr z-10 relative bg-white rounded-xl"
                 >
