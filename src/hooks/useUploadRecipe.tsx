@@ -108,30 +108,35 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
   async function uploadRecipe() {
     try {
       setIsLoading(true);
-      const data: RecipeData = {
-        title: titleField,
-        ingredients: ingredientData,
-        seasoning: seasoningData,
-        steps: steps,
-        views: 0,
-        category: categoryData,
-        keywords: keywordsData,
-        desc: descriptionText,
-        image: imageFile,
-        nutrition: nutritionData,
-        rating: [],
-        time: timeData,
-        difficulty: difficultyData,
-        profile: userId,
-      };
-      const record = await db.collection('recipes').create(data);
 
-      uploadStepImages(record.id);
+      await Promise.all([
+        new Promise((resolve) => setTimeout(resolve, 3000)),
+        (async () => {
+          const data: RecipeData = {
+            title: titleField,
+            ingredients: ingredientData,
+            seasoning: seasoningData,
+            steps: steps,
+            views: 0,
+            category: categoryData,
+            keywords: keywordsData,
+            desc: descriptionText,
+            image: imageFile,
+            nutrition: nutritionData,
+            rating: [],
+            time: timeData,
+            difficulty: difficultyData,
+            profile: userId,
+          };
+          const record = await db.collection('recipes').create(data);
+          uploadStepImages(record.id);
+          return record;
+        })(),
+      ]);
 
       setIsLoading(false);
-      setError(null);
 
-      return record;
+      setError(null);
     } catch (error) {
       setIsLoading(false);
 
