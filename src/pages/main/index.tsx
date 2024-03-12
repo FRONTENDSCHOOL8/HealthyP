@@ -1,5 +1,4 @@
 import getPbImage from '@/util/data/getPBImage';
-
 import { db } from '@/api/pocketbase';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -39,7 +38,7 @@ function CategoryButtons() {
         categories.map(item => {
           return (
             <Link key={item.label} to={`/category/${item.label}`} className='h-74pxr w-60pxr flex flex-col items-center gap-4pxr'>
-              <div className='size-50pxr flex justify-center items-center rounded-full border'>
+              <div className='size-50pxr flex justify-center items-center rounded-full border hover:bg-gray-200'>
                 <img src={item.image} alt={item.label} className='size-32pxr'/>
               </div>
               <h2 className='text-sub'>{item.label}</h2>
