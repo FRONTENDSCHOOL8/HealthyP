@@ -8,9 +8,6 @@ import { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
 import { getCurrentUserData } from '@/util';
 
-// 일단 sdkㅇ서 가져오는 데이터
-const wait = (timeToDelay: number) => new Promise((resolve) => setTimeout(resolve, timeToDelay)); //이와 같이 선언 후
-
 
 export function BookmarkPage() {
   const { ref, inView } = useInView({ threshold: 0.7 });
@@ -27,7 +24,6 @@ export function BookmarkPage() {
       expand: 'rating, profile',
       filter: conditions.join(' || ')
     });
-    await wait(1000);
     return recordsData.items;
   };
 

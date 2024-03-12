@@ -27,7 +27,8 @@ export function CategoryPage() {
     } else {
       const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
         expand: 'rating, profile',
-        filter: `category = "${title}"`
+        filter: `category = "${title}"`,
+        sort: '-created'
       });
 
       return recordsData.items

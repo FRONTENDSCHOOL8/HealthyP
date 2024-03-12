@@ -10,7 +10,7 @@ export function CreateReview() {
 
   return (
     <AnimatePresence>
-      <div className="fixed bottom-0 w-full h-full bg-gray_500/70">
+      <div className="fixed bottom-0 w-full h-full bg-gray_500/70 pb-120pxr">
         <button
           type="button"
           onClick={() => {
@@ -65,7 +65,7 @@ export function CreateReview() {
               placeholderText="맛, 레시피 정보 등 좋았던 점을 10글자 이상 남겨주세요"
             />
           </div>
-          <footer className="absolute left-0 bottom-0 w-full flex justify-center px-14pxr gap-8pxr pt-14pxr pb-46pxr">
+          <footer className="absolute left-0 bottom-0 w-full flex justify-center px-14pxr gap-8pxr pt-14pxr pb-46pxr bg-white">
             <button
               type="button"
               aria-label="이전"
