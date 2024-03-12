@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
 import { getCurrentUserData } from '@/util';
+import { Helmet } from 'react-helmet-async';
 
 
 export function BookmarkPage() {
@@ -106,6 +107,9 @@ export function BookmarkPage() {
 
   return (
     <div className="w-full h-full bg-gray-200 overflow-auto">
+      <Helmet>
+        <title>HealthyP | 북마크</title>
+      </Helmet>
       <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">{contents}</div>
       {isFetchingNextPage && <p>Loading...</p>}
     </div>

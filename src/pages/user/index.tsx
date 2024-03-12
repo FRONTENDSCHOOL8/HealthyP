@@ -1,4 +1,5 @@
 import { Provider } from 'jotai';
+import { Helmet } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 
 export { MyReviews } from './MyReviews';
@@ -10,6 +11,9 @@ export function UserLayout() {
   return (
     <>
       <Provider>
+        <Helmet>
+          <title>HealthyP | 마이페이지</title>
+        </Helmet>
         <Outlet />
       </Provider>
     </>

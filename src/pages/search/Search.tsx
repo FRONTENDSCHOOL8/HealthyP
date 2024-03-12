@@ -5,6 +5,7 @@ import { memo } from 'react';
 import { MostView } from './components/mostView';
 import { RecentSearch } from './components/recentSearch';
 import { SearchQuery } from './components/searchQuery';
+import { Helmet } from 'react-helmet-async';
 
 function SearchPageContent() {
   const [query] = useAtom(searchQuery);
@@ -26,6 +27,9 @@ function SearchPageContent() {
   };
   return (
     <div className="flex flex-col h-svh">
+      <Helmet>
+        <title>HealthyP | 검색</title>
+      </Helmet>
       <Header option="searchWithBack" />
 
       <div className="basis-[1fr] overflow-auto px-14pxr pb-120pxr">{renderInit()}</div>

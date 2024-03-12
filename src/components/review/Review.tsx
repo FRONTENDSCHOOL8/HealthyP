@@ -1,5 +1,6 @@
 import { RatingsResponse } from '@/types';
 import arrow from '@/assets/icons/arrowBig.svg';
+import { Helmet } from 'react-helmet-async';
 
 interface ReviewProps {
   rating: RatingsResponse[];
@@ -16,6 +17,9 @@ function Review({ rating = [], caseType }: ReviewProps) {
   const renderText = renderTextMap[caseType](count);
   return (
     <>
+      <Helmet>
+        <title>HealthyP | 리뷰</title>
+      </Helmet>
       <div className="flex items-center justify-center">
         <p className="text-sub pr-4pxr">{renderText}</p>
         {caseType === 'literal' && (

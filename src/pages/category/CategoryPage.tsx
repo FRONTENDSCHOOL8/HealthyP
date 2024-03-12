@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 
 
@@ -114,6 +115,9 @@ export function CategoryPage() {
 
   return (
     <div className="w-full h-full bg-gray-200 overflow-auto">
+      <Helmet>
+        <title>HealthyP | {title}</title>
+      </Helmet>
       <Header option="titleWithBack" title={title}/>
       <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">{contents}</div>
       {isFetchingNextPage && <p>Loading...</p>}

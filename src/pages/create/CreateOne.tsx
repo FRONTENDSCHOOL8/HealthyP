@@ -2,6 +2,7 @@
 import { useAtom } from 'jotai';
 import { Form, useNavigate } from 'react-router-dom';
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from 'react';
+import {Helmet} from 'react-helmet-async';
 // components
 import { Header, FooterButton, Footer, OneButtonModal, TwoButtonModal } from '@/components';
 import { Ingredients, Time, SelectBox, Title, TextArea, FileInput, KeywordInput } from './components/';
@@ -54,7 +55,9 @@ export function CreateOne() {
 
   return (
     <>
-
+      <Helmet>
+        <title>HealthyP | 레시피 생성</title>
+      </Helmet>
       <Header option="titlewithCloseAndFn" title="레시피 등록하기" handleClick={handleHeaderClick} />
       <Form action="two" className="px-14pxr py-20pxr flex flex-col gap-42pxr pb-120pxr bg-white">
         <FileInput inputTitle={'레시피 이미지'} handleInput={handleFileInput} data={imageFile} preview="" required />

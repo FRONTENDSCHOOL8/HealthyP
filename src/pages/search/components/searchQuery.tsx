@@ -52,7 +52,6 @@ function SearchQueryComponent() {
 
   if (isLoading) return <DefaultLoader />;
   if (isError) return <div>에러 발생!</div>;
-
   return isButtonClick ? (
     <Result />
   ) : (
