@@ -10,6 +10,7 @@ type ButtonProps = {
   isActive?: boolean;
   onClickOne?: (idx: number | React.FormEvent<HTMLFormElement>) => void;
   onClickTwo?: (idx: number | React.FormEvent<HTMLFormElement>) => void;
+  isAnimated?: boolean;
 };
 
 const buttonVariant = {
@@ -28,23 +29,16 @@ const buttonVariant = {
 };
 
 const getClassName = (buttonCase: string, index: number) => {
-  let className =
-    'flex flex-row justify-center items-center flex-nowrap w-full py-12pxr text-body-em';
+  let className = 'flex flex-row justify-center items-center flex-nowrap w-full py-12pxr text-body-em rounded-[7px]';
   switch (buttonCase) {
     case 'large':
       className += '';
       break;
     case 'medium':
-      className +=
-        index === 0
-          ? ' bg-gray_150 text-gray-700 basis-1/3 rounded-[7px]'
-          : ' bg-primary text-white basis-2/3 rounded-[7px]';
+      className += index === 0 ? ' bg-gray_150 text-gray-700 basis-1/3 ' : ' bg-primary text-white basis-2/3 ';
       break;
     case 'small':
-      className +=
-        index === 0
-          ? ' bg-gray_150 text-gray-700 basis-1/2 rounded-[7px]'
-          : ' bg-primary text-white basis-1/2 rounded-[7px]';
+      className += index === 0 ? ' bg-gray_150 text-gray-700 basis-1/2 ' : ' bg-primary text-white basis-1/2 ';
       break;
   }
   return className;
@@ -66,22 +60,16 @@ const ButtonContent = ({
   isActive = true,
   onClickOne,
   onClickTwo,
+  isAnimated = true,
 }: ButtonProps): JSX.Element => {
   const navigate = useNavigate();
 
-  if (
-    (buttonCase === 'medium' || buttonCase === 'small') &&
-    (text.length !== 2 || route?.length !== 2)
-  ) {
-    throw new Error(
-      `${buttonCase} 케이스일 때 text와 route 배열의 길이가 정확히 2여야 합니다.`
-    );
+  if ((buttonCase === 'medium' || buttonCase === 'small') && (text.length !== 2 || route?.length !== 2)) {
+    throw new Error(`${buttonCase} 케이스일 때 text와 route 배열의 길이가 정확히 2여야 합니다.`);
   }
 
   if (buttonCase === 'large' && (text.length !== 1 || route?.length !== 1)) {
-    throw new Error(
-      `${buttonCase} 케이스일 때 text와 route 배열의 길이가 정확히 1이어야 합니다.`
-    );
+    throw new Error(`${buttonCase} 케이스일 때 text와 route 배열의 길이가 정확히 1이어야 합니다.`);
   }
 
   // 콜백 함수로 들어온 경로로 이동하는 핸들러
@@ -110,13 +98,9 @@ const ButtonContent = ({
   let buttonMarkup: JSX.Element;
   switch (buttonCase) {
     case 'large':
-      buttonMarkup = (
+      buttonMarkup = isAnimated ? (
         <AnimatePresence>
-          <motion.div
-            className="rounded-[7px]"
-            animate={isActive ? 'active' : 'inactive'}
-            variants={buttonVariant}
-          >
+          <motion.div className="rounded-[7px]" animate={isActive ? 'active' : 'inactive'} variants={buttonVariant}>
             <button
               disabled={!isActive}
               onClick={() => handleOnClick(0)}
@@ -126,23 +110,25 @@ const ButtonContent = ({
             </button>
           </motion.div>
         </AnimatePresence>
+      ) : (
+        <button
+          disabled={!isActive}
+          onClick={() => handleOnClick(0)}
+          className={`${getDynamicClassName('large', 0)} bg-primary text-white`}
+        >
+          {text[0]}
+        </button>
       );
       break;
     case 'medium':
     case 'small':
       {
         const buttons = text.map((buttonText, idx) => (
-          <button
-            key={idx}
-            onClick={() => handleOnClick(idx)}
-            className={getClassName(buttonCase, idx)}
-          >
+          <button key={idx} onClick={() => handleOnClick(idx)} className={getClassName(buttonCase, idx)}>
             {buttonText}
           </button>
         ));
-        buttonMarkup = (
-          <div className={`flex flex-row bg-white gap-8pxr`}>{buttons}</div>
-        );
+        buttonMarkup = <div className={`flex flex-row bg-white gap-8pxr`}>{buttons}</div>;
       }
       break;
     default:
