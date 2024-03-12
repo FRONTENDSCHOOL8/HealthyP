@@ -12,30 +12,20 @@ import { getCurrentUserData } from '@/util';
 const wait = (timeToDelay: number) => new Promise((resolve) => setTimeout(resolve, timeToDelay)); //이와 같이 선언 후
 
 
-
-
 export function BookmarkPage() {
   const { ref, inView } = useInView({ threshold: 0.7 });
   const [userData, setUserData] = useState<RecordModel>();
 
-
-    function getBookmarkFilter() {
-      const currentUser = getCurrentUserData();
-      // const record = await db.collection('users').getOne(currentUser.id)
-      console.log(getCurrentUserData());
-      const userBookmarks = currentUser?.bookmark;
-      console.log(userBookmarks);
-      const conditions = userBookmarks.map((id : string) => {
-        return `id = "${id}"`;
-      });
-      return conditions;
-    }
-
   const getRecipeData = async ({ pageParam = 1 }) => {
-    const filter = getBookmarkFilter();
+    const currentUser = getCurrentUserData();
+    const userBookmarks = currentUser?.bookmark;
+    const conditions = userBookmarks.map((id : string) => {
+      return `id = "${id}"`;
+    })
+    
     const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
       expand: 'rating, profile',
-      filter: filter.join(' || ')
+      filter: conditions.join(' || ')
     });
     await wait(1000);
     return recordsData.items;
