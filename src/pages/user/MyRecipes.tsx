@@ -1,12 +1,12 @@
 import { db } from '@/api/pocketbase';
-import { Header, LargeCard } from '@/components';
+import { Header, LargeCard, TwoButtonModal } from '@/components';
 import useNotificationData from '@/hooks/useNotificationData';
 import useProfileData from '@/hooks/useProfileData';
 import { myRecipesAtom } from '@/stores/stores';
 import getPbImage from '@/util/data/getPBImage';
 import { useAtom } from 'jotai';
 import { RecordModel } from 'pocketbase';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
@@ -75,12 +75,40 @@ export function MyRecipes() {
     navigate('/notifications');
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => setIsOpen(false);
+
+  const handleConfirm = () => {
+    sessionStorage.clear();
+    localStorage.removeItem('pocketbase_auth');
+    navigate('/');
+  };
+
+  const handleLogout = () => {
+    setIsOpen(true);
+  };
+
   return (
     <>
-      <Header option="onlyAlarm" handleClick={openNotification} hasNotification={hasNotification} />
+      <Header
+        option="alarmWithLogout"
+        handleClick={openNotification}
+        hasNotification={hasNotification}
+        logout={handleLogout}
+      />
       <Profile />
       <Tab />
       <MyRecipesContainer />
+      <TwoButtonModal
+        isOpen={isOpen}
+        closeModal={handleClose}
+        confirmModal={handleConfirm}
+        isAnimated={false}
+        headline="로그아웃하시겠습니까?"
+        where="메인페이지"
+        textFirstLine="확인을 누르시면 로그아웃 후"
+      />
     </>
   );
 }

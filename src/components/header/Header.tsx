@@ -1,5 +1,5 @@
+import { DummyButton, FnButton, SearchComponent } from '@/components';
 import { useNavigate } from 'react-router-dom';
-import { FnButton, DummyButton, SearchComponent } from '@/components';
 
 interface HeaderTitleProps {
   title?: string;
@@ -23,16 +23,18 @@ interface HeaderProps {
     | 'onlySearch'
     | 'prevWithBookMark'
     | 'onlyAlarm'
+    | 'alarmWithLogout'
     | 'titlewithCloseAndFn';
   title?: string;
   bgColor?: string;
   handleClick?: React.MouseEventHandler<HTMLButtonElement>;
   hasNotification?: boolean;
+  logout?: () => void;
 }
 
 const defaultSizing = 'w-full px-10pxr py-12pxr flex items-center justify-between sticky top-0 z-20';
 
-function useMapping({ title, option, bgColor, handleClick, hasNotification }: HeaderProps) {
+function useMapping({ title, option, bgColor, handleClick, hasNotification, logout }: HeaderProps) {
   const navigate = useNavigate();
 
   const headerMappings = {
@@ -85,6 +87,12 @@ function useMapping({ title, option, bgColor, handleClick, hasNotification }: He
         <FnButton image={hasNotification ? 'bellWithAlarm' : 'bell'} clickHandler={handleClick} />
       </header>
     ),
+    alarmWithLogout: (
+      <header className={`${bgColor} ${defaultSizing}`}>
+        <FnButton image={'power'} clickHandler={logout} />
+        <FnButton image={hasNotification ? 'bellWithAlarm' : 'bell'} clickHandler={handleClick} />
+      </header>
+    ),
     titlewithCloseAndFn: (
       <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton size={'size-30pxr'} />
@@ -107,6 +115,7 @@ export default function Header({
   bgColor = 'bg-white',
   handleClick,
   hasNotification = false,
+  logout,
 }: HeaderProps) {
   const headerComponent = useMapping({
     title,
@@ -114,6 +123,7 @@ export default function Header({
     bgColor,
     handleClick,
     hasNotification,
+    logout,
   }) || <></>;
 
   // Handle unexpected option values

@@ -1,5 +1,5 @@
 import { db } from '@/api/pocketbase';
-import { Header, Review, Star } from '@/components';
+import { Header, Review, Star, TwoButtonModal } from '@/components';
 import useNotificationData from '@/hooks/useNotificationData';
 import { defaultRecipesAtom, deleteRecentRecipeAtom, ratingDataAtom, recentRecipesAtom } from '@/stores/stores';
 import { RatingsResponse } from '@/types';
@@ -8,7 +8,7 @@ import DOMPurify from 'dompurify';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
 import { useAtom } from 'jotai';
 import { RecordModel } from 'pocketbase';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
@@ -221,12 +221,40 @@ export function RecentRecipes() {
     navigate('/notifications');
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => setIsOpen(false);
+
+  const handleConfirm = () => {
+    sessionStorage.clear();
+    localStorage.removeItem('pocketbase_auth');
+    navigate('/');
+  };
+
+  const handleLogout = () => {
+    setIsOpen(true);
+  };
+
   return (
     <>
-      <Header option="onlyAlarm" handleClick={openNotification} hasNotification={hasNotification} />
+      <Header
+        option="alarmWithLogout"
+        handleClick={openNotification}
+        hasNotification={hasNotification}
+        logout={handleLogout}
+      />
       <Profile />
       <Tab />
       <RecipeContainer />
+      <TwoButtonModal
+        isOpen={isOpen}
+        closeModal={handleClose}
+        confirmModal={handleConfirm}
+        isAnimated={false}
+        headline="로그아웃하시겠습니까?"
+        where="메인페이지"
+        textFirstLine="확인을 누르시면 로그아웃 후"
+      />
     </>
   );
 }

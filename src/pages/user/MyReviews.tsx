@@ -1,5 +1,5 @@
 import { db } from '@/api/pocketbase';
-import { Header } from '@/components';
+import { Header, TwoButtonModal } from '@/components';
 import useNotificationData from '@/hooks/useNotificationData';
 import useProfileData from '@/hooks/useProfileData';
 import { deleteReviewAtom, reviewDataAtom } from '@/stores/stores';
@@ -7,7 +7,7 @@ import { MyReview } from '@/types';
 import DOMPurify from 'dompurify';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
 import { useAtom } from 'jotai';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
@@ -174,12 +174,40 @@ export function MyReviews() {
     navigate('/notifications');
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => setIsOpen(false);
+
+  const handleConfirm = () => {
+    sessionStorage.clear();
+    localStorage.removeItem('pocketbase_auth');
+    navigate('/');
+  };
+
+  const handleLogout = () => {
+    setIsOpen(true);
+  };
+
   return (
     <>
-      <Header option="onlyAlarm" handleClick={openNotification} hasNotification={hasNotification} />
+      <Header
+        option="alarmWithLogout"
+        handleClick={openNotification}
+        hasNotification={hasNotification}
+        logout={handleLogout}
+      />
       <Profile />
       <Tab />
       <MyReviewsContainer />
+      <TwoButtonModal
+        isOpen={isOpen}
+        closeModal={handleClose}
+        confirmModal={handleConfirm}
+        isAnimated={false}
+        headline="로그아웃하시겠습니까?"
+        where="메인페이지"
+        textFirstLine="확인을 누르시면 로그아웃 후"
+      />
     </>
   );
 }
