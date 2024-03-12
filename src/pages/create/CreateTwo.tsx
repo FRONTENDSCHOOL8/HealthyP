@@ -20,6 +20,7 @@ function TipContainer() {
         <p className="text-cap-1">
           레시피를 상세하게 적어주세요. 단계별로 명확한 내용을 적어주면 보다 친절한 레시피를 제공할 수 있습니다.
         </p>
+        <p className="text-cap-1">좌측으로 슬라이드 시 삭제가 가능합니다.</p>
       </div>
     </div>
   );
