@@ -27,11 +27,12 @@ interface HeaderProps {
   title?: string;
   bgColor?: string;
   handleClick?: React.MouseEventHandler<HTMLButtonElement>;
+  hasNotification?: boolean;
 }
 
 const defaultSizing = 'w-full px-10pxr py-12pxr flex items-center justify-between sticky top-0 z-20';
 
-function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
+function useMapping({ title, option, bgColor, handleClick, hasNotification }: HeaderProps) {
   const navigate = useNavigate();
 
   const headerMappings = {
@@ -81,7 +82,7 @@ function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
     onlyAlarm: (
       <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton />
-        <FnButton image={'bell'} clickHandler={handleClick} />
+        <FnButton image={hasNotification ? 'bellWithAlarm' : 'bell'} clickHandler={handleClick} />
       </header>
     ),
     titlewithCloseAndFn: (
@@ -100,12 +101,19 @@ function useMapping({ title, option, bgColor, handleClick }: HeaderProps) {
   }
 }
 
-export default function Header({ option, title, bgColor = 'bg-white', handleClick }: HeaderProps) {
+export default function Header({
+  option,
+  title,
+  bgColor = 'bg-white',
+  handleClick,
+  hasNotification = false,
+}: HeaderProps) {
   const headerComponent = useMapping({
     title,
     option,
     bgColor,
     handleClick,
+    hasNotification,
   }) || <></>;
 
   // Handle unexpected option values
