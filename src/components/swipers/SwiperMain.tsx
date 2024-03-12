@@ -5,7 +5,6 @@ import salad from '@/assets/images/salad.jpg';
 import foodBanner from '@/assets/images/foodBanner.jpg';
 import foodBanner2 from '@/assets/images/foodBanner2.jpg';
 import whiteHealth from '@/assets/images/whiteHealth.webp';
-import { SearchComponent } from '@/components';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
@@ -39,7 +38,6 @@ const bannerData = [
 ];
 
 export default function SwiperMain() {
-  // const[swiper, setSwiper] = useState<SwiperClass>();
   const [, setSwiperIndex] = useState(0);
 
   return (
@@ -57,7 +55,7 @@ export default function SwiperMain() {
         onSlideChange={() => {}}
         className="bg-gray-600 h-389pxr relative w-full"
       >
-        {bannerData.map((item, index) => {
+        {bannerData.map((item) => {
           return (
             <SwiperSlide key={item.id} className="w-full h-full">
               <div className="w-full h-full relative">
@@ -68,9 +66,6 @@ export default function SwiperMain() {
             </SwiperSlide>
           );
         })}
-        <div className="absolute w-full flex px-10pxr top-10pxr z-10">
-          <SearchComponent />
-        </div>
       </Swiper>
     </>
   );

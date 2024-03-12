@@ -36,6 +36,7 @@ import {
   ReviewPage,
   CreateReview,
   SearchLayout,
+  CategoryPage
 } from './pages/';
 import { isStore } from './stores/stores';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
         element: <MainPage />,
       },
       {
+        path: 'category/:title',
+        element: <CategoryPage />
+      },
+      {
         path: 'search',
         element: <SearchLayout />,
       },
@@ -63,7 +68,6 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-
       {
         path: 'user',
         element: (
@@ -143,21 +147,6 @@ const router = createBrowserRouter([
             <CreateReview />
           </ProtectedRoute>
         ),
-      },
-    ],
-  },
-  // 리뷰 페이지
-  {
-    path: '/reviews/:recipeId',
-    element: (
-      <ProtectedRoute>
-        <ReviewPage />
-      </ProtectedRoute>
-    ),
-    children: [
-      {
-        path: 'create',
-        element: <CreateReview />,
       },
     ],
   },
