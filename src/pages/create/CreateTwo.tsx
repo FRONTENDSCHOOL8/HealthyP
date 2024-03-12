@@ -7,7 +7,7 @@ import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import useUploadRecipe from '@/hooks/useUploadRecipe';
 import { recipeSteps, step_images } from '@/stores/stores';
 import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 function TipContainer() {
   return (
@@ -41,7 +41,7 @@ function AddButton() {
 }
 
 // Animation Properties
-const DELETE_BTN_WIDTH = 60;
+const DELETE_BTN_WIDTH = 100;
 const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 };
 const MESSAGE_DELETE_TRANSITION = {
   opacity: {
@@ -59,6 +59,10 @@ interface stepType {
 }
 
 function StepContainer() {
+  const dragState = useRef({
+    start: 0,
+    end: 0,
+  });
   const [steps, setSteps] = useAtom(recipeSteps);
   const stepImages = useAtomValue(step_images);
 
@@ -67,14 +71,23 @@ function StepContainer() {
     return URL.createObjectURL(item);
   });
 
-  function handleDragEnd(info: PanInfo, stepId: string) {
-    const dragDistance = info.point.x;
-
-    if (dragDistance < DELETE_BTN_WIDTH) {
-      const stepData = JSON.parse(steps).filter((item: stepType) => item.id !== stepId);
-      setSteps(JSON.stringify(stepData));
-    }
-  }
+  const handleDragStart = (info: PanInfo) => {
+    dragState.current.start = info.point.x;
+  };
+  const handleDragEnd = useCallback(
+    (info: PanInfo, stepId: string) => {
+      dragState.current.end = info.point.x;
+      // direction 반대 차단
+      if (dragState.current.end > dragState.current.start) return;
+      const dragDistance = dragState.current.start - dragState.current.end;
+      console.log(dragDistance);
+      if (dragDistance > DELETE_BTN_WIDTH) {
+        const stepData = JSON.parse(steps).filter((item: stepType) => item.id !== stepId);
+        setSteps(JSON.stringify(stepData));
+      }
+    },
+    [setSteps, steps]
+  );
 
   return (
     <div className="w-full grow bg-gray_150 relative pt-14pxr px-14pxr flex flex-col gap-8pxr pb-120pxr">
@@ -92,6 +105,7 @@ function StepContainer() {
                 <motion.div
                   drag="x"
                   dragConstraints={{ left: 0, right: 0 }}
+                  onDragStart={(_, info) => handleDragStart(info)}
                   onDragEnd={(_, info) => handleDragEnd(info, item.id)}
                   key={item.id}
                   className="flex items-center h-full gap-10pxr px-10pxr py-8pxr z-10 relative bg-white rounded-xl"
