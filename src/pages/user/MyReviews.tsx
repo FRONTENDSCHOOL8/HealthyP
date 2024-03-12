@@ -1,30 +1,19 @@
 import { db } from '@/api/pocketbase';
 import { Header } from '@/components';
-import { deleteReviewAtom, fullRecipesAtom, reviewDataAtom, userRecordId } from '@/stores/stores';
-import { myReview } from '@/types';
+import { deleteReviewAtom, reviewDataAtom, userRecordId } from '@/stores/stores';
+import { MyReview } from '@/types';
 import DOMPurify from 'dompurify';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
 import { useAtom } from 'jotai';
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
-
-// Animation Properties
-const DELETE_BTN_WIDTH = 60;
-const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 };
-const MESSAGE_DELETE_TRANSITION = {
-  opacity: {
-    transition: {
-      duration: 0,
-    },
-  },
-};
+import useNotificationData from '@/hooks/useNotificationData';
 
 const MyReviewsContainer = () => {
   const [id] = useAtom(userRecordId);
   const [review, setReview] = useAtom(reviewDataAtom);
-  const [fullRecipes, setFullRecipes] = useAtom(fullRecipesAtom);
   const [deleteReviewId, setDeleteReviewId] = useAtom(deleteReviewAtom);
 
   useEffect(() => {
@@ -36,14 +25,11 @@ const MyReviewsContainer = () => {
           await db.collection('recipes').getFullList({
             expand: 'rating.creator',
             filter: `rating:length > 0 && rating.creator?~"${id}"`,
-            sort: '-created',
           });
 
         const fullRecipesData = await getFullRecipesData();
 
-        setFullRecipes(fullRecipesData);
-
-        for (const item of fullRecipes) {
+        for (const item of fullRecipesData) {
           const { id: recipe_id, title: recipe_title, expand: { rating } = {} } = item;
           for (const rate of rating) {
             if (rate.creator === id) {
@@ -61,7 +47,40 @@ const MyReviewsContainer = () => {
 
       fetchData();
     }
-  }, [id, setFullRecipes, deleteReviewId]);
+  }, [id]);
+
+  // Animation Properties
+  const DELETE_BTN_WIDTH = 60;
+  const MESSAGE_DELETE_ANIMATION = { height: 0, opacity: 0 };
+  const MESSAGE_DELETE_TRANSITION = {
+    opacity: {
+      transition: {
+        duration: 0,
+      },
+    },
+  };
+
+  const dragState = useRef({
+    start: 0,
+    end: 0,
+  });
+
+  const handleDragStart = (info: PanInfo) => {
+    dragState.current.start = info.point.x;
+  };
+
+  const handleDragEnd = useCallback(
+    (info: PanInfo, reviewId: string) => {
+      dragState.current.end = info.point.x;
+      // direction 반대 차단
+      if (dragState.current.end > dragState.current.start) return;
+      const dragDistance = dragState.current.start - dragState.current.end;
+      if (dragDistance > DELETE_BTN_WIDTH) {
+        setDeleteReviewId(reviewId);
+      }
+    },
+    [setDeleteReviewId]
+  );
 
   useEffect(() => {
     const deleteReview = async () => {
@@ -75,28 +94,6 @@ const MyReviewsContainer = () => {
     deleteReview();
   }, [deleteReviewId, setReview]);
 
-  const handleDragEnd = (info: PanInfo, reviewId: string) => {
-    const dragDistance = info.point.x;
-    if (dragDistance < -DELETE_BTN_WIDTH && review) {
-      setDeleteReviewId(reviewId);
-    }
-  };
-
-  // const handleDragEnd = async (info: PanInfo, reviewId: string) => {
-  //   console.log(reviewId);
-  //   const dragDistance = info.point.x;
-  //   if (dragDistance < -DELETE_BTN_WIDTH) {
-  //     if (review) {
-  //       const fetchData = async () => {
-  //         await db.collection('ratings').delete(reviewId);
-  //       };
-  //       const deleteReview = review.filter((item) => item.review_id !== reviewId);
-  //       setReview(deleteReview);
-  //       fetchData();
-  //     }
-  //   }
-  // };
-
   return (
     <>
       {review ? (
@@ -104,7 +101,7 @@ const MyReviewsContainer = () => {
           <ul className="flex flex-col gap-10pxr divide-y-[1px] divide-gray_200">
             <AnimatePresence>
               {review &&
-                review.map((item: myReview) => {
+                review.map((item: MyReview) => {
                   if (item) {
                     return (
                       <motion.li
@@ -116,6 +113,7 @@ const MyReviewsContainer = () => {
                         <motion.div
                           drag="x"
                           dragConstraints={{ left: 0, right: 0 }}
+                          onDragStart={(_, info) => handleDragStart(info)}
                           onDragEnd={(_, info) => handleDragEnd(info, item.review_id)}
                           key={item.review_id}
                           className="flex flex-row items-center h-full gap-10pxr px-6pxr pt-14pxr pb-6pxr z-10 relative bg-white"
@@ -165,9 +163,16 @@ const MyReviewsContainer = () => {
 };
 
 export function MyReviews() {
+  const navigate = useNavigate();
+  const { hasNotification } = useNotificationData();
+
+  const openNotification = () => {
+    navigate('/notifications');
+  };
+
   return (
     <>
-      <Header option="onlyAlarm" />
+      <Header option="onlyAlarm" handleClick={openNotification} hasNotification={hasNotification} />
       <Profile />
       <Tab />
       <MyReviewsContainer />
