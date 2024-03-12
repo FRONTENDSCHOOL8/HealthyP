@@ -14,7 +14,6 @@ export default function Title({ inputTitle, placeholder }: TitleProps) {
   const titleInputHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
-      if (e.target.value === '') return;
       setTitleField(e.target.value);
     },
     [setTitleField]

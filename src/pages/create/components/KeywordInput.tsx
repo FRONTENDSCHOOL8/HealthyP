@@ -13,7 +13,6 @@ export default function KeywordInput({ inputTitle, placeholder }: KeywordInputPr
   const titleInputHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
-      if (e.target.value === '') return;
       setKeywords(e.target.value);
     },
     [setKeywords]
