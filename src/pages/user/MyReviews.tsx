@@ -48,7 +48,7 @@ const MyReviewsContainer = () => {
 
       fetchData();
     }
-  }, [id]);
+  }, [id, setReview]);
 
   // Animation Properties
   const DELETE_BTN_WIDTH = 60;
