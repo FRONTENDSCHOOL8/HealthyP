@@ -74,6 +74,7 @@ export function Verification() {
         headline="정말 나가시겠습니까?"
         closeModal={handleClose}
         confirmModal={handleConfirm}
+        isAnimated={false}
       />
     </>
   );

@@ -72,6 +72,7 @@ export function Login() {
           text={['로그인']}
           route={[goToMain]}
           onClickOne={handleClick as (idx: number | React.FormEvent<HTMLFormElement>) => void}
+          isAnimated={false}
         />
       </form>
       <Finder />

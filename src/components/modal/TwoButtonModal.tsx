@@ -79,7 +79,7 @@ function TwoButtonModalComponent({
                 <button onClick={closeModal} className={`${buttonBasic} bg-gray_150 text-gray_700`} aria-label="취소">
                   취소
                 </button>
-                {isAnimated && (
+                {isAnimated ? (
                   <AnimatePresence>
                     <motion.div
                       className="rounded-[7px]"
@@ -91,10 +91,11 @@ function TwoButtonModalComponent({
                       </button>
                     </motion.div>
                   </AnimatePresence>
+                ) : (
+                  <button disabled={!isActive} onClick={confirmModal} className={buttonConfirm} aria-label="확인">
+                    확인
+                  </button>
                 )}
-                <button disabled={!isActive} onClick={confirmModal} className={buttonConfirm} aria-label="확인">
-                  확인
-                </button>
               </div>
             </div>
           </motion.div>
