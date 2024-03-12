@@ -22,7 +22,7 @@ export function CreateReview() {
           initial={{ y: 1000 }}
           animate={{ y: 0 }}
           exit={{ opacity: 1000 }}
-          transition={{ duration: 0.1 }}
+          transition={{ duration: 0.3 }}
           className="absolute bottom-0 bg-white px-17pxr h-4/5 w-full rounded-t-3xl"
         >
           <button className="w-full pt-16pxr pb-50pxr flex justify-center">
