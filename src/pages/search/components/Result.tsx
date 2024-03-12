@@ -20,12 +20,6 @@ export default function ResultComponent() {
 
   return (
     <>
-      <select name="정렬방법" className="w-115pxr self-end">
-        <option value="최신순">최신순</option>
-        <option value="인기순">인기순</option>
-        <option value="리뷰 많은 순">리뷰 많은 순</option>
-      </select>
-
       <div className="grid gap-4 grid-cols-2 justify-center w-full">
         {/* sessionData가 있을 경우 세션 데이터로 렌더링 */}
         {sessionData

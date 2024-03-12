@@ -1,4 +1,4 @@
-import { SetStateAction, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { memo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { searchQuery, chooseQuery, isClick } from '@/stores/stores';

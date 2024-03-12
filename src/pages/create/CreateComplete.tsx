@@ -1,19 +1,25 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
+import FullPageInfo from '@/components/FullPageInfo';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import check from '@/assets/icons/checkCirclePrimary.svg';
 
 export function CreateComplete() {
   const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
-      navigate("/");
-    }, 2000)
-  })
+      navigate('/');
+    }, 2000);
+  });
 
   return (
     <>
-      <p className="bg-primary">Register Complete!</p>
+      <FullPageInfo
+        icons={[check, '레시피 등록 완료']}
+        route={() => '/'}
+        text={['레시피 등록', '완료!']}
+        hasDetailedDescription={false}
+      />
     </>
-  )
+  );
 }
