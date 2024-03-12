@@ -59,6 +59,9 @@ dependencies:
   react-focus-lock:
     specifier: ^2.11.2
     version: 2.11.2(@types/react@18.2.57)(react@18.2.0)
+  react-helmet:
+    specifier: ^6.1.0
+    version: 6.1.0(react@18.2.0)
   react-helmet-async:
     specifier: ^2.0.4
     version: 2.0.4(react-dom@18.2.0)(react@18.2.0)
@@ -8921,6 +8924,18 @@ packages:
       shallowequal: 1.1.0
     dev: false
 
+  /react-helmet@6.1.0(react@18.2.0):
+    resolution: {integrity: sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==}
+    peerDependencies:
+      react: '>=16.3.0'
+    dependencies:
+      object-assign: 4.1.1
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-fast-compare: 3.2.2
+      react-side-effect: 2.1.2(react@18.2.0)
+    dev: false
+
   /react-html-parser@2.0.2(react@18.2.0):
     resolution: {integrity: sha512-XeerLwCVjTs3njZcgCOeDUqLgNIt/t+6Jgi5/qPsO/krUWl76kWKXMeVs2LhY2gwM6X378DkhLjur0zUQdpz0g==}
     peerDependencies:
@@ -9052,6 +9067,14 @@ packages:
       react: '>=16.8'
     dependencies:
       '@remix-run/router': 1.15.1
+      react: 18.2.0
+    dev: false
+
+  /react-side-effect@2.1.2(react@18.2.0):
+    resolution: {integrity: sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0
+    dependencies:
       react: 18.2.0
     dev: false
 
