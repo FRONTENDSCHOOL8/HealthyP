@@ -17,32 +17,7 @@ export function CreateThree() {
   const [sizeAlert, setSizeAlert] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isAlert, setIsAlert] = useState(false);
-
-  // async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
-  // async function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
-  //   const selectedFile = e.target.files?.[0];
-  //   if (!selectedFile) {
-  //     setPreview('');
-  //     return;
-  //   }
-
-  //   if (selectedFile) {
-  //     const objectUrl = URL.createObjectURL(selectedFile);
-  //     setPreview(objectUrl);
-  //     setCurrImage(selectedFile);
-  //     return;
-  //   }
-
-  // if(selectedFile && selectedFile.size < 5242880) {
-  //   const objectUrl = URL.createObjectURL(selectedFile);
-  //   setPreview(objectUrl);
-  //   setCurrImage(selectedFile);
-  // } else if(selectedFile.size > 5242880) {
-  //   setPreview('');
-  //   setSizeAlert(true);
-  // }
-  // }
-
+  
   const handleFileInput: ChangeEventHandler<HTMLInputElement> | undefined = (e) => {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) {
@@ -76,11 +51,21 @@ export function CreateThree() {
     navigate('../two');
   };
 
+
   return (
     <div className="flex flex-col h-full">
-      <Header option="titlewithCloseAndFn" title="레시피 스탭 추가하기" handleClick={handleHeaderClick} />
+      <Header
+        option="titlewithCloseAndFn"
+        title="레시피 스탭 추가하기"
+        handleClick={handleHeaderClick}
+      />
       <div className="flex flex-col px-16pxr py-14pxr grow w-full gap-42pxr pb-120pxr">
-        <FileInput inputTitle="단계 이미지" handleInput={handleFileInput} preview={preview} required />
+        <FileInput
+          inputTitle="단계 이미지"
+          handleInput={handleFileInput}
+          required
+          preview={preview}
+        />
         <TextArea
           required
           inputTitle="설명"
@@ -105,7 +90,6 @@ export function CreateThree() {
           }}
           onClickTwo={async () => {
             const id = getRandomId();
-
             if (preview) {
               const stepsData = new FormData();
               if (currImage === null || currImage === undefined) return;

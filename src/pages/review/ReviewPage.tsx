@@ -7,6 +7,7 @@ import { ReviewCard } from './components/ReviewCard';
 import { Outlet } from 'react-router-dom';
 // import { ReviewStars } from './components/ReviewStars';
 import { ReviewStars } from './components/ReviewStars';
+import { Helmet } from 'react-helmet-async';
 
 interface RatingsInterface {
   id: string;
@@ -34,6 +35,9 @@ export function ReviewPage() {
 
   return (
     <>
+      <Helmet>
+        <title>HealthyP | 리뷰</title>
+      </Helmet>
       <main className="w-full h-full px-16pxr flex flex-col items-center">
         <header className="w-full flex justify-end py-12pxr">
           <FnButton image="close" clickHandler={() => navigate(-1)} />

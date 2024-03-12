@@ -5,6 +5,7 @@ import './styles/index.css';
 import MissingPage from './pages/MissingPage';
 import FullPageInfoLayout from './pages/FullPage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import RootLayout from './RootLayout';
 import ProtectedRoute from './pages/ProtectedRoute';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -225,10 +226,12 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="w-full max-w-1300pxr h-svh mx-auto bg-white">
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </div>
+      <HelmetProvider>
+        <div className="w-full max-w-1300pxr h-svh mx-auto bg-white">
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </div>
+      </HelmetProvider>
     </QueryClientProvider>
   );
 }

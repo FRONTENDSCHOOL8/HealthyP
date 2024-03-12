@@ -9,6 +9,7 @@ import bulk from '@/assets/icons/bulk.png'
 import diet from '@/assets/icons/diet.png'
 import vegan from '@/assets/icons/vegan.png'
 import foodDefaultImg from '@/assets/images/flower3.jpg';
+import { Helmet } from 'react-helmet-async';
 
 
 const categories = [
@@ -74,6 +75,10 @@ export function MainPage() {
 
   return (
     <div className="overflow-y-scroll overflow-x-hidden h-full w-full pb-90pxr no-scrollbar">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>HealthyP | 홈</title>
+      </Helmet>
       <SwiperMain />
       <CategoryButtons />
       <section>

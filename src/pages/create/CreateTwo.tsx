@@ -7,7 +7,7 @@ import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import useUploadRecipe from '@/hooks/useUploadRecipe';
 import { recipeSteps, step_images } from '@/stores/stores';
 import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
 
 function TipContainer() {
@@ -31,7 +31,7 @@ function AddButton() {
   return (
     <>
       <Link
-        to="../three"
+        to={`../three`}
         className="w-full py-16pxr flex justify-center gap-4pxr items-center sticky top-0 bg-white rounded-full text-body shadow-md mb-20pxr"
       >
         <img src={addPrimary} alt="" />

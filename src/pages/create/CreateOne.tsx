@@ -1,8 +1,8 @@
 // packages
-import { useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { Form, useNavigate } from 'react-router-dom';
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from 'react';
-
+import {Helmet} from 'react-helmet-async';
 // components
 import { Header, FooterButton, Footer, OneButtonModal, TwoButtonModal } from '@/components';
 import { Ingredients, Time, SelectBox, Title, TextArea, FileInput, KeywordInput } from './components/';
@@ -14,12 +14,13 @@ import { ingredients, image, seasoning, description, difficulty, category } from
 const categories = ['건강식', '다이어트', '벌크업', '비건'];
 const difficult = ['쉬움', '보통', '어려움'];
 
+
 export function CreateOne() {
-  const setImageFile = useSetAtom(image);
-  const setDescription = useSetAtom(description);
-  const setDifficulty = useSetAtom(difficulty);
-  const setCategory = useSetAtom(category);
-  const [preview, setPreview] = useState('');
+  const [imageFile, setImageFile] = useAtom(image);
+  const [descriptionText, setDescription] = useAtom(description);
+  const [difficultyText, setDifficulty] = useAtom(difficulty);
+  const [categoryText, setCategory] = useAtom(category);
+  // const [preview, setPreview] = useState('');
   const [sizeAlert, setSizeAlert] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -27,17 +28,14 @@ export function CreateOne() {
   const handleFileInput: ChangeEventHandler<HTMLInputElement> | undefined = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const selectedFile = e.target.files?.[0];
-      if (!selectedFile) {
-        setPreview('');
-        return;
-      }
+      if (!selectedFile) return;
 
       if (selectedFile && selectedFile.size < 5242880) {
-        const objectUrl = URL.createObjectURL(selectedFile);
-        setPreview(objectUrl);
+        // const objectUrl = URL.createObjectURL(selectedFile);
+        // setPreview(objectUrl);
         setImageFile(selectedFile);
       } else if (selectedFile.size > 5242880) {
-        setPreview('');
+        // setPreview('');
         setSizeAlert(true);
       }
     },
@@ -57,20 +55,25 @@ export function CreateOne() {
 
   return (
     <>
+      <Helmet>
+        <title>HealthyP | 레시피 생성</title>
+      </Helmet>
       <Header option="titlewithCloseAndFn" title="레시피 등록하기" handleClick={handleHeaderClick} />
       <Form action="two" className="px-14pxr py-20pxr flex flex-col gap-42pxr pb-120pxr bg-white">
-        <FileInput inputTitle={'레시피 이미지'} handleInput={handleFileInput} preview={preview} required />
+        <FileInput inputTitle={'레시피 이미지'} handleInput={handleFileInput} data={imageFile} preview="" required />
         <Title inputTitle="레시피 제목" placeholder="레시피 제목" />
         <TextArea
           inputTitle="레시피 소개"
           maxCharCount={200}
           setData={setDescription}
+          data={descriptionText}
           placeholderText="이 레시피를 소개하는 글을 작성해주세요"
           required
         />
         <Time />
         <SelectBox
           id="category"
+          data={categoryText}
           dataArr={categories}
           label="카테고리"
           required
@@ -78,6 +81,7 @@ export function CreateOne() {
         />
         <SelectBox
           id="difficulty"
+          data={difficultyText}
           dataArr={difficult}
           label="난이도"
           required

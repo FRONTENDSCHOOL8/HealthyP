@@ -1,9 +1,9 @@
-import { useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { Required } from '@/components';
 import { time } from '@/stores/stores';
 
 export default function Time() {
-  const setInputTime = useSetAtom(time);
+  const [inputTime, setInputTime] = useAtom(time);
   return (
     <>
       <div className="flex flex-col gap-10pxr">
@@ -18,6 +18,7 @@ export default function Time() {
           type="number"
           className="w-full h-48pxr py-0 px-10pxr bg-gray_150 rounded-md"
           placeholder="분"
+          value={inputTime}
           id="time"
           onChange={(e) => {
             e.preventDefault();
