@@ -5,6 +5,7 @@ import { searchQuery, chooseQuery, isClick } from '@/stores/stores';
 import { db } from '@/api/pocketbase';
 import { RecipesRatingExpand } from '@/types';
 import Result from './Result';
+import { DefaultLoader } from '@/components';
 
 // 쿼리 구독을 위한 함수
 async function fetchRecipes() {
@@ -49,7 +50,7 @@ function SearchQueryComponent() {
     setIsButtonClick(true);
   };
 
-  if (isLoading) return <div>검색중입니다...</div>;
+  if (isLoading) return <DefaultLoader />;
   if (isError) return <div>에러 발생!</div>;
 
   return isButtonClick ? (
