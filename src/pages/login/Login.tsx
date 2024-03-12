@@ -10,6 +10,7 @@ import { db } from '@/api/pocketbase';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Finder } from './components/Finder';
+import { Helmet } from 'react-helmet-async';
 
 export function Login() {
   const [emailValue] = useAtom(emailAtom);
@@ -52,6 +53,9 @@ export function Login() {
 
   return (
     <>
+      <Helmet>
+        <title>HealthyP | 로그인</title>
+      </Helmet>
       <Header option="titleWithClose" title="로그인" />
       <form onSubmit={handleClick} className="px-14pxr pt-57pxr flex flex-col">
         <div className="flex flex-col gap-2 mb-8pxr">

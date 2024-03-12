@@ -1,7 +1,6 @@
 import { Required } from '@/components';
 import { time } from '@/stores/stores';
 import { useAtom } from 'jotai';
-import { HTMLAttributes } from 'react';
 // import { useState } from 'react';
 
 export function Time() {

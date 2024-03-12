@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDetailInfo } from '@/hooks/useDetailInfo';
 import { AccordionList, FakeList } from './components/DetailComponents';
-import { Star, Review, FnButton, BookmarkButton, Keyword } from '@/components';
+import { Star, Review, FnButton, BookmarkButton, Keyword, DefaultLoader } from '@/components';
 
 const dummyData = [
   { name: '감자', amount: '500g(약 3개)' },
@@ -32,7 +32,7 @@ export function DetailPage() {
 
   if (!recipeData) {
     // 스켈레톤 추가하기
-    return <div>Loading...</div>;
+    return <DefaultLoader />;
   }
 
   return (

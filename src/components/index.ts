@@ -22,3 +22,6 @@ export { default as RecipeCard } from '@/components/cards/recipeCard/RecipeCard'
 // modals
 export * from '@/components/modal/OneButtonModal';
 export * from '@/components/modal/TwoButtonModal';
+
+// loading 
+export { default as DefaultLoader } from '@/components/loading/DefaultLoader';

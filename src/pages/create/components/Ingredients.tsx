@@ -93,7 +93,7 @@ export default function IngredientsComponent({
                 onClick={(e) => {
                   e.preventDefault();
                   const updateIngreds = JSON.parse(ingredientData).filter(
-                    (i: IngredientData, itemIdx: string) => itemIdx !== index
+                    (_: IngredientData, itemIdx: string) => itemIdx !== index
                   );
                   setIngredientData(JSON.stringify(updateIngreds));
                   // update ingreds within the database

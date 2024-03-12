@@ -6,14 +6,16 @@ interface SelectBoxProps extends HTMLAttributes<HTMLSelectElement> {
   dataArr: string[];
   label: string;
   required?: boolean;
+  data: string;
 }
 
-export default function SelectBox({ id, dataArr, label, required = false, ...props }: SelectBoxProps) {
+export default function SelectBox({ id, dataArr, data, label, required = false, ...props }: SelectBoxProps) {
   return (
     <label className="text-sub-em">
       {label}
       {required && <Required />}
       <select
+        value={data}
         {...props}
         required={required}
         id={id}
