@@ -168,9 +168,9 @@ export function CreateTwo() {
     setIsSubmit(false);
   };
 
-  const handleSubmitConfirm = () => {
+  const handleSubmitConfirm = async () => {
     setIsSubmit(false);
-    uploadRecipe();
+    await uploadRecipe();
 
     navigate(path);
   };
