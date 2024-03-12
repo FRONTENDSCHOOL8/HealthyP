@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { Header, FooterButton, Footer } from '@/components';
 import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
@@ -28,11 +28,10 @@ function TipContainer() {
 }
 
 function AddButton() {
-  const steps = useAtomValue(recipeSteps);
   return (
     <>
       <Link
-        to={`../three/${JSON.parse(steps).length}`}
+        to={`../three`}
         className="w-full py-16pxr flex justify-center gap-4pxr items-center sticky top-0 bg-white rounded-full text-body shadow-md mb-20pxr"
       >
         <img src={addPrimary} alt="" />
@@ -101,12 +100,11 @@ function StepContainer() {
         <AnimatePresence>
           {JSON.parse(steps).map((item: stepType, index: number) => {
             return (
-              <motion.a
+              <motion.li
                 key={item.id}
                 exit={MESSAGE_DELETE_ANIMATION}
                 transition={MESSAGE_DELETE_TRANSITION}
                 className="relative "
-                href={`/create/three/${index}`}
               >
                 <motion.div
                   drag="x"
@@ -135,7 +133,7 @@ function StepContainer() {
                 >
                   삭제
                 </div>
-              </motion.a>
+              </motion.li>
             );
           })}
         </AnimatePresence>
