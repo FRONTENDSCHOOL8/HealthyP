@@ -47,7 +47,7 @@ export default function useCreateReview() {
     if (recipeId === undefined || recipeData === undefined) return;
     const updatedRatings = { rating: [...recipeData.rating, record.id] };
     await db.collection('recipes').update(recipeId, updatedRatings);
-    navigate(`/detail/${recipeId}`);
+    navigate(-1);
   }
 
   return { UploadReview, setStars, setReviewText, navigate, imageURL, rangeOfStars, recipeData, stars };

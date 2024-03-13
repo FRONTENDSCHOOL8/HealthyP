@@ -3,21 +3,22 @@ import { ReviewStars } from './components/ReviewStars';
 import { TextArea } from '../create/components';
 import { PurifiedText } from './components/PurifiedText';
 import useCreateReview from '@/hooks/useCreateReview';
+import { Link, useParams } from 'react-router-dom';
 
 export function CreateReview() {
-  const { UploadReview, setStars, setReviewText, navigate, imageURL, rangeOfStars, recipeData, stars } =
+  const { UploadReview, setStars, setReviewText,  imageURL, rangeOfStars, recipeData, stars } =
     useCreateReview();
+    const {recipeId} = useParams();
 
   return (
     <AnimatePresence>
       <div className="fixed bottom-0 w-full h-full bg-gray_500/70 pb-120pxr z-10">
-        <button
+        <Link
           type="button"
-          onClick={() => {
-            navigate(-1);
-          }}
+          to={`/reviews/${recipeId}`}
+          replace
           className="h-full w-full"
-        ></button>
+        ></Link>
         <motion.div
           initial={{ y: 1000 }}
           animate={{ y: 0 }}
@@ -68,20 +69,18 @@ export function CreateReview() {
             </div>
           </div>
           <footer className="absolute left-0 bottom-0 w-full flex justify-center px-14pxr gap-8pxr pt-14pxr pb-46pxr bg-white">
-            <button
-              type="button"
+            <Link
               aria-label="이전"
-              className="w-1/3 bg-gray_150 py-12pxr text-gray_700 rounded-[7px] cursor"
-              onClick={() => {
-                navigate(-1);
-              }}
+              className="w-1/3 bg-gray_150 py-12pxr text-gray_700 rounded-[7px] cursor text-center"
+              to={`/reviews/${recipeId}`}
+              replace
             >
               이전
-            </button>
+            </Link>
             <button
               type="button"
               aria-label="완료"
-              className="w-2/3 bg-primary py-12pxr text-white rounded-[7px] cursor"
+              className="w-2/3 bg-primary py-12pxr text-white rounded-[7px] cursor text-center"
               onClick={UploadReview}
             >
               완료
