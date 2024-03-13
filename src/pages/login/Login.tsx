@@ -5,7 +5,7 @@ import { MemoizedAutoLogin as AutoLogin } from './components/AutoLogin';
 import line from '@/assets/icons/line.svg';
 import outh2 from '@/assets/icons/outh2.svg';
 import { useAtom } from 'jotai';
-import { emailAtom, isStore, nicknameAtom, passwordAtom, storeData } from '@/stores/stores';
+import { emailAtom, isStore, nicknameAtom, passwordAtom, rememberMe, storeData } from '@/stores/stores';
 import { db } from '@/api/pocketbase';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -19,6 +19,7 @@ export function Login() {
   const [, setNickname] = useAtom(nicknameAtom);
   const [, setExistStore] = useAtom(isStore);
   const [, setStore] = useAtom(storeData);
+  const [autoLogin] = useAtom(rememberMe);
 
   const navigate = useNavigate();
 
@@ -32,12 +33,31 @@ export function Login() {
       await db.collection('users').authWithPassword(email, password);
 
       const modelString = localStorage.getItem('pocketbase_auth');
+
       if (modelString) {
         const model = JSON.parse(modelString);
         const name = model.model.name;
+
         setStore(model);
         setExistStore(true);
         setNickname(name);
+      }
+
+      // 자동 로그인
+      if (autoLogin) {
+        const data = {
+          isAutoLogin: true,
+          email,
+          password,
+        };
+
+        const dataString = JSON.stringify(data);
+        localStorage.setItem('autoLogin', dataString);
+      }
+
+      // 자동 로그인 해제
+      if (!autoLogin) {
+        localStorage.removeItem('autoLogin');
       }
 
       navigate(path);

@@ -3,6 +3,7 @@ import { atom } from 'jotai';
 import { ListResult, RecordModel } from 'pocketbase';
 
 // 유효성
+export const rememberMe = atom(false); // 자동 로그인
 export const nicknameValidAtom = atom(true); // 닉네임 유효성
 export const passwordValid = atom(false); // 비밀번호 유효성
 export const passwordConfirmValid = atom(false); // 비밀번호 확인 유효성
@@ -26,6 +27,7 @@ export const description = atom('');
 export const step_images = atom<File[]>([]);
 export const time = atom(0); // 조리 시간
 export const difficulty = atom('쉬움'); // 난이도 선택
+export const modalError = atom(false); // 에러 발생 여부
 
 // 로그인 페이지
 export const isStore = atom(false); // 로컬저장소에 pocketbase_auth가 있는지 여부

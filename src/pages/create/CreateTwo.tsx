@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { Header, FooterButton, Footer } from '@/components';
+import { Header, FooterButton, Footer, OneButtonModal } from '@/components';
 import bulbPrimary from '@/assets/icons/bulbYellow.svg';
 import addPrimary from '@/assets/icons/addPrimary.svg';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import useUploadRecipe from '@/hooks/useUploadRecipe';
-import { recipeSteps, step_images } from '@/stores/stores';
+import { recipeSteps, step_images, modalError } from '@/stores/stores';
 import { TwoButtonModal } from '@/components/modal/TwoButtonModal';
 import { useCallback, useRef, useState } from 'react';
 import LoadingAnimation from '@/components/loading/LoadingAnimation';
@@ -146,6 +146,8 @@ export function CreateTwo() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const { uploadRecipe, isLoading } = useUploadRecipe();
+  const [isError, setIsError] = useAtom(modalError);
+
   const navigate = useNavigate();
 
   const goToComplete = () => {
@@ -212,6 +214,13 @@ export function CreateTwo() {
             isAnimated={false}
             where="완료페이지"
             textFirstLine="확인을 누르시면"
+          />
+          <OneButtonModal
+            isOpen={isError}
+            confirmModal={() => setIsError(false)}
+            titleText="오류가 발생했습니다"
+            firstLineText="단계 작성을 완료하지 않으면"
+            secondLineText="업로드가 되지 않아요😢"
           />
         </div>
       )}
