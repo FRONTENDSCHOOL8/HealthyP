@@ -8,7 +8,7 @@ export function CreateComplete() {
 
   useEffect(() => {
     setTimeout(() => {
-      navigate('/');
+      navigate('/main');
     }, 2000);
   });
 
@@ -16,7 +16,7 @@ export function CreateComplete() {
     <>
       <FullPageInfo
         icons={[check, '레시피 등록 완료']}
-        route={() => '/'}
+        route={() => '/main'}
         text={['레시피 등록', '완료!']}
         hasDetailedDescription={false}
       />

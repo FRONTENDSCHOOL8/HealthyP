@@ -163,7 +163,7 @@ export function CreateTwo() {
     setIsOpen(false);
   };
   const handleConfirm = () => {
-    navigate('/');
+    navigate('/main');
   };
 
   const handleSubmitClose = () => {

@@ -3,7 +3,7 @@ import notFound404 from '../assets/images/not_found.png';
 
 export default function MissingPage() {
   const goToHome = () => {
-    return '/';
+    return '/main';
   };
 
   return (
@@ -20,11 +20,7 @@ export default function MissingPage() {
         </div>
       </div>
       <Footer>
-        <FooterButton
-          text={['홈으로 돌아가기']}
-          route={[goToHome]}
-          buttonCase="large"
-        />
+        <FooterButton text={['홈으로 돌아가기']} route={[goToHome]} buttonCase="large" />
       </Footer>
     </>
   );
