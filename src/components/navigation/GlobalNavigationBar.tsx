@@ -91,28 +91,19 @@ type GNBButtonProps = {
   setPage: Dispatch<SetStateAction<string>>;
 };
 
-function GNBButton({
-  route,
-  icon,
-  iconFill,
-  text,
-  currentPage,
-  setPage,
-}: GNBButtonProps) {
+function GNBButton({ route, icon, iconFill, text, currentPage, setPage }: GNBButtonProps) {
   const renderIcon = () => {
     if (currentPage === route) return iconFill;
     return icon;
   };
 
+  const handleClick = () => {
+    setPage(route);
+  };
+
   return (
     <li className="flex basis-full">
-      <Link
-        to={route}
-        onClick={() => {
-          setPage(route);
-        }}
-        className={`h-full w-full flex justify-center items-center`}
-      >
+      <Link to={route} onClick={handleClick} className={`h-full w-full flex justify-center items-center`}>
         <img src={renderIcon()} alt="" className="w-30pxr h-30pxr rounded-full object-cover" />
         <p className="sr-only">{text}</p>
       </Link>
@@ -125,34 +116,36 @@ interface AuthGNBProps {
   currentPage: string;
 }
 
-function AuthGNB({profilePicture, setPage, currentPage} : AuthGNBProps) {
+function AuthGNB({ profilePicture, setPage, currentPage }: AuthGNBProps) {
   return (
     <li className="flex basis-full">
       <Link
-        to='user/recent'
+        to="user/recent"
         onClick={() => {
           setPage('user/recent');
         }}
         className={`h-full w-full flex justify-center items-center`}
-        >
-        <img src={profilePicture} alt="" className= {`w-30pxr h-30pxr rounded-full object-cover ${currentPage === 'user/recent' ? 'border-2 border-black p-2pxr' : ''}`} />
+      >
+        <img
+          src={profilePicture}
+          alt=""
+          className={`w-30pxr h-30pxr rounded-full object-cover ${currentPage === 'user/recent' ? 'border-2 border-black p-2pxr' : ''}`}
+        />
         <p className="sr-only">마이페이지</p>
       </Link>
     </li>
-  )
+  );
 }
 
 export default function GlobalNavigationBar() {
-  const [currentPage, setCurrentPage] = useState<string>(
-    window.location.pathname
-  );
+  const [currentPage, setCurrentPage] = useState<string>(window.location.pathname);
   const [profileImageURL, setProfileImageURL] = useState('');
 
   useEffect(() => {
     async function getUserProfilePicture() {
-      if(localStorage.getItem("pocketbase_auth")) {
-        const currentUser = getCurrentUserData()
-        if(currentUser.avatar) {
+      if (localStorage.getItem('pocketbase_auth')) {
+        const currentUser = getCurrentUserData();
+        if (currentUser.avatar) {
           setProfileImageURL(getPbImage('users', currentUser.id, currentUser.avatar));
         } else {
           setProfileImageURL(defaultProfile);
@@ -160,35 +153,23 @@ export default function GlobalNavigationBar() {
       }
     }
     getUserProfilePicture();
-}, []);
+  }, []);
 
   return (
     <nav className="fixed bottom-0 w-full h-80pxr px-side pb-24pxr bg-white max-w-1300pxr z-20">
       <ul className="flex flex-row list-none w-full h-full">
-        {profileImageURL ? 
-          ROUTER_STATE_AUTH.map((item, idx) => {
-            return (
-              <GNBButton
-                key={idx}
-                currentPage={currentPage}
-                setPage={setCurrentPage}
-                {...item}
-              />
-            );
-          })
-          :
-          ROUTER_STATE.map((item, idx) => {
-            return (
-              <GNBButton
-                key={idx}
-                currentPage={currentPage}
-                setPage={setCurrentPage}
-                {...item}
-              />
-            );
-          })
-        }
-        {profileImageURL ? <AuthGNB profilePicture={profileImageURL} setPage={setCurrentPage} currentPage={currentPage} /> : <></>}
+        {profileImageURL
+          ? ROUTER_STATE_AUTH.map((item, idx) => {
+              return <GNBButton key={idx} currentPage={currentPage} setPage={setCurrentPage} {...item} />;
+            })
+          : ROUTER_STATE.map((item, idx) => {
+              return <GNBButton key={idx} currentPage={currentPage} setPage={setCurrentPage} {...item} />;
+            })}
+        {profileImageURL ? (
+          <AuthGNB profilePicture={profileImageURL} setPage={setCurrentPage} currentPage={currentPage} />
+        ) : (
+          <></>
+        )}
       </ul>
     </nav>
   );
