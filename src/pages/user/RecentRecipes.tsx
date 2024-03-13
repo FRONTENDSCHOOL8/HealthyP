@@ -230,7 +230,7 @@ export function RecentRecipes() {
     sessionStorage.clear();
     localStorage.removeItem('pocketbase_auth');
     setIsAuth(false);
-    navigate('/login');
+    navigate(0);
   };
 
   const handleLogout = () => {
