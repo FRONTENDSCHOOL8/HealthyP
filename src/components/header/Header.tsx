@@ -47,7 +47,7 @@ function useMapping({ title, option, bgColor, handleClick, hasNotification, logo
     onlyClose: (
       <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton size={'size-30pxr'} />
-        <FnButton image={'close'} clickHandler={() => navigate('/main')} altText="닫기" />
+        <FnButton image={'close'} clickHandler={() => navigate('/')} altText="닫기" />
       </header>
     ),
     titleWithBack: (
@@ -61,7 +61,7 @@ function useMapping({ title, option, bgColor, handleClick, hasNotification, logo
       <header className={`${bgColor} ${defaultSizing}`}>
         <DummyButton />
         <HeaderTitle title={title} />
-        <FnButton image={'close'} clickHandler={() => navigate('/main')} />
+        <FnButton image={'close'} clickHandler={() => navigate('/')} />
       </header>
     ),
     searchWithBack: (

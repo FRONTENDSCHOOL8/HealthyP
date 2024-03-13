@@ -7,7 +7,7 @@ export default function FullPageInfoLayout() {
     <>
       <Outlet />
       <FullPageInfo
-        route={() => '/main'}
+        route={() => '/'}
         icons={[checkCirclePrimary, '확인']}
         text={['레시피 등록', '완료!']}
         hasDetailedDescription={false}

@@ -34,7 +34,7 @@ export function Verification() {
 
   // 모달창 확인 버튼 클릭 시
   const handleConfirm = () => {
-    navigate('/main');
+    navigate('/');
   };
 
   const navigate = useNavigate();

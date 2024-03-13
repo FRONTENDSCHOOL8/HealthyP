@@ -71,7 +71,7 @@ export function SetProfile() {
 
   // 모달창 확인 버튼 클릭 시
   const handleConfirm = () => {
-    navigate('/main');
+    navigate('/');
   };
 
   // 회원가입 완료 페이지로 이동

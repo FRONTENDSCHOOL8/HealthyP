@@ -3,7 +3,7 @@ import notFound404 from '../assets/images/not_found.png';
 
 export default function MissingPage() {
   const goToHome = () => {
-    return '/main';
+    return '/';
   };
 
   return (

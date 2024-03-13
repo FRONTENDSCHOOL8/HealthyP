@@ -1,7 +1,6 @@
 import { FooterButton, Header } from '@/components';
 import { MemoizedEmailComponent as EmailComponet } from '../../components/input/EmailComponent';
 import { MemoizedPasswordComponent as PasswordComponet } from '../../components/input/PasswordComponent';
-import { MemoizedAutoLogin as AutoLogin } from './components/AutoLogin';
 import { useAtom } from 'jotai';
 import { emailAtom, isStore, nicknameAtom, passwordAtom, rememberMe, storeData } from '@/stores/stores';
 import { db } from '@/api/pocketbase';
@@ -81,7 +80,6 @@ export function Login() {
           <EmailComponet />
           <PasswordComponet />
         </div>
-        <AutoLogin />
         <div className={`text-warning text-cap-1 flex flex-col pt-2pxr pb-17pxr ${isFail ? 'block' : 'hidden'}`}>
           {isFail && (
             <>

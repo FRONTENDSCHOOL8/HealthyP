@@ -1,30 +1,43 @@
 // packages
-import { Header, OneButtonModal, TwoButtonModal } from '@/components';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useAtom } from 'jotai';
+import { Form, useNavigate } from 'react-router-dom';
+import { ChangeEvent, ChangeEventHandler, useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { categories, difficult, schema } from './schema';
-import { FormValues } from './components/create';
-import { FieldsetInput, TextInput, Selector } from './components';
+// components
+import { Header, FooterButton, Footer, OneButtonModal, TwoButtonModal } from '@/components';
+import { Ingredients, Time, SelectBox, Title, TextArea, FileInput, KeywordInput } from './components';
+
+// stores
+import { ingredients, image, seasoning, description, difficulty, category } from '@/stores/stores';
+
+// Selectbox array lists
+const categories = ['건강식', '다이어트', '벌크업', '비건'];
+const difficult = ['쉬움', '보통', '어려움'];
 
 export function CreateOne() {
-  const navigate = useNavigate();
-  // state 상태관리
+  const [imageFile, setImageFile] = useAtom(image);
+  const [descriptionText, setDescription] = useAtom(description);
+  const [difficultyText, setDifficulty] = useAtom(difficulty);
+  const [categoryText, setCategory] = useAtom(category);
+  // const [preview, setPreview] = useState('');
   const [sizeAlert, setSizeAlert] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
-  // form 제어
-  const { register, getValues, control, handleSubmit, formState } = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    mode: 'onSubmit',
-  });
+  const handleFileInput: ChangeEventHandler<HTMLInputElement> | undefined = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const selectedFile = e.target.files?.[0];
+      if (!selectedFile) return;
 
-  // form 에러
-  const { errors } = formState;
+      if (selectedFile && selectedFile.size < 5242880) {
+        setImageFile(selectedFile);
+      } else if (selectedFile.size > 5242880) {
+        setSizeAlert(true);
+      }
+    },
+    [setImageFile]
+  );
 
-  // 이벤트 헨들러
   const handleHeaderClick = () => {
     setIsOpen(true);
   };
@@ -33,10 +46,7 @@ export function CreateOne() {
     setIsOpen(false);
   };
   const handleConfirm = () => {
-    navigate('/main');
-  };
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
+    navigate('/', {replace:true});
   };
 
   return (
@@ -45,44 +55,47 @@ export function CreateOne() {
         <title>HealthyP | 레시피 생성</title>
       </Helmet>
       <Header option="titlewithCloseAndFn" title="레시피 등록하기" handleClick={handleHeaderClick} />
-      <form onSubmit={handleSubmit(onSubmit)} className="px-14pxr flex flex-col gap-20pxr">
-        {/* <FileInput id="recipe-main-img" register={register} /> */}
-        <TextInput
-          as="input"
-          title="레시피 제목"
-          placeholder="맛좋은 홍감자 조림"
-          id="recipe-title"
-          maxLength={30}
-          error={errors.recipeTitle}
-          registerName="recipeTitle"
-          register={register}
-        />
-        <TextInput
-          as="textarea"
-          title="레시피 설명"
-          placeholder="sdasdsd"
-          id="recipe-desc"
-          maxLength={500}
-          error={errors.recipeDesc}
-          registerName="recipeDesc"
-          register={register}
-        />
-        <Selector title="카테고리" id="category" optionList={categories} register={register} />
-        <Selector title="난이도" id="difficult" optionList={difficult} register={register} />
-        <FieldsetInput
-          title="재료"
-          id="ingredients"
-          control={control}
-          getValues={getValues}
-          register={register}
+      <Form action="two" className="px-14pxr py-20pxr flex flex-col gap-42pxr pb-120pxr bg-white">
+        <FileInput inputTitle={'레시피 이미지'} handleInput={handleFileInput} data={imageFile} preview="" required />
+        <Title inputTitle="레시피 제목" placeholder="레시피 제목" />
+        <TextArea
+          inputTitle="레시피 소개"
+          maxCharCount={200}
+          setData={setDescription}
+          data={descriptionText}
+          placeholderText="이 레시피를 소개하는 글을 작성해주세요"
           required
         />
-        <FieldsetInput title="양념" id="seasoning" control={control} getValues={getValues} register={register} />
-        <button type="submit" className="bg-primary text-white">
-          다음
-        </button>
-      </form>
-      {/* 이미지 파일 초과 에러 */}
+        <Time />
+        <SelectBox
+          id="category"
+          data={categoryText}
+          dataArr={categories}
+          label="카테고리"
+          required
+          onChange={(e) => setCategory((e.target as HTMLSelectElement).value)}
+        />
+        <SelectBox
+          id="difficulty"
+          data={difficultyText}
+          dataArr={difficult}
+          label="난이도"
+          required
+          onChange={(e) => setDifficulty((e.target as HTMLSelectElement).value)}
+        />
+        <KeywordInput inputTitle="키워드" placeholder="키워드는 쉼표(,) 로 구별해주세요" />
+        <Ingredients
+          titleText="재료"
+          atom={ingredients}
+          namePlaceholder="감자"
+          amountPlaceholder="100g, 1개"
+          required
+        />
+        <Ingredients titleText="양념" atom={seasoning} namePlaceholder="간장" amountPlaceholder="2스푼" />
+      </Form>
+      <Footer>
+        <FooterButton buttonCase="large" text={['다음']} route={[() => 'two']} isAnimated={false} />
+      </Footer>
       <OneButtonModal
         isOpen={sizeAlert}
         confirmModal={() => {
