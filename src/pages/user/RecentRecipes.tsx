@@ -1,12 +1,12 @@
 import { db } from '@/api/pocketbase';
 import { Header, Review, Star, TwoButtonModal } from '@/components';
 import useNotificationData from '@/hooks/useNotificationData';
-import { defaultRecipesAtom, deleteRecentRecipeAtom, ratingDataAtom, recentRecipesAtom } from '@/stores/stores';
+import { defaultRecipesAtom, deleteRecentRecipeAtom, isStore, ratingDataAtom, recentRecipesAtom } from '@/stores/stores';
 import { RatingsResponse } from '@/types';
 import getPbImage from '@/util/data/getPBImage';
 import DOMPurify from 'dompurify';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { RecordModel } from 'pocketbase';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -216,6 +216,7 @@ const RecipeContainer = () => {
 export function RecentRecipes() {
   const navigate = useNavigate();
   const { hasNotification } = useNotificationData();
+  const setIsAuth = useSetAtom(isStore);
 
   const openNotification = () => {
     navigate('/notifications');
@@ -228,7 +229,8 @@ export function RecentRecipes() {
   const handleConfirm = () => {
     sessionStorage.clear();
     localStorage.removeItem('pocketbase_auth');
-    navigate('/');
+    setIsAuth(false);
+    navigate('/login');
   };
 
   const handleLogout = () => {

@@ -1,4 +1,4 @@
-import { SetStateAction } from 'jotai';
+import { SetStateAction, useAtomValue } from 'jotai';
 import { Dispatch, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import home from '@/assets/icons/home.svg';
@@ -14,6 +14,7 @@ import userFill from '@/assets/icons/personFill.svg';
 import { getCurrentUserData } from '@/util';
 import getPbImage from '@/util/data/getPBImage';
 import defaultProfile from '@/assets/images/defaultProfile.png';
+import { isStore } from '@/stores/stores';
 
 type RouteItem = {
   text: string;
@@ -140,10 +141,11 @@ function AuthGNB({ profilePicture, setPage, currentPage }: AuthGNBProps) {
 export default function GlobalNavigationBar() {
   const [currentPage, setCurrentPage] = useState<string>(window.location.pathname);
   const [profileImageURL, setProfileImageURL] = useState('');
+  const isAuth = useAtomValue(isStore)
 
   useEffect(() => {
     async function getUserProfilePicture() {
-      if (localStorage.getItem('pocketbase_auth')) {
+      if (isAuth) {
         const currentUser = getCurrentUserData();
         if (currentUser.avatar) {
           setProfileImageURL(getPbImage('users', currentUser.id, currentUser.avatar));
@@ -153,7 +155,7 @@ export default function GlobalNavigationBar() {
       }
     }
     getUserProfilePicture();
-  }, []);
+  }, [isAuth]);
 
   return (
     <nav className="fixed bottom-0 w-full h-80pxr px-side pb-24pxr bg-white max-w-1300pxr z-20">

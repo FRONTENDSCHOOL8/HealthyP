@@ -2,11 +2,11 @@ import { db } from '@/api/pocketbase';
 import { Header, TwoButtonModal } from '@/components';
 import useNotificationData from '@/hooks/useNotificationData';
 import useProfileData from '@/hooks/useProfileData';
-import { deleteReviewAtom, reviewDataAtom } from '@/stores/stores';
+import { deleteReviewAtom, isStore, reviewDataAtom } from '@/stores/stores';
 import { MyReview } from '@/types';
 import DOMPurify from 'dompurify';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Profile from './components/Profile';
@@ -169,6 +169,7 @@ const MyReviewsContainer = () => {
 export function MyReviews() {
   const navigate = useNavigate();
   const { hasNotification } = useNotificationData();
+  const setIsAuth = useSetAtom(isStore);
 
   const openNotification = () => {
     navigate('/notifications');
@@ -181,7 +182,8 @@ export function MyReviews() {
   const handleConfirm = () => {
     sessionStorage.clear();
     localStorage.removeItem('pocketbase_auth');
-    navigate('/');
+    setIsAuth(false);
+    navigate('/login');
   };
 
   const handleLogout = () => {
