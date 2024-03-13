@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai';
 import { isCheckedOptionsAtom, isCheckedRequiredAtom } from './atomTerm';
 
-const PRIMARY_COLOR = '#91BD14';
+const PRIMARY_COLOR = '#117146';
 const DEFAULT_COLOR = '#B2B2B3';
 const TEXT_BLACK = 'text-black';
 const TEXT_DEFAULT = 'text-gray-500';
@@ -13,15 +13,8 @@ interface TermProps {
   subContent: string;
 }
 
-export const Term = ({
-  name,
-  required = false,
-  mainContent,
-  subContent,
-}: TermProps) => {
-  const [isChecked, setIsChecked] = useAtom(
-    required ? isCheckedRequiredAtom : isCheckedOptionsAtom
-  );
+export const Term = ({ name, required = false, mainContent, subContent }: TermProps) => {
+  const [isChecked, setIsChecked] = useAtom(required ? isCheckedRequiredAtom : isCheckedOptionsAtom);
 
   const handleChecked = () => {
     setIsChecked(!isChecked);
@@ -52,14 +45,9 @@ export const Term = ({
             fill={isChecked ? PRIMARY_COLOR : DEFAULT_COLOR}
           />
         </svg>
-        <label
-          htmlFor={name}
-          className={`text-foot cursor-pointer ${isChecked ? TEXT_BLACK : TEXT_DEFAULT}`}
-        >
+        <label htmlFor={name} className={`text-foot cursor-pointer ${isChecked ? TEXT_BLACK : TEXT_DEFAULT}`}>
           {mainContent}
-          <span className={`text-primary ${required ? 'inline' : 'hidden'}`}>
-            (필수)
-          </span>
+          <span className={`text-primary ${required ? 'inline' : 'hidden'}`}>(필수)</span>
         </label>
       </div>
       <hr />

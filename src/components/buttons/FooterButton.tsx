@@ -16,7 +16,7 @@ type ButtonProps = {
 const buttonVariant = {
   active: {
     scale: 1,
-    background: '#91BD14',
+    background: '#117146',
     color: '#ffffff',
     transition: { duration: 0.5 },
   },
