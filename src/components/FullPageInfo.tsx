@@ -8,6 +8,7 @@ type FullPageInfoProps = {
   isSetTimeout?: boolean;
   hasDetailedDescription: boolean;
   description?: string[];
+  time?: number;
 };
 
 const FullPageInfo = ({
@@ -17,6 +18,7 @@ const FullPageInfo = ({
   hasDetailedDescription,
   description,
   isSetTimeout = true,
+  time = 2000,
 }: FullPageInfoProps) => {
   const navigate = useNavigate();
   const path = route();
@@ -26,11 +28,11 @@ const FullPageInfo = ({
     if (isSetTimeout) {
       const timer = setTimeout(() => {
         navigate(path);
-      }, 2000);
+      }, time);
 
       return () => clearTimeout(timer);
     }
-  }, [path, navigate, isSetTimeout]);
+  }, [path, navigate, isSetTimeout, time]);
 
   // isExistDescription 존재 여부에 따라 컨텐츠를 렌더링
   const renderContent = () => {
