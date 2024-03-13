@@ -13,6 +13,7 @@
     "typegen": "pocketbase-typegen --db ./pb_data/data.db"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@tanstack/react-query": "^5.24.1",
     "@tanstack/react-query-devtools": "^5.25.0",
     "dompurify": "^3.0.9",
@@ -33,6 +34,7 @@
     "react-focus-lock": "^2.11.2",
     "react-helmet": "^6.1.0",
     "react-helmet-async": "^2.0.4",
+    "react-hook-form": "^7.51.0",
     "react-html-parser": "^2.0.2",
     "react-intersection-observer": "^9.8.1",
     "react-lottie": "^1.2.4",
@@ -40,7 +42,8 @@
     "sort-by": "^1.2.0",
     "swiper": "^11.0.7",
     "tailwindcss-animated": "^1.0.1",
-    "typed-pocketbase": "^0.1.0"
+    "typed-pocketbase": "^0.1.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.3",
