@@ -2,8 +2,6 @@ import { FooterButton, Header } from '@/components';
 import { MemoizedEmailComponent as EmailComponet } from '../../components/input/EmailComponent';
 import { MemoizedPasswordComponent as PasswordComponet } from '../../components/input/PasswordComponent';
 import { MemoizedAutoLogin as AutoLogin } from './components/AutoLogin';
-import line from '@/assets/icons/line.svg';
-import outh2 from '@/assets/icons/outh2.svg';
 import { useAtom } from 'jotai';
 import { emailAtom, isStore, nicknameAtom, passwordAtom, rememberMe, storeData } from '@/stores/stores';
 import { db } from '@/api/pocketbase';
@@ -11,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Finder } from './components/Finder';
 import { Helmet } from 'react-helmet-async';
+import SimpleLogin from './components/simpleLogin';
 
 export function Login() {
   const [emailValue] = useAtom(emailAtom);
@@ -100,14 +99,7 @@ export function Login() {
         />
       </form>
       <Finder />
-      <div className="flex flex-col px-14pxr py-1 mt-104pxr justify-center">
-        <div className="flex gap-2">
-          <img src={line} alt="Line" className="w-full" />
-          <span className="whitespace-nowrap text-cap-1 text-gray-500">SNS 간편 로그인</span>
-          <img src={line} alt="Line" className="w-full" />
-        </div>
-        <img src={outh2} alt="Auth2" className="mt-30pxr" />
-      </div>
+      <SimpleLogin />
     </>
   );
 }
