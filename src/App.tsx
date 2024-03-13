@@ -41,7 +41,6 @@ import {
   CategoryPage,
 } from './pages/';
 import { isStore } from './stores/stores';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const router = createBrowserRouter([
   // 루트 페이지 (메인)
@@ -229,7 +228,6 @@ export default function App() {
       <HelmetProvider>
         <div className="w-full max-w-1300pxr h-svh mx-auto bg-white">
           <RouterProvider router={router} />
-          <ReactQueryDevtools initialIsOpen={false} />
         </div>
       </HelmetProvider>
     </QueryClientProvider>
