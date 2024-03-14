@@ -1,4 +1,4 @@
-import { FieldsetInputProps } from './create';
+import { FieldsetInputProps } from '../create';
 import { useFieldArray } from 'react-hook-form';
 import { ErrorMessage } from '.';
 import { Required } from '@/components';
@@ -21,26 +21,27 @@ export default function FieldsetInput({
   const inputRefA: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
   const inputRefB: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
   return (
-    <>
-      <fieldset className="relative flex gap-8pxr">
-        <legend className="text-body-em mb-4pxr">
+    <div>
+      <fieldset className="relative flex gap-8pxr mb-10pxr">
+        <legend className="text-body-em mb-10pxr">
           {title}
           {required && <Required />}
         </legend>
-        <div className="">
+        <div className="basis-3/6">
           <label htmlFor={id + '-name'} className="sr-only">
             재료명
           </label>
-          <input ref={inputRefA} id={id + '-name'} type="text" className={inputStyle} />
+          <input ref={inputRefA} id={id + '-name'} type="text" className={`${inputStyle} w-full`} />
         </div>
-        <div className="">
+        <div className="basis-2/6">
           <label htmlFor={id + '-amount'} className="sr-only">
             수량
           </label>
-          <input ref={inputRefB} id={id + '-amount'} type="text" className={inputStyle} />
+          <input ref={inputRefB} id={id + '-amount'} type="text" className={`${inputStyle} w-full`} />
         </div>
         <button
           type="button"
+          className="whitespace-nowrap px-12pxr bg-gray_150 rounded-[7px] basis-1/6"
           onClick={() => {
             inputRefA.current?.focus();
             // field에 값 추가
@@ -61,10 +62,19 @@ export default function FieldsetInput({
             const ingreName = getValues(`${id}.${index}.name`);
             const ingreAmount = getValues(`${id}.${index}.amount`);
             return (
-              <li key={field.id}>
-                <p {...register(`${id}.${index}.name`)}>{ingreName}</p>
-                <p {...register(`${id}.${index}.amount`)}>{ingreAmount}</p>
-                <button type="button" onClick={() => remove(index)}>
+              <li key={field.id} className="flex text-body items-center px-4pxr border-t border-b">
+                <p className="basis-3/6" {...register(`${id}.${index}.name`)}>
+                  {ingreName}
+                </p>
+                <p className="basis-2/6" {...register(`${id}.${index}.amount`)}>
+                  {ingreAmount}
+                </p>
+
+                <button
+                  className="basis-1/6 text-gray_500 border-l border-gray_120 py-8pxr my-4pxr"
+                  type="button"
+                  onClick={() => remove(index)}
+                >
                   삭제
                 </button>
               </li>
@@ -73,6 +83,6 @@ export default function FieldsetInput({
         </ul>
         <ErrorMessage>{required && getValues(id)?.length < 1 && '하나이상 있어야한다'}</ErrorMessage>
       </div>
-    </>
+    </div>
   );
 }

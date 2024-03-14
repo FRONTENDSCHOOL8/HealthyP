@@ -16,3 +16,4 @@ export { default as Selector } from './Selector.tsx';
 export { default as TextInput } from './TextInput.tsx';
 export { default as ErrorMessage } from './ErrorMessage.tsx';
 export { default as FieldsetInput } from './FieldsetInput.tsx';
+export { default as FileInput2 } from './FileInput.tsx';
