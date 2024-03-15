@@ -41,6 +41,7 @@ import {
   CategoryPage,
 } from './pages/';
 import { isStore } from './stores/stores';
+import IntroPage from './pages/intro';
 
 const router = createBrowserRouter([
   // 루트 페이지 (메인)
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <IntroPage />,
+      },
+      {
+        path: 'main',
         element: <MainPage />,
       },
       {

@@ -25,7 +25,7 @@ type RouteItem = {
 const ROUTER_STATE: RouteItem[] = [
   {
     text: '홈',
-    route: '/',
+    route: '/main',
     icon: home,
     iconFill: homeFill,
   },
@@ -58,7 +58,7 @@ const ROUTER_STATE: RouteItem[] = [
 const ROUTER_STATE_AUTH: RouteItem[] = [
   {
     text: '홈',
-    route: '/',
+    route: '/main',
     icon: home,
     iconFill: homeFill,
   },

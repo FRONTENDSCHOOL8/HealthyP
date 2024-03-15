@@ -3,15 +3,12 @@ interface AllAgreeButtonProps {
   handleAllCheckedChange: () => void;
 }
 
-const PRIMARY_COLOR = '#91BD14';
+const PRIMARY_COLOR = '#117146';
 const DEFAULT_COLOR = '#B2B2B3';
 const TEXT_BLACK = 'text-[#000000]';
 const TEXT_GRAY = 'text-[#3C3C43B2]';
 
-export default function AllAgreeButton({
-  isCheckedAll,
-  handleAllCheckedChange,
-}: AllAgreeButtonProps) {
+export default function AllAgreeButton({ isCheckedAll, handleAllCheckedChange }: AllAgreeButtonProps) {
   return (
     <div role="group" className="flex items-center pb-10pxr">
       <input

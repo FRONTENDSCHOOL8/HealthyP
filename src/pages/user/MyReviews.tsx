@@ -181,7 +181,7 @@ export function MyReviews() {
   const handleConfirm = () => {
     sessionStorage.clear();
     localStorage.removeItem('pocketbase_auth');
-    navigate('/');
+    navigate('/main');
   };
 
   const handleLogout = () => {

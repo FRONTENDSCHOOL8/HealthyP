@@ -28,7 +28,7 @@ export default {
       colors: {
         white: '#FFFFFF',
         black: '#000000',
-        primary: '#91BD14',
+        primary: '#117146',
         warning: '#FF0D0D',
         alert: '#FF5D47',
         gray_100: '#FAFAFB',
@@ -136,7 +136,7 @@ export default {
             lineHeight: '1.375rem',
           },
         ],
-        'body': [
+        body: [
           '1.0625rem',
           {
             fontWeight: 400,
@@ -152,7 +152,7 @@ export default {
             lineHeight: '1.25rem',
           },
         ],
-        'sub': [
+        sub: [
           '0.9375rem',
           {
             fontWeight: 400,
@@ -168,7 +168,7 @@ export default {
             lineHeight: '1.125rem',
           },
         ],
-        'foot': [
+        foot: [
           '0.8125rem',
           {
             fontWeight: 400,

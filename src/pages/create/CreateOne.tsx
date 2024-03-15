@@ -55,7 +55,7 @@ export function CreateOne() {
     setIsOpen(false);
   };
   const handleConfirm = () => {
-    navigate('/');
+    navigate('/main');
   };
 
   const onSubmit = (data: FormValues) => {

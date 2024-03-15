@@ -1,13 +1,13 @@
 import { Outlet } from 'react-router-dom';
 import FullPageInfo from '@/components/FullPageInfo';
-import checkCirclePrimary from '@/assets/icons/checkCirclePrimary.svg';
+import checkCirclePrimary from '@/assets/icons/logo.svg';
 
 export default function FullPageInfoLayout() {
   return (
     <>
       <Outlet />
       <FullPageInfo
-        route={() => '/'}
+        route={() => '/main'}
         icons={[checkCirclePrimary, '확인']}
         text={['레시피 등록', '완료!']}
         hasDetailedDescription={false}

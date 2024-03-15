@@ -49,7 +49,7 @@ export function CreateOne() {
     setIsOpen(false);
   };
   const handleConfirm = () => {
-    navigate('/');
+    navigate('/main');
   };
 
   return (

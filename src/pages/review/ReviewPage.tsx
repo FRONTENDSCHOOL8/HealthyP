@@ -43,7 +43,7 @@ export function ReviewPage() {
           <FnButton image="close" clickHandler={() => navigate(-1)} />
         </header>
         <div className="flex flex-col gap-20pxr justify-center items-center pt-40pxr w-full">
-          <Link to="create" className="flex gap-8pxr">
+          <Link to="create" replace className="flex gap-8pxr">
             <ReviewStars ratingNumber={0} />
           </Link>
           <p className="text-sub">요리해 보셨다면, 후기를 남겨보세요!</p>
