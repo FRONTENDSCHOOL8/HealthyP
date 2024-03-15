@@ -29,18 +29,17 @@ function SearchQueryComponent() {
   // 검색 결과를 필터링합니다.
   const filteredQuery =
     allRecipes?.filter((recipe) => {
-      return recipe.title.includes(query) || recipe.keywords.includes(query);
+      return recipe.title.includes(query);
     }) ?? [];
 
   // 선택한 레시피를 상태에 설정합니다.
   const handleSelectRecipe = (selected: RecipesRatingExpand) => {
     const selectedTitle = selected.title.replace(/\s+/g, '');
-    const selectedCategory = selected.category.replace(/\s+/g, '');
+    // const selectedCategory = selected.category.replace(/\s+/g, '');
 
     const filteredData: RecipesRatingExpand[] | undefined = allRecipes?.filter(
-      (item) =>
-        item.title.replace(/\s+/g, '').includes(selectedTitle) ||
-        item.category.replace(/\s+/g, '').includes(selectedCategory)
+      (item) => item.title.replace(/\s+/g, '').includes(selectedTitle)
+      // item.category.replace(/\s+/g, '').includes(selectedCategory)
     );
     if (filteredData) {
       setSelectedRecipe(filteredData);

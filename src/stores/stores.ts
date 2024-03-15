@@ -15,14 +15,15 @@ export const passwordAtom = atom(''); // 패스워드 입력값
 export const nicknameAtom = atom(''); // 닉네임 입력값
 
 // 생성 페이지 (temp_data는 삭제 예정)
-export const ingredients = atom('[]');
-export const seasoning = atom('[]');
+export const ingredients = atom([]);
+export const seasoning = atom([]);
 export const recipeSteps = atom('[]');
 export const keywords = atom('');
 export const category = atom('건강식');
 export const nutrition = atom<string | null>('');
 export const title = atom('');
 export const image = atom<File | null>(null);
+export const image2 = atom<FileList | null>(null);
 export const description = atom('');
 export const step_images = atom<File[]>([]);
 export const time = atom(0); // 조리 시간

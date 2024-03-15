@@ -1,5 +1,5 @@
 import { db } from '@/api/pocketbase';
-import { Header, LargeCard, TwoButtonModal } from '@/components';
+import { DefaultLoader, Header, LargeCard, TwoButtonModal } from '@/components';
 import useNotificationData from '@/hooks/useNotificationData';
 import useProfileData from '@/hooks/useProfileData';
 import { isStore, myRecipesAtom } from '@/stores/stores';
@@ -61,7 +61,7 @@ const MyRecipesContainer = () => {
           </div>
         </div>
       ) : (
-        <div>Loading...</div>
+        <DefaultLoader />
       )}
     </>
   );
