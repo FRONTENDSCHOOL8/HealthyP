@@ -1,12 +1,14 @@
 export interface TextInputProps extends HTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   id: string;
   as: 'input' | 'textarea';
+  type?: string;
   title: string;
   error?: FieldErrors<z.infer<unknown>>;
   height?: number;
+  required?: boolean;
   maxLength: number | undefined;
   placeholder: string;
-  registerName: 'recipeTitle' | 'recipeDesc';
+  registerName: 'recipeTitle' | 'recipeDesc' | 'keywords' | 'time';
   register: UseFormRegister<FormValues>;
 }
 
@@ -26,9 +28,13 @@ export interface SelectorProps {
   register: UseFormRegister<FormValues>;
 }
 
-export interface FileInputProps {
+export interface FileInputProps extends HTMLAttributes<HTMLInputElement> {
   id: string;
+  error?: FieldErrors<z.infer<unknown>>;
   register: UseFormRegister<FormValues>;
+  data?: FileList | null;
+  preview?: string;
+  handleInput?: ChangeEventHandler<HTMLInputElement> | undefined;
 }
 
 export type FieldError = {
