@@ -4,9 +4,20 @@ import { TextArea } from '../create/components';
 import { PurifiedText } from './components/PurifiedText';
 import useCreateReview from '@/hooks/useCreateReview';
 import { Link, useParams } from 'react-router-dom';
+import { Dispatch, SetStateAction } from 'react';
+import { RecordModel } from 'pocketbase';
+
+
+// interface StarButtonsProps {
+//   rangeOfStars : [];
+//   setStars : Dispatch<SetStateAction<number>>;
+//   stars : number;
+// }
 
 function StarButtons() {
   const {rangeOfStars, setStars, stars} = useCreateReview();
+
+
   return (
     <div className="w-fit relative">
       <div className="flex gap-2pxr">
@@ -29,8 +40,13 @@ function StarButtons() {
   )
 }
 
-function ReviewInput() {
-  const { setReviewText, imageURL, recipeData } = useCreateReview();
+interface ReviewInputProps {
+  setReviewText : Dispatch<SetStateAction<string>>;
+  imageURL : string;
+  recipeData : RecordModel | undefined;
+}
+
+function ReviewInput({setReviewText, imageURL, recipeData} : ReviewInputProps) {
 
   return (
     <div className='w-full h-full pb-160pxr overflow-y-auto'>
@@ -60,8 +76,8 @@ function ReviewInput() {
 }
 
 export function CreateReview() {
-  const { UploadReview } = useCreateReview();
-  const {recipeId} = useParams();
+  const { UploadReview, setReviewText, imageURL, recipeData } = useCreateReview();
+  const { recipeId } = useParams();
 
   return (
     <AnimatePresence>
@@ -82,23 +98,21 @@ export function CreateReview() {
           <button className="w-full pt-16pxr pb-50pxr flex justify-center">
             <hr className="h-3pxr w-67pxr bg-gray-200 border-0 rounded-full sticky top-0"></hr>
           </button>
-          <ReviewInput />
+          <ReviewInput setReviewText={setReviewText} imageURL={imageURL} recipeData={recipeData}/>
           <footer className="absolute left-0 bottom-0 w-full flex justify-center px-14pxr gap-8pxr pt-14pxr pb-46pxr bg-white">
             <Link
               aria-label="이전"
               className="w-1/3 bg-gray_150 py-12pxr text-gray_700 rounded-[7px] cursor text-center"
               to={`/reviews/${recipeId}`}
               replace
-            >
-              이전
+            >이전
             </Link>
             <button
               type="button"
               aria-label="완료"
               className="w-2/3 bg-primary py-12pxr text-white rounded-[7px] cursor text-center"
               onClick={UploadReview}
-            >
-              완료
+            >완료
             </button>
           </footer>
         </motion.div>
