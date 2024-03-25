@@ -35,10 +35,12 @@ function SearchQueryComponent() {
   // 선택한 레시피를 상태에 설정합니다.
   const handleSelectRecipe = (selected: RecipesRatingExpand) => {
     const selectedTitle = selected.title.replace(/\s+/g, '');
+    console.log(selectedTitle);
+
     // const selectedCategory = selected.category.replace(/\s+/g, '');
 
     const filteredData: RecipesRatingExpand[] | undefined = allRecipes?.filter(
-      (item) => item.title.replace(/\s+/g, '').includes(selectedTitle)
+      (item) => item.title.replace(/\s+/g, '').includes(query)
       // item.category.replace(/\s+/g, '').includes(selectedCategory)
     );
     if (filteredData) {
