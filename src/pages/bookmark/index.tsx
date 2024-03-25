@@ -14,7 +14,6 @@ export function BookmarkPage() {
     const conditions = userBookmarks.map((id : string) => {
       return `id = "${id}"`;
     })
-    
     const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
       expand: 'rating, profile',
       filter: conditions.join(' || ')
