@@ -8,16 +8,13 @@ import { Dispatch, SetStateAction } from 'react';
 import { RecordModel } from 'pocketbase';
 
 
-// interface StarButtonsProps {
-//   rangeOfStars : [];
-//   setStars : Dispatch<SetStateAction<number>>;
-//   stars : number;
-// }
+interface StarButtonsProps {
+  rangeOfStars : number[];
+  setStars : Dispatch<SetStateAction<number>>;
+  stars : number;
+}
 
-function StarButtons() {
-  const {rangeOfStars, setStars, stars} = useCreateReview();
-
-
+function StarButtons({rangeOfStars, setStars, stars} : StarButtonsProps) {
   return (
     <div className="w-fit relative">
       <div className="flex gap-2pxr">
@@ -40,13 +37,13 @@ function StarButtons() {
   )
 }
 
-interface ReviewInputProps {
+interface ReviewInputProps extends StarButtonsProps {
   setReviewText : Dispatch<SetStateAction<string>>;
   imageURL : string;
   recipeData : RecordModel | undefined;
 }
 
-function ReviewInput({setReviewText, imageURL, recipeData} : ReviewInputProps) {
+function ReviewInput({setReviewText, imageURL, recipeData, rangeOfStars, setStars, stars} : ReviewInputProps) {
 
   return (
     <div className='w-full h-full pb-160pxr overflow-y-auto'>
@@ -61,7 +58,7 @@ function ReviewInput({setReviewText, imageURL, recipeData} : ReviewInputProps) {
       </div>
       <div className="w-full py-36pxr flex flex-col items-center border-t border-b border-gray-200 gap-14pxr">
         <h2 className="text-body-em">레시피는 어떠셨나요?</h2>
-        <StarButtons />
+        <StarButtons rangeOfStars={rangeOfStars} setStars={setStars} stars={stars}/>
       </div>
       <div className="w-full py-36pxr flex flex-col items-center gap-14pxr">
         <h2 className="text-body-em">어떤점이 좋았나요?</h2>
@@ -76,7 +73,14 @@ function ReviewInput({setReviewText, imageURL, recipeData} : ReviewInputProps) {
 }
 
 export function CreateReview() {
-  const { UploadReview, setReviewText, imageURL, recipeData } = useCreateReview();
+  const { 
+    UploadReview, 
+    setReviewText, 
+    imageURL, 
+    recipeData, 
+    rangeOfStars, 
+    setStars, 
+    stars } = useCreateReview();
   const { recipeId } = useParams();
 
   return (
@@ -98,7 +102,14 @@ export function CreateReview() {
           <button className="w-full pt-16pxr pb-50pxr flex justify-center">
             <hr className="h-3pxr w-67pxr bg-gray-200 border-0 rounded-full sticky top-0"></hr>
           </button>
-          <ReviewInput setReviewText={setReviewText} imageURL={imageURL} recipeData={recipeData}/>
+          <ReviewInput 
+            setReviewText={setReviewText} 
+            imageURL={imageURL} 
+            recipeData={recipeData}
+            rangeOfStars={rangeOfStars}
+            setStars={setStars}
+            stars={stars}
+            />
           <footer className="absolute left-0 bottom-0 w-full flex justify-center px-14pxr gap-8pxr pt-14pxr pb-46pxr bg-white">
             <Link
               aria-label="이전"
