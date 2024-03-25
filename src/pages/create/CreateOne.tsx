@@ -1,5 +1,4 @@
 // packages
-import { Header, OneButtonModal, TwoButtonModal } from '@/components';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -8,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { categories, difficult, schema } from './schema';
 import { FormValues } from './create';
 import { FieldsetInput, TextInput, Selector, FileInput2 } from './components';
+import { Header, OneButtonModal, TwoButtonModal } from '@/components';
 import { useAtom } from 'jotai';
 import { category, description, difficulty, image2, ingredients, keywords, seasoning, title } from '@/stores/stores';
 
@@ -88,7 +88,7 @@ export function CreateOne() {
           <TextInput
             as="input"
             title="레시피 제목"
-            placeholder="레시피 제목을 알려주세요."
+            placeholder="레시피"
             id="recipe-title"
             maxLength={30}
             error={errors.recipeTitle}
@@ -98,7 +98,7 @@ export function CreateOne() {
           <TextInput
             as="textarea"
             title="레시피 설명"
-            placeholder="이 레시피를 소개하는 글을 작성해주세요."
+            placeholder="이 레시피를 소개하는 글을 작성해주세요"
             id="recipe-desc"
             maxLength={500}
             error={errors.recipeDesc}

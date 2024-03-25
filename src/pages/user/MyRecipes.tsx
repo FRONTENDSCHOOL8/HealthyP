@@ -2,9 +2,9 @@ import { db } from '@/api/pocketbase';
 import { DefaultLoader, Header, LargeCard, TwoButtonModal } from '@/components';
 import useNotificationData from '@/hooks/useNotificationData';
 import useProfileData from '@/hooks/useProfileData';
-import { myRecipesAtom } from '@/stores/stores';
+import { isStore, myRecipesAtom } from '@/stores/stores';
 import getPbImage from '@/util/data/getPBImage';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -70,6 +70,7 @@ const MyRecipesContainer = () => {
 export function MyRecipes() {
   const navigate = useNavigate();
   const { hasNotification } = useNotificationData();
+  const setIsAuth = useSetAtom(isStore);
 
   const openNotification = () => {
     navigate('/notifications');
@@ -82,7 +83,8 @@ export function MyRecipes() {
   const handleConfirm = () => {
     sessionStorage.clear();
     localStorage.removeItem('pocketbase_auth');
-    navigate('/main');
+    setIsAuth(false);
+    navigate(0);
   };
 
   const handleLogout = () => {

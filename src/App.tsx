@@ -40,8 +40,8 @@ import {
   Notifications,
   CategoryPage,
 } from './pages/';
-import { isStore } from './stores/stores';
 import IntroPage from './pages/intro';
+import { isStore } from './stores/stores';
 
 const router = createBrowserRouter([
   // 루트 페이지 (메인)
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'main',
-        element: <MainPage />,
+        element: <MainPage />
       },
       {
         path: 'category/:title',
