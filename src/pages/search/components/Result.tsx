@@ -10,6 +10,8 @@ export default function ResultComponent() {
   const [query] = useAtom(chooseQuery); // 선택 결과
   const [sessionData, setSessionData] = useState<RecipesRatingExpand[] | undefined>([]);
 
+  console.log(query);
+
   useEffect(() => {
     const sessionDataRaw = sessionStorage.getItem('selectedRecipe');
     if (sessionDataRaw) {

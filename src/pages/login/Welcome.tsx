@@ -11,7 +11,7 @@ export function Welcome() {
       <FullPageInfo
         icons={[checkCirclePrimary, '로그인완료']}
         route={() => '/main'}
-        text={[`${name}님`, 'いらっしゃいませ!!']}
+        text={[`${name}님`, '어서오세요']}
         hasDetailedDescription={false}
       />
     </>
