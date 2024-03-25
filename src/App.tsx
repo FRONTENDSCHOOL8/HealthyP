@@ -40,6 +40,7 @@ import {
   Notifications,
   CategoryPage,
 } from './pages/';
+import IntroPage from './pages/intro';
 import { isStore } from './stores/stores';
 
 const router = createBrowserRouter([
@@ -51,7 +52,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MainPage />,
+        element: <IntroPage />,
+      },
+      {
+        path: 'main',
+        element: <MainPage />
       },
       {
         path: 'category/:title',

@@ -35,7 +35,7 @@ export function Terms() {
 
   // 모달창 확인 버튼 클릭 시
   const handleConfirm = () => {
-    navigate('/');
+    navigate('/main');
   };
 
   const handleAllCheckedChange = () => {

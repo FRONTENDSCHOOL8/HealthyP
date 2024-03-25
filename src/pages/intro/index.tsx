@@ -33,7 +33,7 @@ export default function IntroPage() {
   return (
     <>
       <FullPageInfo
-        route={() => '/'}
+        route={() => '/main'}
         icons={[logo, '헬씨피']}
         text={['더 건강하게', '더 맛있게']}
         hasDetailedDescription={false}
