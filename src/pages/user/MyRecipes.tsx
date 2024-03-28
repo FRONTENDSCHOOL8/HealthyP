@@ -18,13 +18,19 @@ const MyRecipesContainer = () => {
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
-        const getRecipeData = async () =>
-          await db.collection('recipes').getList(1, 10, {
+        const recipeData = await db
+          .collection('recipes')
+          .getList(1, 10, {
             filter: `profile = "${id}"`,
             sort: '-created',
+          })
+          .then((data) => data)
+          .catch((err) => {
+            if (!err.isAbort) {
+              console.warn('non cancellation error:', err);
+            }
+            return undefined;
           });
-
-        const recipeData = await getRecipeData();
 
         setMyRecipes(recipeData);
       };

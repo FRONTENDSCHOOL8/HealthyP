@@ -23,27 +23,37 @@ const MyReviewsContainer = () => {
         const myReviews = [];
 
         const getFullRecipesData = async () =>
-          await db.collection('recipes').getFullList({
-            expand: 'rating.creator',
-            filter: `rating:length > 0 && rating.creator?~"${id}"`,
-          });
+          await db
+            .collection('recipes')
+            .getFullList({
+              expand: 'rating.creator',
+              filter: `rating:length > 0 && rating.creator?~"${id}"`,
+            })
+            .then((data) => data)
+            .catch((err) => {
+              if (!err.isAbort) {
+                console.warn('non cancellation error:', err);
+              }
+            });
 
         const fullRecipesData = await getFullRecipesData();
 
-        for (const item of fullRecipesData) {
-          const { id: recipe_id, title: recipe_title, expand: { rating } = {} } = item;
-          for (const rate of rating) {
-            if (rate.creator === id) {
-              const { id: review_id, creator } = rate;
-              const review_text = DOMPurify.sanitize(rate.review_text, {
-                ALLOWED_TAGS: ['br', 'em'],
-              });
-              // 각 리뷰 데이터를 myReviews 배열에 추가
-              myReviews.push({ recipe_id, recipe_title, review_id, creator, review_text });
+        if (fullRecipesData) {
+          for (const item of fullRecipesData) {
+            const { id: recipe_id, title: recipe_title, expand: { rating } = {} } = item;
+            for (const rate of rating) {
+              if (rate.creator === id) {
+                const { id: review_id, creator } = rate;
+                const review_text = DOMPurify.sanitize(rate.review_text, {
+                  ALLOWED_TAGS: ['br', 'em'],
+                });
+                // 각 리뷰 데이터를 myReviews 배열에 추가
+                myReviews.push({ recipe_id, recipe_title, review_id, creator, review_text });
+              }
             }
           }
+          setReview(myReviews);
         }
-        setReview(myReviews);
       };
 
       fetchData();
@@ -86,10 +96,37 @@ const MyReviewsContainer = () => {
   useEffect(() => {
     const deleteReview = async () => {
       if (deleteReviewId) {
-        const getNotification = await db.collection('notifications').getFirstListItem(`review="${deleteReviewId}"`);
+        const getNotification = await db
+          .collection('notifications')
+          .getFirstListItem(`review="${deleteReviewId}"`)
+          .then((data) => data)
+          .catch((err) => {
+            if (!err.isAbort) {
+              console.warn('non cancellation error:', err);
+            }
+          });
 
-        await db.collection('ratings').delete(deleteReviewId);
-        await db.collection('notifications').delete(getNotification.id);
+        await db
+          .collection('ratings')
+          .delete(deleteReviewId)
+          .then((data) => data)
+          .catch((err) => {
+            if (!err.isAbort) {
+              console.warn('non cancellation error:', err);
+            }
+          });
+
+        if (getNotification && 'id' in getNotification) {
+          await db
+            .collection('notifications')
+            .delete(getNotification.id)
+            .then((data) => data)
+            .catch((err) => {
+              if (!err.isAbort) {
+                console.warn('non cancellation error:', err);
+              }
+            });
+        }
       }
       const updatedReviews = review.filter((item) => item.review_id !== deleteReviewId);
       setReview(updatedReviews);
