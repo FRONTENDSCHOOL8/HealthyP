@@ -11,7 +11,6 @@ function SkeletonLargeCardComponent() {
     <>
       <SkeletonLargeCard />
       <SkeletonLargeCard />
-      <SkeletonLargeCard />
     </>
   );
 }
@@ -31,7 +30,7 @@ export function BookmarkPage() {
     return recordsData.items;
   };
 
-  const { data, status, isFetchingNextPage, userData, ref } = useInifinityCard(getRecipeData);
+  const { data, status, isFetchingNextPage, userData, ref, isLoading } = useInifinityCard(getRecipeData);
 
   const contents = data?.pages.map((recipes) =>
     recipes.map((recipe, index) => {
@@ -75,8 +74,12 @@ export function BookmarkPage() {
       <Helmet>
         <title>HealthyP | 북마크</title>
       </Helmet>
-      <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">{contents}</div>
-      {isFetchingNextPage && <SkeletonLargeCardComponent />}
+      {isLoading ? (
+        <SkeletonLargeCardComponent />
+      ) : (
+        <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">{contents}</div>
+      )}
+      {isFetchingNextPage && <SkeletonLargeCard />}
     </div>
   );
 }

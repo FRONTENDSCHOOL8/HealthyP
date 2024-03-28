@@ -19,3 +19,9 @@
     color: #000;
   }
 }
+
+@layer components {
+  .skeleton {
+    @apply animate-shimmer bg-gradient-custom bg-custom;
+  }
+}
