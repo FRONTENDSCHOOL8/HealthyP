@@ -4,6 +4,7 @@ import { LargeCard, SkeletonLargeCard } from '@/components';
 import getPbImage from '@/util/data/getPBImage';
 import { getCurrentUserData } from '@/util';
 import { Helmet } from 'react-helmet-async';
+import { useInifinityCard } from '@/hooks/useInfinityCard';
 
 function SkeletonLargeCardComponent() {
   return (
