@@ -23,7 +23,7 @@ export default function TextArea({
   const [charCount, setCharCount] = useState(0);
 
   useEffect(() => {
-    if(data === undefined || data === null) return;
+    if (data === undefined || data === null) return;
     setCharCount(data.length);
   }, [data]);
 
@@ -32,7 +32,7 @@ export default function TextArea({
       const newText = e.target.value;
       if (newText.length <= maxCharCount) {
         // setText(newText);
-        setData(newText);
+        setData(newText.replace(/\n/g, '<br>'));
       }
     },
     [maxCharCount, setData]
