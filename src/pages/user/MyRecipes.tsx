@@ -20,7 +20,7 @@ const MyRecipesContainer = () => {
       const fetchData = async () => {
         const recipeData = await db
           .collection('recipes')
-          .getList(1, 10, {
+          .getFullList({
             filter: `profile = "${id}"`,
             sort: '-created',
           })
@@ -32,7 +32,7 @@ const MyRecipesContainer = () => {
             return undefined;
           });
 
-        setMyRecipes(recipeData);
+        setMyRecipes(recipeData ?? []);
       };
 
       fetchData();
@@ -44,26 +44,24 @@ const MyRecipesContainer = () => {
       {myRecipes ? (
         <div className="pb-140pxr">
           <div className="grid gap-6pxr grid-cols-card justify-center w-full bg-gray-200">
-            {myRecipes &&
-              myRecipes?.items &&
-              myRecipes?.items.map((data: RecordModel, idx: number) => {
-                if (data) {
-                  const url = getPbImage('recipes', data.id, data.image);
-                  return (
-                    <LargeCard
-                      key={idx}
-                      id={data.id}
-                      userData={data}
-                      rating={data.expand?.rating}
-                      url={data.image && url}
-                      desc={data.desc}
-                      title={data.title}
-                      profile={data.expand?.profile}
-                      keywords={data.keywords}
-                    />
-                  );
-                }
-              })}
+            {myRecipes.map((data: RecordModel, idx: number) => {
+              if (data) {
+                const url = getPbImage('recipes', data.id, data.image);
+                return (
+                  <LargeCard
+                    key={idx}
+                    id={data.id}
+                    userData={data}
+                    rating={data.expand?.rating}
+                    url={data.image && url}
+                    desc={data.desc}
+                    title={data.title}
+                    profile={data.expand?.profile}
+                    keywords={data.keywords}
+                  />
+                );
+              }
+            })}
           </div>
         </div>
       ) : (
