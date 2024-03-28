@@ -16,20 +16,22 @@ export function CategoryPage() {
         sort: '-views' });
       return recordsData.items;
     } else {
-      const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
+      const recordsData = await db.collection('recipes').getList(pageParam, 5, {
         expand: 'rating, profile',
         filter: `category = "${title}"`,
-        sort: '-created'
+        sort: '-created',
       });
-      return recordsData.items
+
+      return recordsData?.items;
     }
   }
 
   const { data, status, isFetchingNextPage, userData, ref } = useInifinityCard(getRecipeData);
+
   const contents = data?.pages.map((recipes) =>
-    recipes.map((recipe, index) => {
+    recipes?.map((recipe, index) => {
       const url = getPbImage('recipes', recipe.id, recipe.image);
-      if (recipes.length === index + 1)
+      if (recipes?.length === index + 1)
         return (
           <LargeCard
             innerRef={ref}
@@ -63,12 +65,13 @@ export function CategoryPage() {
   if (status === 'pending') return <DefaultLoader />;
   if (status === 'error') return <DefaultLoader />;
 
+
   return (
     <div className="w-full h-full bg-gray-200 overflow-auto">
       <Helmet>
         <title>HealthyP | {title}</title>
       </Helmet>
-      <Header option="titleWithBack" title={title}/>
+      <Header option="titleWithBack" title={title} />
       <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">{contents}</div>
       {isFetchingNextPage && <p className='mx-auto w-full'>로딩중</p>}
     </div>
