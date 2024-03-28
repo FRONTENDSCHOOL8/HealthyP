@@ -1,6 +1,6 @@
 export default function SkeletonLargeCard() {
   return (
-    <article className="h-max overflow-hidden p-14pxr bg-white max-w-430pxr shrink-0 shadow-default">
+    <div className="h-max overflow-hidden p-14pxr bg-white max-w-430pxr shrink-0 shadow-default">
       <div className="flex justify-between min-h-54pxr items-center">
         <div className="flex gap-4pxr items-center">
           <div className="size-30pxr bg-gray_400 rounded-[30px] animate-shimmer bg-gradient-custom bg-custom" />
@@ -19,6 +19,6 @@ export default function SkeletonLargeCard() {
         <div className="w-50pxr h-20pxr bg-gray_400 rounded-[5px] animate-shimmer bg-gradient-custom bg-custom" />
         <div className="w-50pxr h-20pxr bg-gray_400 rounded-[5px] animate-shimmer bg-gradient-custom bg-custom" />
       </div>
-    </article>
+    </div>
   );
 }
