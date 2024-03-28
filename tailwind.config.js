@@ -25,6 +25,15 @@ export default {
       // => @media (min-width: 430px ) { ... }
     },
     extend: {
+      animation: {
+        shimmer: 'shimmer 1s infinite linear',
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { backgroundPosition: '-200%' },
+          '100%': { backgroundPosition: '200%' },
+        },
+      },
       colors: {
         white: '#FFFFFF',
         black: '#000000',
@@ -69,6 +78,10 @@ export default {
         'person-fill-icon': "url('/src/assets/icons/personFill.svg')",
         'search-icon': "url('/src/assets/icons/search.svg')",
         'search-fill-icon': "url('/src/assets/icons/searchFill.svg')",
+        'gradient-custom': 'linear-gradient(to right, #D9D9D9 0%, #EDEEF1 50%, #D9D9D9 100%)',
+      },
+      backgroundSize: {
+        custom: '300% 100%',
       },
       spacing: { side: '0.875rem', overflow: '12vw', ...pxToRemFunc(0, 1301) }, // px을 rem으로 변환
       inset: {

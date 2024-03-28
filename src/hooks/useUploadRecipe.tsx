@@ -113,8 +113,8 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
         (async () => {
           const data: RecipeData = {
             title: titleField,
-            ingredients: ingredientData,
-            seasoning: seasoningData,
+            ingredients: JSON.stringify(ingredientData),
+            seasoning: JSON.stringify(seasoningData),
             steps: steps,
             views: 0,
             category: categoryData,
