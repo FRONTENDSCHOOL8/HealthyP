@@ -1,6 +1,6 @@
-import { RatingsResponse, RecipesRatingExpand, MyNotification, MyReview } from '@/types';
+import { RecipesRatingExpand, MyNotification, MyReview } from '@/types';
 import { atom } from 'jotai';
-import { ListResult, RecordModel } from 'pocketbase';
+import { RecordModel } from 'pocketbase';
 
 // 유효성
 export const rememberMe = atom(false); // 자동 로그인
@@ -41,12 +41,9 @@ export const userRecordId = atom('');
 export const userNameAtom = atom('');
 export const imageUrlAtom = atom('');
 export const modalAtom = atom<boolean>(false);
-export const myRecipesAtom = atom<ListResult<RecordModel> | undefined>(undefined);
-export const beforeDomPurifyAtom = atom<RecordModel[]>([]);
-export const defaultRecipesAtom = atom<RecordModel[]>([]);
 export const recentRecipesAtom = atom<RecordModel[]>([]);
 export const deleteRecentRecipeAtom = atom('');
-export const ratingDataAtom = atom<RatingsResponse[][]>([]);
+export const myRecipesAtom = atom<RecordModel[]>([]);
 export const reviewDataAtom = atom<MyReview[]>([]);
 export const deleteReviewAtom = atom('');
 

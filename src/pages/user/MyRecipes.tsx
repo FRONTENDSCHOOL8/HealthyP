@@ -18,15 +18,21 @@ const MyRecipesContainer = () => {
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
-        const getRecipeData = async () =>
-          await db.collection('recipes').getList(1, 10, {
+        const recipeData = await db
+          .collection('recipes')
+          .getFullList({
             filter: `profile = "${id}"`,
             sort: '-created',
+          })
+          .then((data) => data)
+          .catch((err) => {
+            if (!err.isAbort) {
+              console.warn('non cancellation error:', err);
+            }
+            return undefined;
           });
 
-        const recipeData = await getRecipeData();
-
-        setMyRecipes(recipeData);
+        setMyRecipes(recipeData ?? []);
       };
 
       fetchData();
@@ -38,26 +44,24 @@ const MyRecipesContainer = () => {
       {myRecipes ? (
         <div className="pb-140pxr">
           <div className="grid gap-6pxr grid-cols-card justify-center w-full bg-gray-200">
-            {myRecipes &&
-              myRecipes?.items &&
-              myRecipes?.items.map((data: RecordModel, idx: number) => {
-                if (data) {
-                  const url = getPbImage('recipes', data.id, data.image);
-                  return (
-                    <LargeCard
-                      key={idx}
-                      id={data.id}
-                      userData={data}
-                      rating={data.expand?.rating}
-                      url={data.image && url}
-                      desc={data.desc}
-                      title={data.title}
-                      profile={data.expand?.profile}
-                      keywords={data.keywords}
-                    />
-                  );
-                }
-              })}
+            {myRecipes.map((data: RecordModel, idx: number) => {
+              if (data) {
+                const url = getPbImage('recipes', data.id, data.image);
+                return (
+                  <LargeCard
+                    key={idx}
+                    id={data.id}
+                    userData={data}
+                    rating={data.expand?.rating}
+                    url={data.image && url}
+                    desc={data.desc}
+                    title={data.title}
+                    profile={data.expand?.profile}
+                    keywords={data.keywords}
+                  />
+                );
+              }
+            })}
           </div>
         </div>
       ) : (

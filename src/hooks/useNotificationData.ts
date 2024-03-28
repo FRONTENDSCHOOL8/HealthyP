@@ -12,11 +12,20 @@ const useCheckNotification = () => {
     if (id) {
       const fetchData = async () => {
         const getNotificationData = async () =>
-          await db.collection('notifications').getFullList({
-            expand: 'recipe, review, review.creator',
-            filter: `recipe.profile="${id}" && is_read=false`,
-            sort: '-created',
-          });
+          await db
+            .collection('notifications')
+            .getFullList({
+              expand: 'recipe, review, review.creator',
+              filter: `recipe.profile="${id}" && is_read=false`,
+              sort: '-created',
+            })
+            .then((data) => data)
+            .catch((err) => {
+              if (!err.isAbort) {
+                console.warn('non cancellation error:', err);
+              }
+              return [];
+            });
         const notificationData = await getNotificationData();
         const countNotify = notificationData.length;
 

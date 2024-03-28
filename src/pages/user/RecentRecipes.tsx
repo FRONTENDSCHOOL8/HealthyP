@@ -1,8 +1,7 @@
 import { db } from '@/api/pocketbase';
 import { Header, Review, Star, TwoButtonModal } from '@/components';
 import useNotificationData from '@/hooks/useNotificationData';
-import { defaultRecipesAtom, deleteRecentRecipeAtom, isStore, ratingDataAtom, recentRecipesAtom } from '@/stores/stores';
-import { RatingsResponse } from '@/types';
+import { deleteRecentRecipeAtom, isStore, recentRecipesAtom } from '@/stores/stores';
 import getPbImage from '@/util/data/getPBImage';
 import DOMPurify from 'dompurify';
 import { AnimatePresence, PanInfo, motion } from 'framer-motion';
@@ -13,80 +12,54 @@ import { Link, useNavigate } from 'react-router-dom';
 import Profile from './components/Profile';
 import Tab from './components/Tab';
 
-interface Recipe {
-  id: string;
-}
-
 const RecipeContainer = () => {
-  const [recipes, setRecipes] = useAtom(defaultRecipesAtom);
   const [recentRecipes, setRecentRecipes] = useAtom(recentRecipesAtom);
-  const [ratingData, setRatingData] = useAtom(ratingDataAtom);
   const [deleteRecentRecipeId, setDeleteRecentRecipeId] = useAtom(deleteRecentRecipeAtom);
 
+  const recentViewRaw = sessionStorage.getItem('recentRecipe');
+
   useEffect(() => {
-    const recentViewRaw = sessionStorage.getItem('recentRecipe');
     const recentViewArray: { id: string }[] = recentViewRaw ? JSON.parse(recentViewRaw) : [];
 
     const fetchData = async () => {
-      const recentViewRecipes: RecordModel[] = [];
+      const recentViewRecipes = [];
 
-      for (const [, item] of recentViewArray.entries()) {
-        const recentView = await db.collection('recipes').getFullList({
-          filter: `id = "${item.id}"`,
+      const dompurify = (data: string) => {
+        return DOMPurify.sanitize(data, {
+          ALLOWED_TAGS: ['br', 'em'],
         });
+      };
 
-        // find 메소드를 사용하여 조건에 맞는 첫 번째 레시피 객체를 찾아 recentViewRecipes 배열에 추가
-        const recipe: RecordModel | undefined = recentView.find((recipeItem: Recipe) => recipeItem.id);
-        if (recipe) {
-          recentViewRecipes.push(recipe);
-        }
-      }
-
-      setRecipes(recentViewRecipes);
-    };
-
-    fetchData();
-  }, [setRecipes]);
-
-  useEffect(() => {
-    const dompurify = (data: string) => {
-      return DOMPurify.sanitize(data, {
-        ALLOWED_TAGS: ['br', 'em'],
-      });
-    };
-    const dompurifyRecentRecipes = recipes.reduce<RecordModel[]>((acc: RecordModel[], recipe: RecordModel) => {
-      return [...acc, { ...recipe, desc: dompurify(recipe.desc) }];
-    }, [] as RecordModel[]);
-
-    setRecentRecipes(dompurifyRecentRecipes);
-  }, [setRecentRecipes]);
-
-  useEffect(() => {
-    const ratingsArray = recentRecipes.map((recipe) => recipe.rating);
-
-    const fetchData = async () => {
-      const ratingRecipes: RatingsResponse[][] | undefined = [];
-      let ratingItems: RatingsResponse[] = [];
-
-      for (const [, item] of ratingsArray.entries()) {
-        for (const i of item) {
-          const rating = await db.collection('ratings').getFullList({
-            filter: `id = "${i}"`,
+      for (const item of recentViewArray) {
+        const recentView = await db
+          .collection('recipes')
+          .getFullList({
+            expand: 'rating',
+            filter: `id = "${item.id}"`,
+          })
+          .then((data) => data)
+          .catch((err) => {
+            if (!err.isAbort) {
+              console.warn('non cancellation error:', err);
+            }
           });
-          const ratingItem = rating.find((i) => i.id) as RatingsResponse;
-          if (ratingItem) {
-            ratingItems.push(ratingItem);
-          }
+
+        const recipeObj = (recentView as RecordModel[])?.[0];
+
+        if (recipeObj) {
+          recipeObj.desc = dompurify(recipeObj.desc);
+        } else {
+          return;
         }
 
-        ratingRecipes.push(ratingItems);
-        ratingItems = [];
+        recentViewRecipes.push(recipeObj);
       }
 
-      setRatingData(ratingRecipes);
+      setRecentRecipes(recentViewRecipes);
     };
+
     fetchData();
-  }, [recentRecipes, setRatingData]);
+  }, [recentViewRaw, setRecentRecipes]);
 
   // Animation Properties
   const DELETE_BTN_WIDTH = 60;
@@ -136,17 +109,16 @@ const RecipeContainer = () => {
     };
 
     deleteRecentRecipe();
-  }, [deleteRecentRecipeId, setRecentRecipes]);
+  }, [deleteRecentRecipeId, recentRecipes, setRecentRecipes]);
 
   return (
     <>
-      {ratingData ? (
+      {
         <div className="w-full grow bg-white relative p-14pxr flex flex-col gap-8pxr pb-140pxr ">
           <ul className="flex flex-col gap-10pxr divide-y-[1px] divide-gray_200">
             <AnimatePresence>
-              {ratingData &&
-                recentRecipes &&
-                recentRecipes.map((item: RecordModel, idx: number) => {
+              {recentRecipes &&
+                recentRecipes.map((item: RecordModel) => {
                   if (item) {
                     return (
                       <motion.li
@@ -178,21 +150,10 @@ const RecipeContainer = () => {
                               <p className="text-cap-1 line-clamp-2">{item.desc}</p>
                             </Link>
                             <div className="flex flex-row px-2pxr gap-4pxr items-center">
-                              {ratingData &&
-                                ratingData.map((i, ratingIdx: number) => {
-                                  if (idx === ratingIdx) {
-                                    return (
-                                      <Link
-                                        key={ratingIdx}
-                                        to={`/reviews/${item.id}`}
-                                        className="fit-content flex gap-4pxr"
-                                      >
-                                        <Star rating={i} />
-                                        <Review rating={i} caseType={'literal'} />
-                                      </Link>
-                                    );
-                                  }
-                                })}
+                              <Link to={`/reviews/${item.id}`} className="fit-content flex gap-4pxr">
+                                <Star rating={item.expand?.rating} />
+                                <Review rating={item.expand?.rating} caseType={'literal'} />
+                              </Link>
                             </div>
                           </div>
                         </motion.div>
@@ -206,9 +167,7 @@ const RecipeContainer = () => {
             </AnimatePresence>
           </ul>
         </div>
-      ) : (
-        <div>Loading...</div>
-      )}
+      }
     </>
   );
 };
