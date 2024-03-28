@@ -3,25 +3,26 @@ import { FileInputProps } from '../create';
 
 import { ErrorMessage } from '.';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { image2 } from '@/stores/stores';
 
 export default function FileInput({ id, error, register }: FileInputProps) {
   const [preview, setPreview] = useState('');
-  const hasImg = useAtomValue(image2);
+  const [image, setImage] = useAtom(image2);
 
   useEffect(() => {
-    if (hasImg) {
-      const objUrl = URL.createObjectURL(hasImg?.[0]);
+    if (image) {
+      const objUrl = URL.createObjectURL(image?.[0]);
       setPreview(objUrl);
     }
-  }, [hasImg]);
+  }, [image]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const objUrl = URL.createObjectURL(file);
     setPreview(objUrl);
+    setImage(e.target.files);
   };
 
   return (

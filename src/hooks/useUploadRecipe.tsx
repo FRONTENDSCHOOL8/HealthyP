@@ -4,7 +4,6 @@ import { db } from '@/api/pocketbase';
 import {
   title,
   ingredients,
-  image,
   description,
   recipeSteps,
   seasoning,
@@ -15,6 +14,7 @@ import {
   difficulty,
   step_images,
   modalError,
+  image2,
 } from '@/stores/stores';
 
 import OpenAI from 'openai';
@@ -51,7 +51,7 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
   const [titleField] = useAtom(title);
   const ingredientData = useAtomValue(ingredients);
   const seasoningData = useAtomValue(seasoning);
-  const imageFile = useAtomValue(image);
+  const imageFile = useAtomValue(image2);
   const categoryData = useAtomValue(category);
   const keywordsData = useAtomValue(keywords);
   const [nutritionData, setNutritionData] = useAtom(nutrition);
@@ -70,6 +70,7 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
     if (getPocketbaseAuthRaw) {
       const pocketbaseAuth = JSON.parse(getPocketbaseAuthRaw);
       const authUserId = pocketbaseAuth.model.id;
+      console.log(authUserId);
       setUserId(authUserId);
     }
   }, []);
@@ -91,7 +92,6 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
         model: 'gpt-3.5-turbo-0125',
         response_format: { type: 'json_object' },
       });
-      // console.log(completion.choices[0].message.content);
       const result = completion.choices[0].message.content;
       setNutritionData(result);
     }
@@ -107,6 +107,7 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
   }
 
   async function uploadRecipe() {
+    if(imageFile === null) return;
     try {
       await Promise.all([
         new Promise((resolve) => setTimeout(resolve, 3000)),
@@ -120,7 +121,7 @@ export default function useUploadRecipe(): UseUploadRecipeResult {
             category: categoryData,
             keywords: keywordsData,
             desc: descriptionText,
-            image: imageFile,
+            image: imageFile[0],
             nutrition: nutritionData,
             rating: [],
             time: timeData,

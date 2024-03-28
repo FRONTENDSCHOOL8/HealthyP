@@ -5,7 +5,6 @@ import { db } from '@/api/pocketbase';
 import { FnButton } from '@/components';
 import { ReviewCard } from './components/ReviewCard';
 import { Outlet } from 'react-router-dom';
-// import { ReviewStars } from './components/ReviewStars';
 import { ReviewStars } from './components/ReviewStars';
 import { Helmet } from 'react-helmet-async';
 

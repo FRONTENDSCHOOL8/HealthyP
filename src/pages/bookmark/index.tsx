@@ -2,10 +2,6 @@ import { db } from '@/api/pocketbase';
 import { LargeCard, SkeletonLargeCard } from '@/components';
 
 import getPbImage from '@/util/data/getPBImage';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useInView } from 'react-intersection-observer';
-import { RecordModel } from 'pocketbase';
-import { useEffect, useState } from 'react';
 import { getCurrentUserData } from '@/util';
 import { Helmet } from 'react-helmet-async';
 
@@ -20,9 +16,6 @@ function SkeletonLargeCardComponent() {
 }
 
 export function BookmarkPage() {
-  const { ref, inView } = useInView({ threshold: 0.7 });
-  const [userData, setUserData] = useState<RecordModel>();
-
   const getRecipeData = async ({ pageParam = 1 }) => {
     const currentUser = getCurrentUserData();
     const userBookmarks = currentUser?.bookmark;
@@ -37,45 +30,7 @@ export function BookmarkPage() {
     return recordsData.items;
   };
 
-  const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ['recipes'],
-    queryFn: getRecipeData,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      const nextPage = lastPage.length ? allPages.length + 1 : undefined;
-      return nextPage;
-    },
-  });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      console.log('isInview');
-      fetchNextPage();
-    }
-  }, [fetchNextPage, hasNextPage, inView]);
-
-  useEffect(() => {
-    async function getUserData() {
-      const currentUser = localStorage.getItem('pocketbase_auth');
-      if (currentUser === null) return;
-      const userId = JSON.parse(currentUser).model.id;
-      const response = await db.collection('users').getOne(userId, { requestKey: null });
-      if (response === undefined) return;
-      setUserData(response);
-    }
-
-    // fetchData 함수를 호출합니다.
-    getUserData();
-    db.collection('users').subscribe('*', getUserData);
-
-    return () => {
-      db.collection('users').unsubscribe();
-    };
-  }, []);
+  const { data, status, isFetchingNextPage, userData, ref } = useInifinityCard(getRecipeData);
 
   const contents = data?.pages.map((recipes) =>
     recipes.map((recipe, index) => {
