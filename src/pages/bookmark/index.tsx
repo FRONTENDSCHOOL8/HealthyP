@@ -1,22 +1,32 @@
 import { db } from '@/api/pocketbase';
-import { LargeCard } from '@/components';
+import { LargeCard, SkeletonLargeCard } from '@/components';
+
 import getPbImage from '@/util/data/getPBImage';
 import { getCurrentUserData } from '@/util';
 import { Helmet } from 'react-helmet-async';
-import {DefaultLoader} from '@/components';
 import { useInifinityCard } from '@/hooks/useInfinityCard';
 
+function SkeletonLargeCardComponent() {
+  return (
+    <>
+      <SkeletonLargeCard />
+      <SkeletonLargeCard />
+      <SkeletonLargeCard />
+    </>
+  );
+}
 
 export function BookmarkPage() {
   const getRecipeData = async ({ pageParam = 1 }) => {
     const currentUser = getCurrentUserData();
     const userBookmarks = currentUser?.bookmark;
-    const conditions = userBookmarks.map((id : string) => {
+    const conditions = userBookmarks.map((id: string) => {
       return `id = "${id}"`;
-    })
-    const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
+    });
+
+    const recordsData = await db.collection('recipes').getList(pageParam, 6, {
       expand: 'rating, profile',
-      filter: conditions.join(' || ')
+      filter: conditions.join(' || '),
     });
     return recordsData.items;
   };
@@ -57,8 +67,8 @@ export function BookmarkPage() {
     })
   );
 
-  if (status === 'pending') return <DefaultLoader />;
-  if (status === 'error') return <DefaultLoader />;
+  if (status === 'pending') return <SkeletonLargeCardComponent />;
+  if (status === 'error') return <SkeletonLargeCardComponent />;
 
   return (
     <div className="w-full h-full bg-gray-200 overflow-auto">
@@ -66,7 +76,7 @@ export function BookmarkPage() {
         <title>HealthyP | 북마크</title>
       </Helmet>
       <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">{contents}</div>
-      {isFetchingNextPage && <p className='mx-auto w-full'>로딩중</p>}
+      {isFetchingNextPage && <SkeletonLargeCardComponent />}
     </div>
   );
 }
