@@ -26,12 +26,12 @@ export default {
     },
     extend: {
       animation: {
-        shimmer: 'shimmer 1s infinite linear',
+        shimmer: 'shimmer 1.5s infinite linear',
       },
       keyframes: {
         shimmer: {
-          '0%': { backgroundPosition: '-200%' },
-          '100%': { backgroundPosition: '200%' },
+          '0%': { backgroundPosition: '200%' },
+          '100%': { backgroundPosition: '-200%' },
         },
       },
       colors: {
