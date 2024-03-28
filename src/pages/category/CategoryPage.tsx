@@ -9,46 +9,62 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
+/*
+* -------------TODO-------------
+* - [ ] Remove abort error  
+* - [ ] fetching 상태일때 이전 데이터 그대로 렌더링 되는거 해결
+*       근데 이게 해당 카테고리의 기존 데이터인지, 아니면 새로운 카테고리의 기존 데이터인지 구분해야함 shit
+* - [ ]
+* - [ ]
+* - [ ]
 
-
+*/
 
 export function CategoryPage() {
-  const {title} = useParams();
+  const { title } = useParams();
   const { ref, inView } = useInView({ threshold: 0.7 });
   const [userData, setUserData] = useState<RecordModel>();
 
   const getRecipeData = async ({ pageParam = 1 }) => {
-    
-    if(title === "오늘의 레시피") {
-      const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
-        expand: 'rating, profile', 
-        sort: '-views' });
-
-      return recordsData.items;
+    if (title === '오늘의 레시피') {
+      const recordsData = await db.collection('recipes').getList(pageParam, 5, {
+        expand: 'rating, profile',
+        sort: '-views',
+      });
+      return recordsData?.items;
     } else {
-      const recordsData = await db.collection('recipes').getList(pageParam, 6, { 
+      const recordsData = await db.collection('recipes').getList(pageParam, 5, {
         expand: 'rating, profile',
         filter: `category = "${title}"`,
-        sort: '-created'
+        sort: '-created',
       });
 
-      return recordsData.items
+      return recordsData?.items;
     }
   };
 
-  const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  // const getRecipeData = async ({ pageParam = 1 }) => {
+  //   switch (title) {
+  //     case title === '건강식':
+  //       console.log('건강식');
+  //       await db
+  //         .collection('recipes')
+  //         .getList(pageParam, 5, titleMap[title])
+  //         .then((data) => data.items)
+  //         .catch((err) => {
+  //           if (!err.isAbort) console.warn('non cancellation error:', err);
+  //         });
+  //   }
+  // };
+  const { data, status, isFetchingNextPage, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey: ['recipes'],
     queryFn: getRecipeData,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      const nextPage = lastPage.length ? allPages.length + 1 : undefined;
+      const nextPage = lastPage?.length ? allPages.length + 1 : undefined;
       return nextPage;
     },
   });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -75,11 +91,10 @@ export function CategoryPage() {
     };
   }, []);
 
-
   const contents = data?.pages.map((recipes) =>
-    recipes.map((recipe, index) => {
+    recipes?.map((recipe, index) => {
       const url = getPbImage('recipes', recipe.id, recipe.image);
-      if (recipes.length === index + 1)
+      if (recipes?.length === index + 1)
         return (
           <LargeCard
             innerRef={ref}
@@ -110,7 +125,12 @@ export function CategoryPage() {
     })
   );
 
-  if (status === 'pending') return <div>로딩중~~</div>;
+  if (isFetching && data) {
+    console.log('데이터 있는데 패칭하고있다.');
+  }
+  if (status === 'pending') {
+    return <div>로딩중~~</div>;
+  }
   if (status === 'error') return <div>실패 ㅋㅋ</div>;
 
   return (
@@ -118,7 +138,7 @@ export function CategoryPage() {
       <Helmet>
         <title>HealthyP | {title}</title>
       </Helmet>
-      <Header option="titleWithBack" title={title}/>
+      <Header option="titleWithBack" title={title} />
       <div className="grid gap-6pxr pb-140pxr grid-cols-card justify-center w-full">{contents}</div>
       {isFetchingNextPage && <p>Loading...</p>}
     </div>

@@ -65,7 +65,7 @@ export function CreateOne() {
     setSeasoningt(data.seasoning);
     setDifficulty(data.difficult);
     setIngredient(data.ingredients);
-    setDescription(data.recipeDesc);
+    setDescription(data.recipeDesc.replace(/\n/g, '<br>'));
     setTitleField(data.recipeTitle);
     navigate('/create/two');
   };
