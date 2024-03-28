@@ -11,7 +11,6 @@ import vegan from '@/assets/icons/vegan.png'
 import foodDefaultImg from '@/assets/images/flower3.jpg';
 import { Helmet } from 'react-helmet-async';
 
-
 const categories = [
   {
     label: '건강식',
@@ -30,7 +29,6 @@ const categories = [
     image: vegan
   }
 ]
-
 
 function CategoryButtons() {
   return (
@@ -55,22 +53,11 @@ export function MainPage() {
   const [data, setData] = useState<ListResult<RecordModel>>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const getRecipeData = async () => await db.collection('recipes').getList(1, 10, { expand: 'rating', sort: '-views' });
-
-      // getRecipeData 함수의 결과를 기다립니다.
-      const recipeData: ListResult<RecordModel> = await getRecipeData();
-
-      // 실제 데이터를 상태에 설정합니다.
+    async function fetchData() {
+      const recipeData = await db.collection('recipes').getList(1, 10, { expand: 'rating', sort: '-views' });
       setData(recipeData);
-    };
-
-    // fetchData 함수를 호출합니다.
+    }
     fetchData();
-
-    return () => {
-      db.collection('users').unsubscribe();
-    };
   }, []);
 
   return (

@@ -16,6 +16,7 @@ export { default as GlobalNavigationBar } from '@/components/navigation/GlobalNa
 
 // cards
 export { default as LargeCard } from '@/components/cards/largeCard/LargeCard';
+export { default as SkeletonLargeCard } from '@/components/cards/largeCard/SkeletonLargeCard';
 export { default as UserProfile } from '@/components/cards/largeCard/UserProfile';
 export { default as RecipeCard } from '@/components/cards/recipeCard/RecipeCard';
 
@@ -23,5 +24,5 @@ export { default as RecipeCard } from '@/components/cards/recipeCard/RecipeCard'
 export * from '@/components/modal/OneButtonModal';
 export * from '@/components/modal/TwoButtonModal';
 
-// loading 
+// loading
 export { default as DefaultLoader } from '@/components/loading/DefaultLoader';
